@@ -66,7 +66,7 @@ class inventarioController extends Controller
     public function update(Request $request, string $id)
     {
         $m = inventario::findOrFail($id);
-        $inventario->
+        $m->nombre = $request->input('nombre');
     }
 
     /**
