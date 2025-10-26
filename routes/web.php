@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\inventarioController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/i/indice', [inventarioController::class, 'index'])->name('inventario-index');
     Route::get('/i/nueva-entrada', [inventarioController::class, 'create'])->name('inventario-create');
     Route::get('/i/nueva-entrada/store', [inventarioController::class, 'store'])->name('inventario-store');
     Route::get('/i/editar-entrada', [inventarioController::class, 'edit'])->name('inventario-edit');

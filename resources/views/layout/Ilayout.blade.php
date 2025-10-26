@@ -11,9 +11,9 @@
     <div class="row">
         <div class="col-12">
         
-        inset('conent')
+        @yield('conent')
 
-        iajsdoaisj
+        desde layout
         </div>
     </div>
 </div>

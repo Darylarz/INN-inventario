@@ -12,7 +12,7 @@ class inventarioController extends Controller
      */
     public function index()
     {
-        return view('indexInventario');
+        return view('inventario.Iindex');
     }
 
     /**
