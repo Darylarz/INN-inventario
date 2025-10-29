@@ -15,7 +15,7 @@
 
         desde layout
 
-        lo comentarios van aaqui 
+        no me trates feo
         </div>
     </div>
 </div>
