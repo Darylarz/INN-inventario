@@ -13,7 +13,7 @@
         
         @yield('conent')
 
-        desde layout si sube bien
+        desde layout si sube bien cabecita e webo
         </div>
     </div>
 </div>
