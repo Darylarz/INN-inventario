@@ -13,7 +13,7 @@
         
         @yield('conent')
 
-        desde layout
+        desde layout jose
         </div>
     </div>
 </div>
