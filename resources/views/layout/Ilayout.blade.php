@@ -13,7 +13,7 @@
         
         @yield('conent')
 
-        desde layout si sube bien cabecita e webo
+        desde layout blade php
         </div>
     </div>
 </div>
