@@ -13,7 +13,7 @@
         
         @yield('conent')
 
-        desde layout blade php
+        desde layout blade php voy
         </div>
     </div>
 </div>
