@@ -13,6 +13,7 @@ class inventarioController extends Controller
     public function index()
     {
         return view('inventario.Iindex');
+        //return Inertia('inventario/Iindex');
     }
 
     /**
