@@ -13,7 +13,9 @@
         
         @yield('conent')
 
-        desde layout blade php voy
+        desde layout
+
+        lo comentarios van aaqui 
         </div>
     </div>
 </div>
