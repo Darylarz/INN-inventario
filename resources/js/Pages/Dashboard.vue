@@ -12,7 +12,7 @@ import { Head } from '@inertiajs/vue3';
                 class="text-xl font-semibold leading-tight text-gray-800"
             >
                 Dashboard con josibel
-                cada vez que guardes algun cambio (ctrl + s) te aparecera 
+            
             </h2>
         </template>
 
