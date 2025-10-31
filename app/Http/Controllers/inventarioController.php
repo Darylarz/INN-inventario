@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\inventario;
+use Inertia\Inertia;
 
 class inventarioController extends Controller
 {
@@ -12,7 +13,8 @@ class inventarioController extends Controller
      */
     public function index()
     {
-        return view('inventario.Iindex');
+        //return view('inventario.Iindex');
+         return Inertia::render('Iindex');
         //return Inertia('inventario/Iindex');
     }
 

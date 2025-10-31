@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/i/indice', [inventarioController::class, 'index'])->name('inventario-index');
+
+
     Route::get('/i/nueva-entrada', [inventarioController::class, 'create'])->name('inventario-create');
     Route::get('/i/nueva-entrada/store', [inventarioController::class, 'store'])->name('inventario-store');
     Route::get('/i/editar-entrada', [inventarioController::class, 'edit'])->name('inventario-edit');
