@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\ProfileController;
@@ -5,6 +6,7 @@ use App\Http\Controllers\inventarioController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -33,6 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/i/editar-entrada/update', [inventarioController::class, 'update'])->name('inventario-update');
     Route::get('/i/mostrar-entrada/${id}', [inventarioController::class, 'show'])->name('inventario-show');
     Route::get('/i/eliminar-entrada/${id}', [inventarioController::class, 'delete'])->name('inventario-delete');
-});
+}); # ${id} se puede modificar
 
 require __DIR__.'/auth.php';
