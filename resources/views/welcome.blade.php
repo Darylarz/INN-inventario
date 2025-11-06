@@ -1,5 +1,5 @@
 {{-- 1. Extiende el Layout principal que ya tiene Vite y Alpine.js cargados --}}
-@extends('app')
+@extends('layouts.app')
 
 @section('content')
     <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
@@ -33,7 +33,7 @@
             </div>
 
             {{-- 3. Elemento que se muestra/oculta basado en el estado 'isOpen' --}}
-            <div x-show="isOpen" x-transition.duration.50ms>
+            <div x-show="isOpen" x-transition.duration.70ms>
                 <p class="text-indigo-500 font-bold" x-text="message"></p>
                 
                 {{-- Ejemplo de input en tiempo real (x-model) --}}
