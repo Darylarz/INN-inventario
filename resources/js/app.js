@@ -1,27 +1,20 @@
 import '../css/app.css';
-import './bootstrap';
 
-import { createInertiaApp } from '@inertiajs/vue3';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createApp, h } from 'vue';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import './bootstrap'; // Mantiene la configuración base de Laravel (por ejemplo, headers de Axios)
+import Alpine from 'alpinejs';
+import axios from 'axios';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+// Haz Alpine y Axios globales
+window.Alpine = Alpine;
+window.axios = axios;
 
-createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.vue`,
-            import.meta.glob('./Pages/**/*.vue'),
-        ),
-    setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .use(ZiggyVue)
-            .mount(el);
-    },
-    progress: {
-        color: '#4B5563',
-    },
-});
+// **CRUCIAL para las peticiones en Laravel**
+// Esto suele estar en './bootstrap.js', pero asegúrate de que el token CSRF esté configurado
+let token = document.head.querySelector('meta[name="csrf-token"]');
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: Is it included in your Blade <head>?');
+}
+
+Alpine.start();
