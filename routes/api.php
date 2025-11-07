@@ -1,5 +1,8 @@
+<?php
+
+use App\Http\Controllers\Api\InventoryController;
+
 // ...
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('articles', [ArticleController::class, 'index']);
-    Route::post('articles', [ArticleController::class, 'store']); // <--- NUEVA RUTA
+    Route::get('inventory', [InventoryController::class, 'index']);
 });

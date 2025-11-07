@@ -17,4 +17,6 @@ if (token) {
     console.error('CSRF token not found: Is it included in your Blade <head>?');
 }
 
+window.Alpine = Alpine;
+
 Alpine.start();

@@ -5,8 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\inventarioController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ArticleController;
-
+use App\Http\Controllers\Api\InventoryController;
+use App\Http\Controllers\InventoryManagementController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,7 +17,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('articles', [ArticleController::class, 'index']);
+    Route::get('/inventory/create', [InventoryManagementController::class, 'create'])->name('inventory.create');
+    Route::post('/inventory', [InventoryManagementController::class, 'store'])->name('inventory.store');
     // Aquí irán las rutas para crear, actualizar y eliminar...
 });
 
