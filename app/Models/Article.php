@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class inventario extends Model
+class Article extends Model
 {
-    //
     protected $table = 'inventario';
-    protected $fillable = 'nombre, bien_nacional, tipo, descripcion';
+  
+        protected $fillable = [
+    'name', 'description', 'stock'
+];
 }
