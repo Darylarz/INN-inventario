@@ -19,7 +19,9 @@ Route::get('/dashboard', function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/inventory/create', [InventoryManagementController::class, 'create'])->name('inventory.create');
     Route::post('/inventory', [InventoryManagementController::class, 'store'])->name('inventory.store');
-    // Aquí irán las rutas para crear, actualizar y eliminar...
+    Route::get('/inventory/{inventory}/edit', [InventoryManagementController::class, 'edit'])->name('inventory.edit');
+    Route::put('/inventory/{inventory}', [InventoryManagementController::class, 'update'])->name('inventory.update');
+    Route::delete('/inventory/{inventory}', [InventoryManagementController::class, 'destroy'])->name('inventory.destroy');
 });
 
 Route::middleware('auth')->group(function () {
@@ -29,13 +31,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/i/indice', [inventarioController::class, 'index'])->name('inventario-index');
 
-
-    Route::get('/i/nueva-entrada', [inventarioController::class, 'create'])->name('inventario-create');
-    Route::get('/i/nueva-entrada/store', [inventarioController::class, 'store'])->name('inventario-store');
-    Route::get('/i/editar-entrada', [inventarioController::class, 'edit'])->name('inventario-edit');
-    Route::get('/i/editar-entrada/update', [inventarioController::class, 'update'])->name('inventario-update');
-    Route::get('/i/mostrar-entrada/${id}', [inventarioController::class, 'show'])->name('inventario-show');
-    Route::get('/i/eliminar-entrada/${id}', [inventarioController::class, 'delete'])->name('inventario-delete');
 }); # ${id} se puede modificar
 
 require __DIR__.'/auth.php';

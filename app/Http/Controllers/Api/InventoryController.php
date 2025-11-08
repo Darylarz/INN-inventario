@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Inventory; // <--- RENOMBRADO
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 
-class InventoryController extends Controller // <--- RENOMBRADO
+class InventoryController extends Controller
 {
     public function index(Request $request)
     {
@@ -14,7 +14,7 @@ class InventoryController extends Controller // <--- RENOMBRADO
 
         $inventories = Inventory::query()
             ->when($search, function ($query, $search) {
-                // Filtra por BRAND, MODEL o SERIAL
+                // Filtra por BRAND, MODEL, SERIAL o BIEN NACIONAL
                 $query->where('brand', 'like', '%' . $search . '%')
                       ->orWhere('model', 'like', '%' . $search . '%')
                       ->orWhere('serial_number', 'like', '%' . $search . '%')
@@ -25,6 +25,4 @@ class InventoryController extends Controller // <--- RENOMBRADO
 
         return response()->json($inventories);
     }
-    
-    // ... el método store() debe eliminarse de aquí, ahora va en ArticleManagementController
 }
