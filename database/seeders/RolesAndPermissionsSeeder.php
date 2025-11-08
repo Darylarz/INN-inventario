@@ -16,29 +16,44 @@ class RolesAndPermissionsSeeder extends Seeder
         // 1. CREAR PERMISOS GRANULARES
         
         // Permisos de Artículos (Inventario)
-        Permission::create(['name' => 'articulo agregar']);
-        Permission::create(['name' => 'articulo modificar']);
-        Permission::create(['name' => 'articulo consultar']);
-        Permission::create(['name' => 'articulo eliminar']);
+        Permission::firstOrCreate(['name' => 'articulo agregar']);
+        Permission::firstOrCreate(['name' => 'articulo modificar']);
+        Permission::firstOrCreate(['name' => 'articulo consultar']);
+        Permission::firstOrCreate(['name' => 'articulo eliminar']);
         
         // Permisos de Reportes
-        Permission::create(['name' => 'generar reporte']);
+        Permission::firstOrCreate(['name' => 'generar reporte']);
+        
+        // Permisos de Administración de Usuarios
+        Permission::firstOrCreate(['name' => 'usuario crear']);
+        Permission::firstOrCreate(['name' => 'usuario modificar']);
+        Permission::firstOrCreate(['name' => 'usuario consultar']);
+        Permission::firstOrCreate(['name' => 'usuario eliminar']);
+        
+        // Permisos de Administración General
+        Permission::firstOrCreate(['name' => 'admin panel']);
 
 
         // 2. CREAR ROLES Y ASIGNAR PERMISOS
 
         // Definición de Permisos para Administrador
         $permisosAdmin = [
-            'articulo agregar',
             'articulo modificar',
-            'articulo consultar',
+            'articulo consultar', 
             'articulo eliminar',
             'generar reporte',
+            'usuario crear',
+            'usuario modificar',
+            'usuario consultar',
+            'usuario eliminar',
+            'admin panel',
         ];
+        
+        // NOTA: Admin NO tiene 'articulo agregar' según requerimientos
 
         // Rol Administrador: Tiene todos los permisos
-        $roleAdmin = Role::create(['name' => 'administrador']);
-        $roleAdmin->givePermissionTo($permisosAdmin);
+        $roleAdmin = Role::firstOrCreate(['name' => 'administrador']);
+        $roleAdmin->syncPermissions($permisosAdmin);
 
 
         // Definición de Permisos para Almacenista
@@ -49,8 +64,8 @@ class RolesAndPermissionsSeeder extends Seeder
         ];
 
         // Rol Almacenista: Solo gestiona inventario (agregar, consultar) y reportes
-        $roleAlmacen = Role::create(['name' => 'almacenista']);
-        $roleAlmacen->givePermissionTo($permisosAlmacen);
+        $roleAlmacen = Role::firstOrCreate(['name' => 'almacenista']);
+        $roleAlmacen->syncPermissions($permisosAlmacen);
 
 
         // Opcional: Asignar un rol al primer usuario

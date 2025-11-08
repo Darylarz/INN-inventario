@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\inventarioController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\InventoryController;
@@ -46,6 +47,22 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/i/indice', [inventarioController::class, 'index'])->name('inventario-index');
 
+});
+
+// Admin Routes
+Route::middleware(['auth', 'permission:admin panel'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // User Management
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
+    Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
+    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
+    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
+    
+    // Inventory Management (Admin view)
+    Route::get('/inventory', [AdminController::class, 'inventory'])->name('inventory');
 }); # ${id} se puede modificar
 
 require __DIR__.'/auth.php';
