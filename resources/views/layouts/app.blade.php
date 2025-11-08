@@ -65,25 +65,37 @@
                     {{-- User Menu --}}
                     <div class="flex items-center">
                         {{-- User Info --}}
-                        <div class="hidden md:flex md:items-center md:space-x-4">
-                            <span class="text-sm text-gray-700 dark:text-gray-300">
-                                Hola, <span class="font-medium">{{ Auth::user()->name }}</span>
-                            </span>
-                        </div>
+                        @auth
+                            <div class="hidden md:flex md:items-center md:space-x-4">
+                                <span class="text-sm text-gray-700 dark:text-gray-300">
+                                    Hola, <span class="font-medium">{{ Auth::user()->name }}</span>
+                                </span>
+                            </div>
+                        @endauth
                         
                         {{-- Logout Button --}}
-                        <div class="ml-4">
-                            <form method="POST" action="{{ route('logout') }}" class="inline">
-                                @csrf
-                                <button type="submit" 
-                                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                                    </svg>
-                                    Cerrar Sesión
-                                </button>
-                            </form>
-                        </div>
+                        @auth
+                            <div class="ml-4">
+                                <form method="POST" action="{{ route('logout') }}" class="inline">
+                                    @csrf
+                                    <button type="submit" 
+                                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                        </svg>
+                                        Cerrar Sesión
+                                    </button>
+                                </form>
+                            </div>
+                        @else
+                            {{-- Login/Register buttons for guests --}}
+                            <div class="ml-4 space-x-2">
+                                <a href="{{ route('login') }}" 
+                                   class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600 transition-colors duration-200">
+                                    Iniciar Sesión
+                                </a>
+                            </div>
+                        @endauth
                         
                         {{-- Mobile menu button --}}
                         <div class="md:hidden ml-4">
@@ -114,21 +126,32 @@
                             Perfil
                         </a>
                     </div>
-                    <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
-                        <div class="px-4">
-                            <div class="text-base font-medium text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
+                    @auth
+                        <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
+                            <div class="px-4">
+                                <div class="text-base font-medium text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
+                                <div class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ Auth::user()->email }}</div>
+                            </div>
+                            <div class="mt-3 px-4">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" 
+                                            class="w-full text-left block px-4 py-2 text-base font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200">
+                                        Cerrar Sesión
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="mt-3 px-4">
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" 
-                                        class="w-full text-left block px-4 py-2 text-base font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-200">
-                                    Cerrar Sesión
-                                </button>
-                            </form>
+                    @else
+                        <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
+                            <div class="px-4">
+                                <a href="{{ route('login') }}" 
+                                   class="block px-4 py-2 text-base font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 transition-colors duration-200">
+                                    Iniciar Sesión
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @endauth
                 </div>
             </div>
         </nav>
