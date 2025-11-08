@@ -12,9 +12,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [InventoryManagementController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+// Temporary debug route - remove after testing
+Route::get('/debug-inventory', function() {
+    $count = \App\Models\Inventory::count();
+    $sample = \App\Models\Inventory::take(5)->get();
+    return response()->json([
+        'total_count' => $count,
+        'sample_data' => $sample,
+        'table_name' => (new \App\Models\Inventory)->getTable()
+    ]);
+})->middleware('auth');
+
+// Test API route in web.php instead
+Route::get('/api/inventory-test', [\App\Http\Controllers\Api\InventoryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/inventory/create', [InventoryManagementController::class, 'create'])->name('inventory.create');

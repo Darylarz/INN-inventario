@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="flex h-screen bg-gray-100 dark:bg-gray-900">
-        @include('layouts.sidebar') 
+        
 
         {{-- Inicializa Alpine con el tipo actual del ítem --}}
         <div class="flex-grow p-10 overflow-y-auto" 

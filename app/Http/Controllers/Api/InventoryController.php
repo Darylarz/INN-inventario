@@ -14,15 +14,26 @@ class InventoryController extends Controller
 
         $inventories = Inventory::query()
             ->when($search, function ($query, $search) {
-                // Filtra por BRAND, MODEL, SERIAL o BIEN NACIONAL
-                $query->where('brand', 'like', '%' . $search . '%')
+                $query->where(function ($q) use ($search) {
+                    $q->where('brand', 'like', '%' . $search . '%')
                       ->orWhere('model', 'like', '%' . $search . '%')
                       ->orWhere('serial_number', 'like', '%' . $search . '%')
-                      ->orWhere('national_asset_tag', 'like', '%' . $search . '%');
+                      ->orWhere('national_asset_tag', 'like', '%' . $search . '%')
+                      ->orWhere('item_type', 'like', '%' . $search . '%')
+                      ->orWhere('printer_model', 'like', '%' . $search . '%');
+                });
             })
-            ->orderBy('id', 'desc') 
-            ->paginate(10); 
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
-        return response()->json($inventories);
+        // Add debug info
+        $response = $inventories->toArray();
+        $response['debug'] = [
+            'total_records' => Inventory::count(),
+            'search_term' => $search,
+            'sql' => $inventories->toSql()
+        ];
+
+        return response()->json($response);
     }
 }
