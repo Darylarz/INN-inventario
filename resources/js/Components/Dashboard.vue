@@ -5,7 +5,7 @@
       <div class="mb-6">
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          Gestión de inventario del Instituto Nacional de Normalización
+          Gestión de inventario del Instituto Nacional de Nutrición
         </p>
       </div>
 

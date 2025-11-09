@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script>
+<script>Perfil
 export default {
   name: 'Profile'
 }
