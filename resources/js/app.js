@@ -10,10 +10,10 @@ import App from './App.vue'
 // Import page components
 import Dashboard from './Components/Dashboard.vue'
 // Note: Create these components as needed
-// import InventoryList from './Components/InventoryList.vue'
+ import InventoryList from './Components/InventoryList.vue'
 // import InventoryCreate from './Components/InventoryCreate.vue'
 // import InventoryEdit from './Components/InventoryEdit.vue'
-// import Profile from './Components/Profile.vue'
+ import Profile from './Components/Profile.vue'
 // import AdminDashboard from './Components/admin/Dashboard.vue'
 // import UserManagement from './Components/admin/UserManagement.vue'
 
@@ -34,10 +34,10 @@ const routes = [
   { path: '/', redirect: '/dashboard' },
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
   // Add more routes as you create the components
-  // { path: '/inventory', component: InventoryList, meta: { requiresAuth: true } },
+   { path: '/inventory', component: InventoryList, meta: { requiresAuth: true } },
   // { path: '/inventory/create', component: InventoryCreate, meta: { requiresAuth: true } },
   // { path: '/inventory/:id/edit', component: InventoryEdit, meta: { requiresAuth: true } },
-  // { path: '/profile', component: Profile, meta: { requiresAuth: true } },
+   { path: '/profile', component: Profile, meta: { requiresAuth: true } },
   // { path: '/admin', component: AdminDashboard, meta: { requiresAuth: true } },
   // { path: '/admin/users', component: UserManagement, meta: { requiresAuth: true } },
 ]

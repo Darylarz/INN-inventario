@@ -21,7 +21,7 @@
               v-model="searchTerm"
               @input="handleSearch"
               type="text" 
-              placeholder="Buscar por marca, modelo, serie o bien nacional..." 
+              placeholder="Buscar culo sucio por marca, modelo, serie o bien nacional..." 
               class="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             >
             
