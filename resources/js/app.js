@@ -8,7 +8,7 @@ import axios from 'axios'
 import App from './App.vue'
 
 // Import page components
-import Dashboard from './Components/Dashboard.vue'
+import Dashboard from './Views/Dashboard.vue'
 // Note: Create these components as needed
  import InventoryList from './Components/Inventory/InventoryList.vue'
 // import InventoryCreate from './Components/InventoryCreate.vue'
