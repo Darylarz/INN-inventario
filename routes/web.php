@@ -66,3 +66,8 @@ Route::middleware(['auth', 'permission:admin panel'])->prefix('admin')->name('ad
 }); # ${id} se puede modificar
 
 require __DIR__.'/auth.php';
+
+// Vue SPA Routes - Catch all routes and let Vue Router handle them
+Route::middleware('auth')->get('/{any}', function () {
+    return view('vue-app');
+})->where('any', '.*');

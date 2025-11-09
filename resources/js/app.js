@@ -1,23 +1,58 @@
 import '../css/app.css';
+import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import { createPinia } from 'pinia'
+import axios from 'axios'
 
-import './bootstrap'; // Mantiene la configuración base de Laravel (por ejemplo, headers de Axios)
-import Alpine from 'alpinejs';
-import axios from 'axios';
+// Import main App component
+import App from './App.vue'
 
-// Haz Alpine y Axios globales
-window.Alpine = Alpine;
-window.axios = axios;
+// Import page components
+import Dashboard from './Components/Dashboard.vue'
+// Note: Create these components as needed
+// import InventoryList from './Components/InventoryList.vue'
+// import InventoryCreate from './Components/InventoryCreate.vue'
+// import InventoryEdit from './Components/InventoryEdit.vue'
+// import Profile from './Components/Profile.vue'
+// import AdminDashboard from './Components/admin/Dashboard.vue'
+// import UserManagement from './Components/admin/UserManagement.vue'
 
-// **CRUCIAL para las peticiones en Laravel**
-// Esto suele estar en './bootstrap.js', pero asegúrate de que el token CSRF esté configurado
-let token = document.head.querySelector('meta[name="csrf-token"]');
+// Configure Axios
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+const token = document.head.querySelector('meta[name="csrf-token"]')
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-    window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content
 } else {
-    console.error('CSRF token not found: Is it included in your Blade <head>?');
+    console.error('CSRF token not found: Is it included in your Blade <head>?')
 }
 
-window.Alpine = Alpine;
+// Make axios globally available
+window.axios = axios
 
-Alpine.start();
+// Router configuration
+const routes = [
+  { path: '/', redirect: '/dashboard' },
+  { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
+  // Add more routes as you create the components
+  // { path: '/inventory', component: InventoryList, meta: { requiresAuth: true } },
+  // { path: '/inventory/create', component: InventoryCreate, meta: { requiresAuth: true } },
+  // { path: '/inventory/:id/edit', component: InventoryEdit, meta: { requiresAuth: true } },
+  // { path: '/profile', component: Profile, meta: { requiresAuth: true } },
+  // { path: '/admin', component: AdminDashboard, meta: { requiresAuth: true } },
+  // { path: '/admin/users', component: UserManagement, meta: { requiresAuth: true } },
+]
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
+// Create Pinia store
+const pinia = createPinia()
+
+// Create and mount Vue app
+const app = createApp(App)
+app.use(router)
+app.use(pinia)
+app.config.globalProperties.$http = axios
+app.mount('#app')
