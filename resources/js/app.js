@@ -10,7 +10,7 @@ import App from './App.vue'
 // Import page components
 import Dashboard from './Components/Dashboard.vue'
 // Note: Create these components as needed
- import InventoryList from './Components/InventoryList.vue'
+ import InventoryList from './Components/Inventory/InventoryList.vue'
 // import InventoryCreate from './Components/InventoryCreate.vue'
 // import InventoryEdit from './Components/InventoryEdit.vue'
  import Profile from './Components/Profile.vue'
