@@ -9,11 +9,13 @@ import App from './App.vue'
 
 // Import page components
 import Dashboard from './Views/Dashboard.vue'
-// Note: Create these components as needed
- import InventoryList from './Components/Inventory/InventoryList.vue'
-// import InventoryCreate from './Components/InventoryCreate.vue'
-// import InventoryEdit from './Components/InventoryEdit.vue'
- import Profile from './Components/Profile.vue'
+// Nota: crea estos componentes según sea necesario
+import InventoryList from './Views/Inventory/InventoryList.vue'
+import InventoryEdit from './Views/Inventory/InventoryEdit.vue'
+// Si en el futuro creas InventoryCreate: import InventoryCreate from './Views/Inventory/InventoryCreate.vue'
+
+// Ajuste: Profile apunta al archivo que existe en Views/Profile
+import Profile from './Views/Profile/ProfileEdit.vue'
 // import AdminDashboard from './Components/admin/Dashboard.vue'
 // import UserManagement from './Components/admin/UserManagement.vue'
 
@@ -33,11 +35,10 @@ window.axios = axios
 const routes = [
   { path: '/', redirect: '/dashboard' },
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
-  // Add more routes as you create the components
-   { path: '/inventory', component: InventoryList, meta: { requiresAuth: true } },
+  { path: '/inventory', component: InventoryList, meta: { requiresAuth: true } },
   // { path: '/inventory/create', component: InventoryCreate, meta: { requiresAuth: true } },
-  // { path: '/inventory/:id/edit', component: InventoryEdit, meta: { requiresAuth: true } },
-   { path: '/profile', component: Profile, meta: { requiresAuth: true } },
+  { path: '/inventory/:id/edit', component: InventoryEdit, meta: { requiresAuth: true } },
+  { path: '/profile', component: Profile, meta: { requiresAuth: true } },
   // { path: '/admin', component: AdminDashboard, meta: { requiresAuth: true } },
   // { path: '/admin/users', component: UserManagement, meta: { requiresAuth: true } },
 ]

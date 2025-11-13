@@ -1,4 +1,3 @@
-
 <?php
 
 use App\Http\Controllers\ProfileController;
@@ -10,7 +9,7 @@ use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\InventoryManagementController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('vue-app');
 });
 
 Route::get('/dashboard', [InventoryManagementController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -63,6 +62,7 @@ Route::middleware(['auth', 'permission:admin panel'])->prefix('admin')->name('ad
     
     // Inventory Management (Admin view)
     Route::get('/inventory', [AdminController::class, 'inventory'])->name('inventory');
+    Route::delete('/inventory/{inventory}', [AdminController::class, 'destroyInventory'])->name('inventory.destroy');
 }); # ${id} se puede modificar
 
 require __DIR__.'/auth.php';
