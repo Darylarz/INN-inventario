@@ -80,25 +80,28 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 export default {
   name: 'App',
   setup() {
     const router = useRouter()
     const loading = ref(false)
-    
+
     const logout = async () => {
       loading.value = true
       try {
         await axios.post('/logout')
-        window.location.href = '/login'
+        // usar router para mantener SPA navigation
+        router.push('/login')
       } catch (error) {
         console.error('Logout error:', error)
+        router.push('/login')
       } finally {
         loading.value = false
       }
     }
-    
+
     return {
       loading,
       logout
@@ -109,11 +112,40 @@ export default {
 
 <style scoped>
 .nav-link {
-  @apply inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200;
-  @apply border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 hover:text-gray-700 dark:hover:text-gray-200;
+  display: inline-flex;
+  align-items: center;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  padding-top: 0.25rem;
+  border-bottom-width: 2px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+  border-color: transparent;
+  color: #6B7280; /* tailwind gray-500 */
+}
+
+/* dark mode variants (assumes a .dark ancestor class on root/body) */
+.dark .nav-link {
+  color: #D1D5DB; /* tailwind gray-300 */
+}
+
+.nav-link:hover {
+  border-color: #D1D5DB; /* tailwind gray-300 */
+  color: #374151; /* tailwind gray-700 */
+}
+
+.dark .nav-link:hover {
+  color: #E5E7EB; /* tailwind gray-200 */
 }
 
 .nav-link.active {
-  @apply border-indigo-500 text-gray-900 dark:text-white;
+  border-color: #6366F1; /* tailwind indigo-500 */
+  color: #111827; /* tailwind gray-900 */
+}
+
+.dark .nav-link.active {
+  color: #FFFFFF;
+  border-color: #6366F1;
 }
 </style>

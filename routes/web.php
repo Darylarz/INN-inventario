@@ -3,71 +3,100 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\inventarioController;
 use App\Http\Controllers\AdminController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\InventoryManagementController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
+// SPA base
 Route::get('/', function () {
     return view('vue-app');
 });
 
-Route::get('/dashboard', [InventoryManagementController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+/*
+|--------------------------------------------------------------------------
+| LOGIN / REGISTER / LOGOUT (PARA TU SPA)
+|--------------------------------------------------------------------------
+*/
 
-// Temporary debug route - remove after testing
-Route::get('/debug-inventory', function() {
-    $count = \App\Models\Inventory::count();
-    $sample = \App\Models\Inventory::take(5)->get();
-    return response()->json([
-        'total_count' => $count,
-        'sample_data' => $sample,
-        'table_name' => (new \App\Models\Inventory)->getTable()
+// LOGIN
+Route::post('/login', function (Request $request) {
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
     ]);
-})->middleware('auth');
 
-// Test API route in web.php instead
-Route::get('/api/inventory-test', [\App\Http\Controllers\Api\InventoryController::class, 'index']);
+    if (!Auth::attempt($credentials)) {
+        throw ValidationException::withMessages([
+            'email' => ['Credenciales inválidas.'],
+        ]);
+    }
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/inventory/create', [InventoryManagementController::class, 'create'])->name('inventory.create');
-    Route::post('/inventory', [InventoryManagementController::class, 'store'])->name('inventory.store');
-    Route::get('/inventory/{inventory}/edit', [InventoryManagementController::class, 'edit'])->name('inventory.edit');
-    Route::put('/inventory/{inventory}', [InventoryManagementController::class, 'update'])->name('inventory.update');
-    Route::delete('/inventory/{inventory}', [InventoryManagementController::class, 'destroy'])->name('inventory.destroy');
+    $request->session()->regenerate();
+    return response()->json(['message' => 'ok']);
 });
 
+// REGISTER
+Route::post('/register', function (Request $request) {
+    $data = $request->validate([
+        'name' => ['required', 'string'],
+        'email' => ['required', 'email', 'unique:users,email'],
+        'password' => ['required', 'confirmed', 'min:6'],
+    ]);
+
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+    ]);
+
+    Auth::login($user);
+
+    return response()->json(['message' => 'ok'], 201);
+});
+
+// LOGOUT
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return response()->json(['message' => 'ok']);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| RUTAS PROTEGIDAS
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('auth')->group(function () {
+
+    Route::get('/dashboard', [InventoryManagementController::class, 'index'])->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    // Password update route
-    Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
-
     Route::get('/i/indice', [inventarioController::class, 'index'])->name('inventario-index');
 
+    // Admin
+    Route::middleware('permission:admin panel')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
+        // resto de admin...
+    });
 });
 
-// Admin Routes
-Route::middleware(['auth', 'permission:admin panel'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-    
-    // User Management
-    Route::get('/users', [AdminController::class, 'users'])->name('users');
-    Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
-    Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
-    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
-    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
-    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
-    
-    // Inventory Management (Admin view)
-    Route::get('/inventory', [AdminController::class, 'inventory'])->name('inventory');
-    Route::delete('/inventory/{inventory}', [AdminController::class, 'destroyInventory'])->name('inventory.destroy');
-}); # ${id} se puede modificar
+/*
+|--------------------------------------------------------------------------
+| SPA CATCH-ALL (AL FINAL DEL TODO)
+|--------------------------------------------------------------------------
+*/
 
-require __DIR__.'/auth.php';
-
-// Vue SPA Routes - Catch all routes and let Vue Router handle them
-Route::middleware('auth')->get('/{any}', function () {
+Route::get('/{any}', function () {
     return view('vue-app');
 })->where('any', '.*');
