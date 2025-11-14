@@ -11,7 +11,7 @@ use App\Models\Inventory;
 use Illuminate\Validation\Rule;
 use App\Models\InventoryType;
 use Illuminate\Http\RedirectResponse;
-use Inertia\Inertia;
+
 
 class InventoryManagementController extends Controller
 {

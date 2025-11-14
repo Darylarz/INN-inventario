@@ -15,11 +15,6 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-/*
-|--------------------------------------------------------------------------
-| LOGIN / REGISTER / LOGOUT (PARA TU SPA)
-|--------------------------------------------------------------------------
-*/
 
 // LOGIN (POST existente ajustado para redirigir si no es AJAX)
 Route::post('/login', function (Request $request) {
@@ -116,13 +111,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/i/{inventory}', [InventoryManagementController::class, 'destroy'])->name('inventario-destroy');
 
     // Admin
-    Route::middleware('permission:admin panel')->prefix('admin')->name('admin.')->group(function () {
-        Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::get('/users', [AdminController::class, 'users'])->name('users');
-        Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
-        // resto de admin...
+    
+        Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+    Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
+
     });
-});
 
 // Rutas públicas (formularios) — solo accesibles para guests
 Route::middleware('guest')->group(function () {
