@@ -23,6 +23,8 @@ class Inventory extends Model
         'serial_number',
         'national_asset_tag',
         'toner_color',
+        'item_type',
+        'type',
         'printer_model',
         'material_type',
     ];

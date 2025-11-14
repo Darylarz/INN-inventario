@@ -27,10 +27,10 @@ class DefaultUsersSeeder extends Seeder
 
         // 2. Crear USUARIO ADMINISTRADOR
         $admin = User::firstOrCreate(
-            ['email' => 'admin@inn.com'], // Criterio de búsqueda/creación
+            ['email' => 'admin@inn.com'],
             [
                 'name' => 'Admin',
-                'password' => '12345678', // Clave: password
+                'password' => Hash::make('12345678'),
             ]
         );
         
@@ -43,10 +43,10 @@ class DefaultUsersSeeder extends Seeder
 
         // 3. Crear USUARIO ALMACENISTA (Operador)
         $almacenista = User::firstOrCreate(
-            ['email' => 'operador@inn.com'], // Criterio de búsqueda/creación
+            ['email' => 'operador@inn.com'],
             [
                 'name' => 'Operador',
-                'password' => '12345678', // Clave: password
+                'password' => Hash::make('12345678'),
             ]
         );
 

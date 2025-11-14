@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\inventarioController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InventoryManagementController;
 use Illuminate\Support\Facades\Route;
@@ -11,9 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 
-// SPA base
+// raíz -> redirigir al dashboard (Blade)
 Route::get('/', function () {
-    return view('vue-app');
+    return redirect()->route('dashboard');
 });
 
 /*
@@ -22,7 +21,7 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 
-// LOGIN
+// LOGIN (POST existente ajustado para redirigir si no es AJAX)
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([
         'email' => ['required', 'email'],
@@ -36,10 +35,15 @@ Route::post('/login', function (Request $request) {
     }
 
     $request->session()->regenerate();
-    return response()->json(['message' => 'ok']);
+
+    if ($request->wantsJson()) {
+        return response()->json(['message' => 'ok']);
+    }
+    // Temporal: redirigir al dashboard después de "login"
+    return redirect()->route('dashboard');
 });
 
-// REGISTER
+// REGISTER (POST existente ajustado)
 Route::post('/register', function (Request $request) {
     $data = $request->validate([
         'name' => ['required', 'string'],
@@ -55,15 +59,23 @@ Route::post('/register', function (Request $request) {
 
     Auth::login($user);
 
-    return response()->json(['message' => 'ok'], 201);
+    if ($request->wantsJson()) {
+        return response()->json(['message' => 'ok'], 201);
+    }
+    // Temporal: redirigir al dashboard después de "register"
+    return redirect()->route('dashboard');
 });
 
-// LOGOUT
+// LOGOUT ajustado para redirigir en peticiones normales
 Route::post('/logout', function (Request $request) {
     Auth::logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
-    return response()->json(['message' => 'ok']);
+
+    if ($request->wantsJson()) {
+        return response()->json(['message' => 'ok']);
+    }
+    return redirect()->route('login');
 });
 
 
@@ -75,12 +87,22 @@ Route::post('/logout', function (Request $request) {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', [InventoryManagementController::class, 'index'])->name('dashboard');
+    // ahora la ruta /dashboard devuelve la vista Blade que monta Livewire
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/i/indice', [inventarioController::class, 'index'])->name('inventario-index');
+
+    // RUTAS DE INVENTARIO (usando InventoryManagementController)
+    Route::get('/i', [InventoryManagementController::class, 'index'])->name('inventario-index');
+    Route::get('/i/create', [InventoryManagementController::class, 'create'])->name('inventario-create');
+    Route::post('/i', [InventoryManagementController::class, 'store'])->name('inventario-store');
+    Route::get('/i/{inventory}/edit', [InventoryManagementController::class, 'edit'])->name('inventario-edit');
+    Route::put('/i/{inventory}', [InventoryManagementController::class, 'update'])->name('inventario-update');
+    Route::delete('/i/{inventory}', [InventoryManagementController::class, 'destroy'])->name('inventario-destroy');
 
     // Admin
     Route::middleware('permission:admin panel')->prefix('admin')->name('admin.')->group(function () {
@@ -91,12 +113,16 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-/*
-|--------------------------------------------------------------------------
-| SPA CATCH-ALL (AL FINAL DEL TODO)
-|--------------------------------------------------------------------------
-*/
+// Rutas públicas (formularios) — solo accesibles para guests
+Route::middleware('guest')->group(function () {
+    Route::get('/login', function () {
+        return view('auth.login');
+    })->name('login');
 
-Route::get('/{any}', function () {
-    return view('vue-app');
-})->where('any', '.*');
+    Route::get('/register', function () {
+        return view('auth.register');
+    })->name('register');
+});
+
+// Eliminada la ruta catch-all que devolvía view('app')
+// ya no hay Route::get('/{any}', ...) al final

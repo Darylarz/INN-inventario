@@ -21,7 +21,7 @@
 
       <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
         ¿No tienes cuenta?
-        <router-link to="/register" class="text-indigo-600 hover:underline">Crear una</router-link>
+        <router-link to="/register" class="text-indigo-600 hover:underline">Crear una cuenta</router-link>
       </p>
     </div>
   </div>
