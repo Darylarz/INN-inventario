@@ -191,7 +191,7 @@ class InventoryManagementController extends Controller
         
         // 1. Verificar Permiso de Eliminación
         if (!auth()->user()->can('articulo eliminar')) {
-            return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar inventario.');
+            return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar articulos.');
         }
 
 

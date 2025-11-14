@@ -5,10 +5,10 @@
         <a href="{{ route('dashboard') }}" class="text-xl font-bold text-gray-900 dark:text-white">INN Inventario</a>
         
         <!-- Botón rápido Crear (visible cuando hay sesión) -->
-        <a href="{{ route('inventario-create') }}"
+        @can('articulo crear')<a href="{{ route('inventario-create') }}"
            class="hidden sm:inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
           Crear
-        </a>
+        </a>@endcan
       </div>
 
       <div class="flex items-center space-x-4">
