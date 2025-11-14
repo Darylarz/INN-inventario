@@ -33,7 +33,7 @@
             <td class="px-4 py-2 text-sm text-gray-700">{{ $item->serial_number }}</td>
             <td class="px-4 py-2 text-sm text-gray-700">{{ $item->type ?? $item->item_type }}</td>
             <td class="px-4 py-2 text-sm text-right">
-              @can('articulo editar') <a href="{{ route('inventario-edit', $item->id) }}" class="text-indigo-600 hover:underline mr-3">Editar</a>@endcan
+              @can('articulo modificar') <a href="{{ route('inventario-edit', $item->id) }}" class="text-indigo-600 hover:underline mr-3">Editar</a>@endcan
 
               @can('articulo eliminar')
               <form method="POST" action="{{ route('inventario-destroy', $item->id) }}" class="inline-block" onsubmit="return confirm('Eliminar artículo?');">
