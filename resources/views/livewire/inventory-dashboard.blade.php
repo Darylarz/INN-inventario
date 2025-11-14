@@ -1,7 +1,13 @@
 <div class="p-6">
-  <div class="mb-4 flex items-center justify-between gap-4">
-    <input wire:model.debounce.300ms="search" placeholder="Buscar..." class="border p-2 rounded w-full" />
 
+@if (session()->has('error'))
+    <div class="bg-red-600 text-white px-4 py-2 rounded mb-4">
+        {{ session('error') }}
+    </div>
+@endif
+<div class="mb-4 flex items-center justify-between gap-4">
+    <input wire:model.debounce.300ms="search" placeholder="Buscar..." class="border p-2 rounded w-full" />
+    
     <!-- Botón para ir a crear -->
     <a href="{{ route('inventario-create') }}"
        class="ml-4 inline-flex items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
@@ -32,9 +38,12 @@
 
               <form method="POST" action="{{ route('inventario-destroy', $item->id) }}" class="inline-block" onsubmit="return confirm('Eliminar artículo?');">
                 @csrf
-                @method('DELETE')
+                @method('DELETE') 
+                <input type="hidden" name="id" value="{{ $item->id }}">
+                <input type="hidden" name="_method" value="delete">
                 <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
               </form>
+              
             </td>
           </tr>
         @endforeach
@@ -42,6 +51,8 @@
     </table>
   </div>
 
+
+  
   <div class="mt-4">
     {{ $inventories->links() }}
   </div>

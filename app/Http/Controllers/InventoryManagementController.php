@@ -188,14 +188,16 @@ class InventoryManagementController extends Controller
 
     public function destroy(Inventory $inventory): RedirectResponse
     {
+        
         // 1. Verificar Permiso de Eliminación
         if (!auth()->user()->can('articulo eliminar')) {
             return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar inventario.');
         }
 
+
         // 2. Eliminar el registro
         $inventory->delete();
-
+        
         // 3. Redirigir al Dashboard
         return redirect()->route('dashboard')->with('status', 'Ítem de inventario eliminado exitosamente.');
     }
