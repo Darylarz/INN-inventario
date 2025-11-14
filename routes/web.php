@@ -96,11 +96,22 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // RUTAS DE INVENTARIO (usando InventoryManagementController)
-    Route::get('/i', [InventoryManagementController::class, 'index'])->name('inventario-index');
-    Route::get('/i/create', [InventoryManagementController::class, 'create'])->name('inventario-create');
+    // RUTAS DE INVENTARIO (GET devuelven vistas Blade que montan Livewire)
+    Route::get('/i', function () {
+        return redirect()->route('dashboard'); // o view('inventory.index') si quieres página de índice separada
+    })->name('inventario-index');
+
+    Route::get('/i/create', function () {
+        return view('inventory.create');
+    })->name('inventario-create');
+
+    // Mantener store/update/destroy en el controlador
     Route::post('/i', [InventoryManagementController::class, 'store'])->name('inventario-store');
-    Route::get('/i/{inventory}/edit', [InventoryManagementController::class, 'edit'])->name('inventario-edit');
+
+    Route::get('/i/{inventory}/edit', function (\App\Models\Inventory $inventory) {
+        return view('inventory.edit', compact('inventory'));
+    })->name('inventario-edit');
+
     Route::put('/i/{inventory}', [InventoryManagementController::class, 'update'])->name('inventario-update');
     Route::delete('/i/{inventory}', [InventoryManagementController::class, 'destroy'])->name('inventario-destroy');
 
