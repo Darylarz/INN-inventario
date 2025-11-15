@@ -70,28 +70,39 @@ class InventoryController extends Controller
     }
 
     // Actualizar artículo
-    public function update(Request $request, Inventory $inventory)
-    {
-        $request->validate([
-            'item_type' => 'required|exists:inventory_types,name',
-            'brand' => 'nullable|string|max:255',
-            'model' => 'nullable|string|max:255',
-            'capacity' => 'nullable|string|max:255',
-            'type' => 'nullable|string|max:255',
-            'generation' => 'nullable|string|max:255',
-            'watt_capacity' => 'nullable|integer',
-            'serial_number' => 'nullable|string|max:255',
-            'national_asset_tag' => 'nullable|string|max:255',
-            'tool_name' => 'nullable|string|max:255',
-            'color' => 'nullable|string|max:255',
-            'printer_model' => 'nullable|string|max:255',
-            'material_type' => 'nullable|string|max:255',
-        ]);
+    public function update(Request $request)
+{
+    $validated = $request->validate([
+        'item_type' => 'required|string',
+        'brand' => 'nullable|string',
+        'model' => 'nullable|string',
+        'capacity' => 'nullable|string',
+        'type' => 'nullable|string',
+        'generation' => 'nullable|string',
+        'serial_number' => 'nullable|string',
+        'national_asset_tag' => 'nullable|string',
+        'printer_model' => 'nullable|string',
+        'material_type' => 'nullable|string',
+    ]);
 
-        $inventory->update($request->all());
-
-        return redirect()->route('inventory.index')->with('success', 'Artículo actualizado correctamente.');
+    // 🔥 Ajustar campos según tipo
+    if ($validated['item_type'] === 'computer') {
+        $validated['type'] = $validated['type'] ?? 'N/A';
     }
+
+    if ($validated['item_type'] === 'printer') {
+        $validated['type'] = 'printer';
+    }
+
+    if ($validated['item_type'] === 'consumable') {
+        $validated['type'] = 'consumable';
+    }
+
+    Inventory::create($validated);
+
+    return redirect()->route('inventory.index')->with('success', 'Artículo creado');
+}
+
 
     // Eliminar artículo
     public function destroy(Inventory $inventory)

@@ -1,60 +1,46 @@
 <nav class="bg-white shadow dark:bg-gray-800">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
 
-        {{-- Logo --}}
-        <a href="{{ route('dashboard') }}" class="text-xl font-bold text-gray-800 dark:text-gray-100">
-            INN Inventario
-        </a>
+    {{-- Logo --}}
+    <a href="{{ route('dashboard') }}" class="text-xl font-bold text-gray-800 dark:text-gray-100">
+      INN Inventario
+    </a>
 
-        {{-- Menú desplegable --}}
-        <div class="relative" x-data="{ open: false }">
+    {{-- Menú (usando <details> para no depender de Alpine) --}}
+    <details class="relative">
+      <summary class="cursor-pointer flex items-center space-x-2 bg-gray-100 dark:bg-gray-700 px-3 py-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600">
+        <span class="text-gray-800 dark:text-gray-200 text-sm">{{ auth()->user()->name }}</span>
+        <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </summary>
 
-            {{-- Botón del menú --}}
-            <button @click="open = !open"
-                class="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-blue-500 transition">
-                <span>{{ Auth::user()->name }}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 9l-7 7-7-7" />
-                </svg>
-            </button>
+      <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50">
+        {{-- Inventario (muestra si tiene permiso 'usuario crear' o puedes cambiarlo) --}}
+        @can('usuario crear')
+          <a href="{{ route('inventory.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Inventario</a>
+        @endcan
 
-            {{-- Dropdown --}}
-            <div x-show="open" @click.away="open = false"
-                 class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 shadow-lg rounded-md z-50 py-2">
+        {{-- Usuarios (solo quienes tengan permiso 'usuario crear') --}}
+        @can('usuario crear')
+          <a href="{{ route('admin.users') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Usuarios</a>
+        @endcan
 
-                {{-- Inventario (siempre para usuarios con permiso) --}}
-                @can('usuario crear')
-                <a href="{{ route('inventory.index') }}"
-                   class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
-                    Inventario
-                </a>
-                @endcan
+        {{-- Crear artículo (si tiene permiso 'articulo crear') --}}
+        @can('articulo crear')
+          <a href="{{ route('inventory.create') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Crear artículo</a>
+        @endcan
 
-                {{-- Usuarios (solo admins o quienes tengan permiso "usuario crear") --}}
-                @can('usuario crear')
-                <a href="{{ route('admin.users') }}"
-                   class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
-                    Usuarios
-                </a>
-                @endcan
+        <div class="border-t border-gray-200 dark:border-gray-700 mt-2"></div>
 
-                {{-- Cerrar sesión --}}
-                <form method="POST" action="{{ url('/logout') }}">
-                    @csrf
-                    <button type="submit"
-                        class="w-full text-left px-4 py-2 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600">
-                        Cerrar sesión
-                    </button>
-                </form>
+        <form method="POST" action="{{ url('/logout') }}">
+          @csrf
+          <button type="submit" class="w-full text-left px-4 py-2 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600">Cerrar sesión</button>
+        </form>
+      </div>
+    </details>
 
-            </div>
-        </div>
-
-    </div>
+  </div>
 </nav>
-
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 
