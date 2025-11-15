@@ -10,10 +10,15 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 
+use App\Http\Controllers\ArticuloHardwareController;
+use App\Http\Controllers\HerramientaController;
+use App\Http\Controllers\ConsumibleController;
+
+
 // raíz -> redirigir al dashboard (Blade)
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+use App\Http\Controllers\InventoryController;
+
+
 
 
 // LOGIN (POST existente ajustado para redirigir si no es AJAX)
@@ -83,32 +88,21 @@ Route::post('/logout', function (Request $request) {
 Route::middleware('auth')->group(function () {
 
     // ahora la ruta /dashboard devuelve la vista Blade que monta Livewire
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    
+Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // RUTAS DE INVENTARIO (GET devuelven vistas Blade que montan Livewire)
-    Route::get('/i', function () {
-        return redirect()->route('dashboard'); // o view('inventory.index') si quieres página de índice separada
-    })->name('inventario-index');
-
-    Route::get('/i/create', function () {
-        return view('inventory.create');
-    })->name('inventario-create');
-
-    // Mantener store/update/destroy en el controlador
-    Route::post('/i', [InventoryManagementController::class, 'store'])->name('inventario-store');
-
-    Route::get('/i/{inventory}/edit', function (\App\Models\Inventory $inventory) {
-        return view('inventory.edit', compact('inventory'));
-    })->name('inventario-edit');
-
-    Route::put('/i/{inventory}', [InventoryManagementController::class, 'update'])->name('inventario-update');
-    Route::delete('/i/{inventory}', [InventoryManagementController::class, 'destroy'])->name('inventario-destroy');
+    Route::prefix('inventory')->name('inventory.')->group(function () {
+    Route::get('/', [InventoryController::class, 'index'])->name('index');
+    Route::get('/create', [InventoryController::class, 'create'])->name('create');
+    Route::post('/store', [InventoryController::class, 'store'])->name('store');
+    Route::get('/{inventory}/edit', [InventoryController::class, 'edit'])->name('edit');
+    Route::put('/{inventory}', [InventoryController::class, 'update'])->name('update');
+    Route::delete('/{inventory}', [InventoryController::class, 'destroy'])->name('destroy');
+});
 
     // Admin
     
@@ -120,6 +114,41 @@ Route::middleware('auth')->group(function () {
     Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
     });
+
+Route::middleware(['auth'])->group(function () {
+
+    // =============================
+    // RUTAS PARA ARTÍCULOS HARDWARE
+    // =============================
+    Route::get('/hardware', [ArticuloHardwareController::class, 'index'])->name('hardware.index');
+    Route::get('/hardware/crear', [ArticuloHardwareController::class, 'crear'])->name('hardware.crear');
+    Route::post('/hardware', [ArticuloHardwareController::class, 'guardar'])->name('hardware.guardar');
+    Route::get('/hardware/{id}/editar', [ArticuloHardwareController::class, 'editar'])->name('hardware.editar');
+    Route::put('/hardware/{id}', [ArticuloHardwareController::class, 'actualizar'])->name('hardware.actualizar');
+    Route::delete('/hardware/{id}', [ArticuloHardwareController::class, 'eliminar'])->name('hardware.eliminar');
+
+
+    // =====================
+    // RUTAS PARA HERRAMIENTAS
+    // =====================
+    Route::get('/herramientas', [HerramientaController::class, 'index'])->name('herramientas.index');
+    Route::get('/herramientas/crear', [HerramientaController::class, 'crear'])->name('herramientas.crear');
+    Route::post('/herramientas', [HerramientaController::class, 'guardar'])->name('herramientas.guardar');
+    Route::get('/herramientas/{id}/editar', [HerramientaController::class, 'editar'])->name('herramientas.editar');
+    Route::put('/herramientas/{id}', [HerramientaController::class, 'actualizar'])->name('herramientas.actualizar');
+    Route::delete('/herramientas/{id}', [HerramientaController::class, 'eliminar'])->name('herramientas.eliminar');
+
+
+    // =====================
+    // RUTAS PARA CONSUMIBLES
+    // =====================
+    Route::get('/consumibles', [ConsumibleController::class, 'index'])->name('consumibles.index');
+    Route::get('/consumibles/crear', [ConsumibleController::class, 'crear'])->name('consumibles.crear');
+    Route::post('/consumibles', [ConsumibleController::class, 'guardar'])->name('consumibles.guardar');
+    Route::get('/consumibles/{id}/editar', [ConsumibleController::class, 'editar'])->name('consumibles.editar');
+    Route::put('/consumibles/{id}', [ConsumibleController::class, 'actualizar'])->name('consumibles.actualizar');
+    Route::delete('/consumibles/{id}', [ConsumibleController::class, 'eliminar'])->name('consumibles.eliminar');
+});
 
 // Rutas públicas (formularios) — solo accesibles para guests
 Route::middleware('guest')->group(function () {

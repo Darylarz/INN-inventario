@@ -57,3 +57,6 @@ Schema::create('inventories', function (Blueprint $table) {
         Schema::dropIfExists('inventories');
     }
 };
+
+
+

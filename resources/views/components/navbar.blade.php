@@ -11,6 +11,18 @@
         </a>@endcan
       </div>
 
+      @can('usuario crear')<a href="{{ route('admin.users') }}"
+           class="hidden sm:inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
+          Usuarios
+        </a>@endcan
+    
+
+    @can('usuario crear')<a href="{{ route('inventario-index') }}"
+           class="hidden sm:inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
+          Inventario
+        </a>@endcan
+    
+
       <div class="flex items-center space-x-4">
         <span class="text-sm text-gray-700 dark:text-gray-300 hidden sm:inline">{{ auth()->user()->name ?? '' }}</span>
 
