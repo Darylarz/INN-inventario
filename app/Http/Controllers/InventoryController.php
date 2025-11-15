@@ -9,10 +9,26 @@ use App\Models\InventoryType;
 class InventoryController extends Controller
 {
     // Listado / Dashboard
-    public function index()
+    public function index(Request $request)
     {
-        $inventories = Inventory::latest()->paginate(15);
-        return view('inventory.index', compact('inventories'));
+        $search = $request->query('search');
+
+        $inventories = Inventory::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('brand', 'like', "%{$search}%")
+                      ->orWhere('model', 'like', "%{$search}%")
+                      ->orWhere('serial_number', 'like', "%{$search}%")
+                      ->orWhere('national_asset_tag', 'like', "%{$search}%")
+                      ->orWhere('item_type', 'like', "%{$search}%")
+                      ->orWhere('printer_model', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('inventory.index', compact('inventories', 'search'));
     }
 
     // Mostrar formulario de creación
