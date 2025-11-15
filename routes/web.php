@@ -39,8 +39,8 @@ Route::post('/login', function (Request $request) {
     if ($request->wantsJson()) {
         return response()->json(['message' => 'ok']);
     }
-    // Temporal: redirigir al dashboard después de "login"
-    return redirect()->route('dashboard');
+    // Redirigir al índice de inventario después de login
+    return redirect()->route('inventory.index');
 });
 
 // REGISTER (POST existente ajustado)
@@ -159,6 +159,12 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', function () {
         return view('auth.register');
     })->name('register');
+});
+
+Route::get('/', function () {
+    return auth()->check()
+        ? redirect()->route('inventory.index')
+        : redirect()->route('login');
 });
 
 // Eliminada la ruta catch-all que devolvía view('app')

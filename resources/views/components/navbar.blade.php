@@ -5,7 +5,7 @@
         <a href="{{ route('dashboard') }}" class="text-xl font-bold text-gray-900 dark:text-white">INN Inventario</a>
         
         <!-- Botón rápido Crear (visible cuando hay sesión) -->
-        @can('articulo crear')<a href="{{ route('inventario-create') }}"
+        @can('articulo crear')<a href="{{ route('inventory.create') }}"
            class="hidden sm:inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
           Crear
         </a>@endcan
@@ -17,7 +17,7 @@
         </a>@endcan
     
 
-    @can('usuario crear')<a href="{{ route('inventario-index') }}"
+    @can('usuario crear')<a href="{{ route('inventory.index') }}"
            class="hidden sm:inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
           Inventario
         </a>@endcan
