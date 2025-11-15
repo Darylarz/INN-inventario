@@ -63,16 +63,7 @@
             <input type="text" name="color" class="w-full px-3 py-2 border rounded" value="{{ old('color') }}">
         </div>
 
-        <div>
-            <label>Modelo impresora</label>
-            <input type="text" name="printer_model" class="w-full px-3 py-2 border rounded" value="{{ old('printer_model') }}">
-        </div>
-
-        <div>
-            <label>Material / Categoría</label>
-            <input type="text" name="material_type" class="w-full px-3 py-2 border rounded" value="{{ old('material_type') }}">
-        </div>
-
+        
         <div class="mt-4">
             <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Crear</button>
         </div>

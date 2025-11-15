@@ -1,38 +1,60 @@
-<nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16 items-center">
-      <div class="flex items-center space-x-4">
-        <a href="{{ route('dashboard') }}" class="text-xl font-bold text-gray-900 dark:text-white">INN Inventario</a>
-        
-        <!-- Botón rápido Crear (visible cuando hay sesión) -->
-        @can('articulo crear')<a href="{{ route('inventory.create') }}"
-           class="hidden sm:inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
-          Crear
-        </a>@endcan
-      </div>
+<nav class="bg-white shadow dark:bg-gray-800">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
 
-      @can('usuario crear')<a href="{{ route('admin.users') }}"
-           class="hidden sm:inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
-          Usuarios
-        </a>@endcan
-    
+        {{-- Logo --}}
+        <a href="{{ route('dashboard') }}" class="text-xl font-bold text-gray-800 dark:text-gray-100">
+            INN Inventario
+        </a>
 
-    @can('usuario crear')<a href="{{ route('inventory.index') }}"
-           class="hidden sm:inline-flex items-center px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
-          Inventario
-        </a>@endcan
-    
+        {{-- Menú desplegable --}}
+        <div class="relative" x-data="{ open: false }">
 
-      <div class="flex items-center space-x-4">
-        <span class="text-sm text-gray-700 dark:text-gray-300 hidden sm:inline">{{ auth()->user()->name ?? '' }}</span>
+            {{-- Botón del menú --}}
+            <button @click="open = !open"
+                class="flex items-center space-x-2 text-gray-700 dark:text-gray-200 hover:text-blue-500 transition">
+                <span>{{ Auth::user()->name }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
 
-        <form method="POST" action="{{ url('/logout') }}">
-          @csrf
-          <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700">
-            Cerrar sesión
-          </button>
-        </form>
-      </div>
+            {{-- Dropdown --}}
+            <div x-show="open" @click.away="open = false"
+                 class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 shadow-lg rounded-md z-50 py-2">
+
+                {{-- Inventario (siempre para usuarios con permiso) --}}
+                @can('usuario crear')
+                <a href="{{ route('inventory.index') }}"
+                   class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                    Inventario
+                </a>
+                @endcan
+
+                {{-- Usuarios (solo admins o quienes tengan permiso "usuario crear") --}}
+                @can('usuario crear')
+                <a href="{{ route('admin.users') }}"
+                   class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                    Usuarios
+                </a>
+                @endcan
+
+                {{-- Cerrar sesión --}}
+                <form method="POST" action="{{ url('/logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="w-full text-left px-4 py-2 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600">
+                        Cerrar sesión
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
     </div>
-  </div>
 </nav>
+
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+

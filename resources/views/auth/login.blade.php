@@ -27,10 +27,5 @@
       <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Entrar</button>
     </div>
   </form>
-
-  <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-    ¿No tienes cuenta?
-    <a href="{{ route('register') }}" class="text-indigo-600 hover:underline">Regístrate</a>
-  </p>
 </div>
 @endsection
