@@ -19,31 +19,124 @@
         </form>
     </div>
 
-    <table class="w-full border">
+
+    {{-- Tabla PC / Hardware --}}
+    <h3 class="text-lg font-semibold mt-6 mb-2">PC / Hardware</h3>
+    <table class="table-auto border-collapse border border-gray-300 w-full">
         <thead class="bg-gray-100">
             <tr>
                 <th class="border px-3 py-2">Tipo</th>
                 <th class="border px-3 py-2">Marca</th>
                 <th class="border px-3 py-2">Modelo</th>
-                <th class="border px-3 py-2">Acciones</th>
+                <th class="border px-3 py-2">Capacidad</th>
+                <th class="border px-3 py-2">Tipo (componente)</th>
+                <th class="border px-3 py-2">Generación</th>
+                <th class="border px-3 py-2">Número de serie</th>
+                <th class="border px-3 py-2">Bien Nacional</th>
+                @if(auth()->user()->role === 'admin')
+                    <th class="border px-3 py-2">Acciones</th>
+                @endif
             </tr>
         </thead>
         <tbody>
-            @foreach($inventories as $item)
-            <tr>
-                <td class="border px-3 py-2">{{ $item->item_type }}</td>
-                <td class="border px-3 py-2">{{ $item->brand }}</td>
-                <td class="border px-3 py-2">{{ $item->model }}</td>
-                <td class="border px-3 py-2">
-                  @can('articulo modificar')  <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a> @endcan
-                   @can('articulo modificar') <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
-                        @csrf
-                        @method('DELETE')
-                        <button class="text-red-600">Eliminar</button>
-                    </form> @endcan
-                </td>
-            </tr>
+            @foreach($inventories->whereIn('item_type', ['PC', 'Hardware']) as $item)
+                <tr class="hover:bg-gray-50">
+                    <td class="border px-3 py-2">{{ $item->item_type }}</td>
+                    <td class="border px-3 py-2">{{ $item->brand }}</td>
+                    <td class="border px-3 py-2">{{ $item->model }}</td>
+                    <td class="border px-3 py-2">{{ $item->capacity }}</td>
+                    <td class="border px-3 py-2">{{ $item->type }}</td>
+                    <td class="border px-3 py-2">{{ $item->generation }}</td>
+                    <td class="border px-3 py-2">{{ $item->serial_number }}</td>
+                    <td class="border px-3 py-2">{{ $item->national_asset_tag }}</td>
+                    
+                    @if(auth()->user()->role === 'admin')
+                        <td class="border px-3 py-2">
+                            <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                            <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="text-red-600">Eliminar</button>
+                            </form>
+                        </td>
+                    @endif
+                </tr>
             @endforeach
+        </tbody>
+    </table>
+    
+    {{-- Tabla Consumibles --}}
+    <h3 class="text-lg font-semibold mt-6 mb-2">Consumibles</h3>
+    <table class="table-auto border-collapse border border-gray-300 w-full mb-6">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="border px-3 py-2">Marca</th>
+                <th class="border px-3 py-2">Modelo</th>
+                <th class="border px-3 py-2">Color</th>
+                <th class="border px-3 py-2">Modelo impresora</th>
+                <th class="border px-3 py-2">Material / Categoría</th>
+                @if(auth()->user()->role === 'admin')
+                    <th class="border px-3 py-2">Acciones</th>
+                @endif
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($inventories->where('item_type', 'Consumible') as $item)
+                <tr class="hover:bg-gray-50">
+                    <td class="border px-3 py-2">{{ $item->brand }}</td>
+                    <td class="border px-3 py-2">{{ $item->model }}</td>
+                    <td class="border px-3 py-2">{{ $item->color ?? '-' }}</td>
+                    <td class="border px-3 py-2">{{ $item->printer_model ?? '-' }}</td>
+                    <td class="border px-3 py-2">{{ $item->material_type ?? '-' }}</td>
+                    @if(auth()->user()->role === 'admin')
+                        <td class="border px-3 py-2">
+                            <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                            <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="text-red-600">Eliminar</button>
+                            </form>
+                        </td>
+                    @endif
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    
+    {{-- Tabla Herramientas --}}
+    <h3 class="text-lg font-semibold mt-6 mb-2">Herramientas</h3>
+    <table class="table-auto border-collapse border border-gray-300 w-full mb-6">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="border px-3 py-2">Marca</th>
+                <th class="border px-3 py-2">Modelo</th>
+                <th class="border px-3 py-2">Nombre herramienta</th>
+                <th class="border px-3 py-2">Tipo herramienta</th>
+                @if(auth()->user()->role === 'admin')
+                    <th class="border px-3 py-2">Acciones</th>
+                @endif
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($inventories->where('item_type', 'Herramienta') as $item)
+                <tr class="hover:bg-gray-50">
+                    <td class="border px-3 py-2">{{ $item->item_type }}</td>
+                    <td class="border px-3 py-2">{{ $item->brand }}</td>
+                    <td class="border px-3 py-2">{{ $item->model }}</td>
+                    <td class="border px-3 py-2">{{ $item->tool_name ?? '-' }}</td>
+                    <td class="border px-3 py-2">{{ $item->tool_type ?? '-' }}</td>
+                    @can('articulo modificar')
+                        <td class="border px-3 py-2">
+                            <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                            <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="text-red-600">Eliminar</button>
+                            </form>
+                        </td>
+                    @endcan
+                </tr>
+                @endforeach
         </tbody>
     </table>
 
