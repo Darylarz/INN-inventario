@@ -57,9 +57,29 @@ class InventoryController extends Controller
             'material_type' => 'nullable|string|max:255',
         ]);
 
-        Inventory::create($request->all());
+        $data = $request->all();
 
-        return redirect()->route('inventory.index')->with('success', 'Artículo creado correctamente.');
+        // 🔥 Forzar "type" según item_type
+        if ($data['item_type'] === 'Consumible' || $data['item_type'] === 'consumible') {
+        $data['type'] = 'consumible';
+        }
+
+        if ($data['item_type'] === 'PC') {
+        $data['type'] = $data['type'] ?? 'pc';
+        }
+
+        if ($data['item_type'] === 'Hardware') {
+        $data['type'] = $data['type'] ?? 'hardware';
+        }
+
+        if ($data['item_type'] === 'Herramienta') {
+        $data['type'] = $data['type'] ?? 'herramienta';
+        }
+
+        Inventory::create($data);
+
+        return redirect()->route('inventory.index')
+            ->with('success', 'Artículo creado correctamente.');
     }
 
     // Formulario de edición
@@ -70,7 +90,7 @@ class InventoryController extends Controller
     }
 
     // Actualizar artículo
-    public function update(Request $request)
+    public function update(Request $request, Inventory $inventory)
 {
     $validated = $request->validate([
         'item_type' => 'required|string',
@@ -98,9 +118,9 @@ class InventoryController extends Controller
         $validated['type'] = 'consumable';
     }
 
-    Inventory::create($validated);
+    $inventory->update($validated);
 
-    return redirect()->route('inventory.index')->with('success', 'Artículo creado');
+    return redirect()->route('inventory.index')->with('success', 'Artículo actualizado correctamente.');
 }
 
 

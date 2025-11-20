@@ -13,7 +13,7 @@
                 <option value="">-- seleccionar --</option>
                 @foreach($inventoryTypes as $type)
                     {{-- valor en lowercase para comparación consistente --}}
-                    <option value="{{ strtolower($type->name) }}" {{ old('item_type') == strtolower($type->name) ? 'selected' : '' }}>
+                    <option value="{{ $type->name }}" {{ old('item_type') == $type->name ? 'selected' : '' }}>
                         {{ $type->name }}
                     </option>
                 @endforeach
