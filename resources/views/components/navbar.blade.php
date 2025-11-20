@@ -3,7 +3,7 @@
 
     {{-- Logo --}}
     <a href="{{ route('dashboard') }}" class="text-xl font-bold text-gray-800 dark:text-gray-100">
-      INN Inventario
+      Inventario de Tecnología - INN
     </a>
 
     {{-- Menú (usando <details> para no depender de Alpine) --}}
