@@ -11,10 +11,12 @@
             <label class="font-semibold">Tipo de artículo</label>
             <select id="item_type" name="item_type" class="w-full px-3 py-2 border rounded">
                 <option value="">-- seleccionar --</option>
+                @php
+                    $labels = ['PC'=>'PC','Hardware'=>'Hardware','Consumable'=>'Consumible','Tool'=>'Herramienta'];
+                @endphp
                 @foreach($inventoryTypes as $type)
-                    {{-- valor en lowercase para comparación consistente --}}
                     <option value="{{ $type->name }}" {{ old('item_type') == $type->name ? 'selected' : '' }}>
-                        {{ $type->name }}
+                        {{ $labels[$type->name] ?? $type->name }}
                     </option>
                 @endforeach
             </select>

@@ -18,10 +18,14 @@
       <form action="{{ route('inventory.index') }}" method="GET" class="flex flex-wrap gap-2">
         <input type="text" name="q" value="{{ request('q') }}" placeholder="Buscar texto libre..." class="px-3 py-2 border rounded">
 
+        @php
+          $types = ['PC','Hardware','Consumable','Tool'];
+          $labels = ['PC'=>'PC','Hardware'=>'Hardware','Consumable'=>'Consumible','Tool'=>'Herramienta'];
+        @endphp
         <select name="item_type" class="px-3 py-2 border rounded">
           <option value="">Tipo (todos)</option>
-          @foreach(['PC','Hardware','Consumable','Tool'] as $t)
-            <option value="{{ $t }}" @selected(request('item_type')===$t)>{{ $t }}</option>
+          @foreach($types as $t)
+            <option value="{{ $t }}" @selected(request('item_type')===$t)>{{ $labels[$t] ?? $t }}</option>
           @endforeach
         </select>
 
