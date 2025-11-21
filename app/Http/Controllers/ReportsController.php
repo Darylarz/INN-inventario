@@ -10,7 +10,7 @@ class ReportsController extends Controller
 {
     public function index(Request $request)
     {
-        if (!auth()->check() || !auth()->user()->can('usuario crear')) {
+        if (!auth()->check() || !auth()->user()->can('articulo agregar')) {
             abort(403);
         }
 
@@ -26,7 +26,7 @@ class ReportsController extends Controller
 
     public function pdf(Request $request)
     {
-        if (!auth()->check() || !auth()->user()->can('usuario crear')) {
+        if (!auth()->check() || !auth()->user()->can('articulo agregar')) {
             abort(403);
         }
 

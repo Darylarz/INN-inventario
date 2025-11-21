@@ -19,7 +19,11 @@
         {{-- Inventario (muestra si tiene permiso 'usuario crear' o puedes cambiarlo) --}}
         @can('usuario crear')
           <a href="{{ route('inventory.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Inventario</a>
-          <a href="{{ route('reports.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Reportes</a>
+          
+        @endcan
+
+        @can('articulo agregar')
+        <a href="{{ route('reports.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Reportes</a>
         @endcan
 
         @can('usuario crear')  
