@@ -8,17 +8,74 @@
         <div class="text-green-600 mb-3">{{ session('success') }}</div>
     @endif
 
-    <div class="flex items-center gap-3 mb-4">
-      @can('articulo agregar')  <a href="{{ route('inventory.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">+ Nuevo Artículo</a> @endcan 
-        <form action="{{ route('inventory.index') }}" method="GET" class="flex-1 flex items-center gap-2">
-            <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Buscar por tipo, marca, modelo, nro de serie, bien nacional y tipo de articulo." class="w-full px-3 py-2 border rounded">
-            <button class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900">Buscar</button>
-            @if(!empty($search))
-                <a href="{{ route('inventory.index') }}" class="px-3 py-2 text-gray-700 underline">Limpiar</a>
-            @endif
-        </form>
-    </div>
+    <div class="space-y-3 mb-4">
+      <div class="flex items-center gap-3">
+        @can('articulo agregar')
+          <a href="{{ route('inventory.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">+ Nuevo Artículo</a>
+        @endcan
+      </div>
 
+      <form action="{{ route('inventory.index') }}" method="GET" class="flex flex-wrap gap-2">
+        <input type="text" name="q" value="{{ request('q') }}" placeholder="Buscar texto libre..." class="px-3 py-2 border rounded">
+
+        <select name="item_type" class="px-3 py-2 border rounded">
+          <option value="">Tipo (todos)</option>
+          @foreach(['PC','Hardware','Consumable','Tool'] as $t)
+            <option value="{{ $t }}" @selected(request('item_type')===$t)>{{ $t }}</option>
+          @endforeach
+        </select>
+
+        <input type="text" name="brand" value="{{ request('brand') }}" placeholder="Marca" class="px-3 py-2 border rounded">
+        <input type="text" name="model" value="{{ request('model') }}" placeholder="Modelo" class="px-3 py-2 border rounded">
+        <input type="text" name="serial_number" value="{{ request('serial_number') }}" placeholder="Nro de serie" class="px-3 py-2 border rounded">
+        <input type="text" name="national_asset_tag" value="{{ request('national_asset_tag') }}" placeholder="Bien nacional" class="px-3 py-2 border rounded">
+
+        <input type="date" name="from" value="{{ request('from') }}" class="px-3 py-2 border rounded">
+        <input type="date" name="to" value="{{ request('to') }}" class="px-3 py-2 border rounded">
+
+        @php $sort = request('sort'); @endphp
+        <select name="sort" class="px-3 py-2 border rounded">
+          <option value="id_desc" @selected($sort==='id_desc')>Recientes</option>
+          <option value="brand_asc" @selected($sort==='brand_asc')>Marca A-Z</option>
+          <option value="model_asc" @selected($sort==='model_asc')>Modelo A-Z</option>
+          <option value="created_at_desc" @selected($sort==='created_at_desc')>Fecha creación ↓</option>
+        </select>
+
+        <button class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900">Aplicar</button>
+        @if(request()->query())
+          <a href="{{ route('inventory.index') }}" class="px-3 py-2 text-gray-700 underline">Limpiar</a>
+        @endif
+      </form>
+
+      @php
+        $chips = collect([
+          'q' => 'Texto',
+          'item_type' => 'Tipo',
+          'brand' => 'Marca',
+          'model' => 'Modelo',
+          'serial_number' => 'Serie',
+          'national_asset_tag' => 'Bien Nal.',
+          'from' => 'Desde',
+          'to' => 'Hasta',
+          'sort' => 'Orden',
+        ])->filter(fn($label,$key)=>filled(request($key)));
+      @endphp
+
+      @if($chips->isNotEmpty())
+        <div class="flex flex-wrap gap-2 items-center">
+          <span class="text-sm text-gray-600">Filtros:</span>
+          @foreach($chips as $key=>$label)
+            <button
+              type="button"
+              onclick="const url=new URL(window.location.href);url.searchParams.delete('{{ $key }}');window.location.href=url.toString();"
+              class="px-2 py-1 text-sm bg-gray-100 border rounded hover:bg-gray-200"
+            >
+              {{ $label }}: {{ request($key) }} 
+            </button>
+          @endforeach
+        </div>
+      @endif
+    </div>
 
     {{-- Tabla única: Todos los artículos --}}
     <table class="table-auto border-collapse border border-gray-300 w-full">
