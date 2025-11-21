@@ -65,6 +65,8 @@
         </tbody>
     </table>
     
+    <p style="padding-bottom: 70px;"></p>
+
     {{-- Tabla Consumibles --}}
     <h3 class="text-lg font-semibold mt-6 mb-2">Consumibles</h3>
     <table class="table-auto border-collapse border border-gray-300 w-full mb-6">
@@ -102,6 +104,8 @@
             @endforeach
         </tbody>
     </table>
+
+    <p style="padding-bottom: 70px;"></p>
     
     {{-- Tabla Herramientas --}}
     <h3 class="text-lg font-semibold mt-6 mb-2">Herramientas</h3>

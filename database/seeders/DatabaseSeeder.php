@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             DefaultUsersSeeder::class,
             InventoryTypeSeeder::class,
-            InventorySeeder::class,
+            
         ]);
         
     }

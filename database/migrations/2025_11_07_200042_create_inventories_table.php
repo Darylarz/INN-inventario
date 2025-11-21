@@ -18,7 +18,7 @@ Schema::create('inventories', function (Blueprint $table) {
     $table->id();
 
     // Campo de Polimorfismo: Para distinguir qué tipo de inventario es
-    $table->string('type')->comment('activo, herramienta, consumible_toner, consumible_material'); 
+    $table->string('type')->nullable()->comment('activo, herramienta, consumible_toner, consumible_material'); 
 
     // Campos Comunes / Activos (Componentes de PC)
     $table->string('brand')->nullable()->comment('Marca'); // Marca

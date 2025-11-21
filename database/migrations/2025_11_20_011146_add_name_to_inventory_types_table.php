@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('inventory_types', function (Blueprint $table) {
-            $table->string('name')->after('id');
+            $table->string('name')->after('id')->nullable()->change();
         });
     }
 
