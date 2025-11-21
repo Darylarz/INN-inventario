@@ -14,6 +14,9 @@ class InventoryController extends Controller
         $search = $request->query('search');
 
         $inventories = Inventory::query()
+            ->where(function ($q) {
+                $q->whereNull('is_disabled')->orWhere('is_disabled', false);
+            })
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('brand', 'like', "%{$search}%")
@@ -29,6 +32,71 @@ class InventoryController extends Controller
             ->withQueryString();
 
         return view('inventory.index', compact('inventories', 'search'));
+    }
+
+    // Listado de artículos deshabilitados
+    public function disabledIndex(Request $request)
+    {
+        
+        $search = $request->query('search');
+
+        $inventories = Inventory::query()
+            ->where('is_disabled', true)
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('brand', 'like', "%{$search}%")
+                      ->orWhere('model', 'like', "%{$search}%")
+                      ->orWhere('serial_number', 'like', "%{$search}%")
+                      ->orWhere('national_asset_tag', 'like', "%{$search}%")
+                      ->orWhere('item_type', 'like', "%{$search}%")
+                      ->orWhere('printer_model', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('inventory.disabled', compact('inventories', 'search'));
+    }
+
+    public function disable(Request $request, Inventory $inventory)
+    {
+        if (!auth()->check() || !auth()->user()->can('usuario crear')) {
+            abort(403);
+        }
+        $request->validate([
+            'disabled_reason' => 'nullable|string|max:500',
+        ]);
+
+        $inventory->update([
+            'is_disabled' => true,
+            'disabled_at' => now(),
+            'disabled_reason' => $request->input('disabled_reason'),
+        ]);
+
+        return redirect()->back()->with('success', 'Artículo desincorporado.');
+    }
+
+    public function enable(Request $request, Inventory $inventory)
+    {
+        if (!auth()->check() || !auth()->user()->can('usuario crear')) {
+            abort(403);
+        }
+
+        $inventory->update([
+            'is_disabled' => false,
+            'disabled_at' => null,
+            'disabled_reason' => null,
+        ]);
+
+        return redirect()->back()->with('success', 'Artículo reincorporado.');
+    }
+
+    private function authorizeAdmin(): void
+    {
+        if (!auth()->check() || (auth()->user()->role ?? null) !== 'admin') {
+            abort(403);
+        }
     }
 
     // Mostrar formulario de creación

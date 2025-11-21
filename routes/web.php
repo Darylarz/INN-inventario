@@ -96,13 +96,17 @@ Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('inventory')->name('inventory.')->group(function () {
-    Route::get('/', [InventoryController::class, 'index'])->name('index');
-    Route::get('/create', [InventoryController::class, 'create'])->name('create');
-    Route::post('/store', [InventoryController::class, 'store'])->name('store');
-    Route::get('/{inventory}/edit', [InventoryController::class, 'edit'])->name('edit');
-    Route::put('/{inventory}', [InventoryController::class, 'update'])->name('update');
-    Route::delete('/{inventory}', [InventoryController::class, 'destroy'])->name('destroy');
-});
+        Route::get('/', [InventoryController::class, 'index'])->name('index');
+        Route::get('/disabled', [InventoryController::class, 'disabledIndex'])->name('disabled');
+        Route::post('/{inventory}/disable', [InventoryController::class, 'disable'])->name('disable');
+        Route::post('/{inventory}/enable', [InventoryController::class, 'enable'])->name('enable');
+
+        Route::get('/create', [InventoryController::class, 'create'])->name('create');
+        Route::post('/store', [InventoryController::class, 'store'])->name('store');
+        Route::get('/{inventory}/edit', [InventoryController::class, 'edit'])->name('edit');
+        Route::put('/{inventory}', [InventoryController::class, 'update'])->name('update');
+        Route::delete('/{inventory}', [InventoryController::class, 'destroy'])->name('destroy');
+    });
 
     // Admin
     

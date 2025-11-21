@@ -21,6 +21,10 @@
           <a href="{{ route('inventory.index') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Inventario</a>
         @endcan
 
+        @can('usuario crear')  
+          <a href="{{ route('inventory.disabled') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Desincorporados</a>
+      @endcan
+
         {{-- Usuarios (solo quienes tengan permiso 'usuario crear') --}}
         @can('usuario crear')
           <a href="{{ route('admin.users') }}" class="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">Usuarios</a>

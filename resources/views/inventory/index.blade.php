@@ -33,9 +33,10 @@
                 <th class="border px-3 py-2">Generación</th>
                 <th class="border px-3 py-2">Número de serie</th>
                 <th class="border px-3 py-2">Bien Nacional</th>
-                @if(auth()->user()->role === 'admin')
+                
+                    @can('usaurio crear')
                     <th class="border px-3 py-2">Acciones</th>
-                @endif
+                    @endcan
             </tr>
         </thead>
         <tbody>
@@ -50,16 +51,22 @@
                     <td class="border px-3 py-2">{{ $item->serial_number }}</td>
                     <td class="border px-3 py-2">{{ $item->national_asset_tag }}</td>
                     
-                    @if(auth()->user()->role === 'admin')
+                        @can('usuario crear')
                         <td class="border px-3 py-2">
                             <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                            <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
+                                @csrf
+                                <input type="hidden" name="disabled_reason" value="">
+                                <button class="text-yellow-600 mr-2">Desincorporar</button>
+                            </form>
                             <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="text-red-600">Eliminar</button>
                             </form>
                         </td>
-                    @endif
+                        @endcan
+                    
                 </tr>
             @endforeach
         </tbody>
@@ -93,6 +100,11 @@
                     @if(auth()->user()->role === 'admin')
                         <td class="border px-3 py-2">
                             <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                            <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
+                                @csrf
+                                <input type="hidden" name="disabled_reason" value="">
+                                <button class="text-yellow-600 mr-2">Desincorporar</button>
+                            </form>
                             <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
                                 @csrf
                                 @method('DELETE')
