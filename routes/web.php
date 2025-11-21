@@ -13,6 +13,7 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\ArticuloHardwareController;
 use App\Http\Controllers\HerramientaController;
 use App\Http\Controllers\ConsumibleController;
+use App\Http\Controllers\ReportsController;
 
 
 // raíz -> redirigir al dashboard (Blade)
@@ -107,6 +108,10 @@ Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard
         Route::put('/{inventory}', [InventoryController::class, 'update'])->name('update');
         Route::delete('/{inventory}', [InventoryController::class, 'destroy'])->name('destroy');
     });
+
+    // Reports
+    Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
+    Route::post('/reports/pdf', [ReportsController::class, 'pdf'])->name('reports.pdf');
 
     // Admin
     
