@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Inventory extends Model
-
 {
-    use HasFactory;    
+    use HasFactory;
 
     protected $table = 'inventories';
-  
-        protected $fillable = [
+
+    protected $fillable = [
         'type',
         'brand',
         'model',
@@ -25,6 +24,13 @@ class Inventory extends Model
         'toner_color',
         'printer_model',
         'material_type',
+        'is_disabled',
+        'disabled_at',
+        'disabled_reason',
     ];
 
+    protected $casts = [
+        'is_disabled' => 'boolean',
+        'disabled_at' => 'datetime',
+    ];
 }

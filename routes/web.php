@@ -1,73 +1,180 @@
-
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\inventarioController;
 use App\Http\Controllers\AdminController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\InventoryManagementController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\ArticuloHardwareController;
+use App\Http\Controllers\HerramientaController;
+use App\Http\Controllers\ConsumibleController;
+use App\Http\Controllers\ReportsController;
 
-Route::get('/dashboard', [InventoryManagementController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-// Temporary debug route - remove after testing
-Route::get('/debug-inventory', function() {
-    $count = \App\Models\Inventory::count();
-    $sample = \App\Models\Inventory::take(5)->get();
-    return response()->json([
-        'total_count' => $count,
-        'sample_data' => $sample,
-        'table_name' => (new \App\Models\Inventory)->getTable()
+// raíz -> redirigir al dashboard (Blade)
+use App\Http\Controllers\InventoryController;
+
+
+
+
+// LOGIN (POST existente ajustado para redirigir si no es AJAX)
+Route::post('/login', function (Request $request) {
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
     ]);
-})->middleware('auth');
 
-// Test API route in web.php instead
-Route::get('/api/inventory-test', [\App\Http\Controllers\Api\InventoryController::class, 'index']);
+    if (!Auth::attempt($credentials)) {
+        throw ValidationException::withMessages([
+            'email' => ['Credenciales inválidas.'],
+        ]);
+    }
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/inventory/create', [InventoryManagementController::class, 'create'])->name('inventory.create');
-    Route::post('/inventory', [InventoryManagementController::class, 'store'])->name('inventory.store');
-    Route::get('/inventory/{inventory}/edit', [InventoryManagementController::class, 'edit'])->name('inventory.edit');
-    Route::put('/inventory/{inventory}', [InventoryManagementController::class, 'update'])->name('inventory.update');
-    Route::delete('/inventory/{inventory}', [InventoryManagementController::class, 'destroy'])->name('inventory.destroy');
+    $request->session()->regenerate();
+
+    if ($request->wantsJson()) {
+        return response()->json(['message' => 'ok']);
+    }
+    // Redirigir al índice de inventario después de login
+    return redirect()->route('inventory.index');
 });
+
+// REGISTER (POST existente ajustado)
+Route::post('/register', function (Request $request) {
+    $data = $request->validate([
+        'name' => ['required', 'string'],
+        'email' => ['required', 'email', 'unique:users,email'],
+        'password' => ['required', 'confirmed', 'min:6'],
+    ]);
+
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+    ]);
+
+    Auth::login($user);
+
+    if ($request->wantsJson()) {
+        return response()->json(['message' => 'ok'], 201);
+    }
+    // Temporal: redirigir al dashboard después de "register"
+    return redirect()->route('dashboard');
+});
+
+// LOGOUT ajustado para redirigir en peticiones normales
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    if ($request->wantsJson()) {
+        return response()->json(['message' => 'ok']);
+    }
+    return redirect()->route('login');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| RUTAS PROTEGIDAS
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->group(function () {
+
+    // ahora la ruta /dashboard devuelve la vista Blade que monta Livewire
+    
+Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::prefix('inventory')->name('inventory.')->group(function () {
+        Route::get('/', [InventoryController::class, 'index'])->name('index');
+        Route::get('/disabled', [InventoryController::class, 'disabledIndex'])->name('disabled');
+        Route::post('/{inventory}/disable', [InventoryController::class, 'disable'])->name('disable');
+        Route::post('/{inventory}/enable', [InventoryController::class, 'enable'])->name('enable');
+
+        Route::get('/create', [InventoryController::class, 'create'])->name('create');
+        Route::post('/store', [InventoryController::class, 'store'])->name('store');
+        Route::get('/{inventory}/edit', [InventoryController::class, 'edit'])->name('edit');
+        Route::put('/{inventory}', [InventoryController::class, 'update'])->name('update');
+        Route::delete('/{inventory}', [InventoryController::class, 'destroy'])->name('destroy');
+    });
+
+    // Reports
+    Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
+    Route::post('/reports/pdf', [ReportsController::class, 'pdf'])->name('reports.pdf');
+
+    // Admin
     
-    // Password update route
-    Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
+        Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+    Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
-    Route::get('/i/indice', [inventarioController::class, 'index'])->name('inventario-index');
+    });
 
+Route::middleware(['auth'])->group(function () {
+
+    // =============================
+    // RUTAS PARA ARTÍCULOS HARDWARE
+    // =============================
+    Route::get('/hardware', [ArticuloHardwareController::class, 'index'])->name('hardware.index');
+    Route::get('/hardware/crear', [ArticuloHardwareController::class, 'crear'])->name('hardware.crear');
+    Route::post('/hardware', [ArticuloHardwareController::class, 'guardar'])->name('hardware.guardar');
+    Route::get('/hardware/{id}/editar', [ArticuloHardwareController::class, 'editar'])->name('hardware.editar');
+    Route::put('/hardware/{id}', [ArticuloHardwareController::class, 'actualizar'])->name('hardware.actualizar');
+    Route::delete('/hardware/{id}', [ArticuloHardwareController::class, 'eliminar'])->name('hardware.eliminar');
+
+
+    // =====================
+    // RUTAS PARA HERRAMIENTAS
+    // =====================
+    Route::get('/herramientas', [HerramientaController::class, 'index'])->name('herramientas.index');
+    Route::get('/herramientas/crear', [HerramientaController::class, 'crear'])->name('herramientas.crear');
+    Route::post('/herramientas', [HerramientaController::class, 'guardar'])->name('herramientas.guardar');
+    Route::get('/herramientas/{id}/editar', [HerramientaController::class, 'editar'])->name('herramientas.editar');
+    Route::put('/herramientas/{id}', [HerramientaController::class, 'actualizar'])->name('herramientas.actualizar');
+    Route::delete('/herramientas/{id}', [HerramientaController::class, 'eliminar'])->name('herramientas.eliminar');
+
+
+    // =====================
+    // RUTAS PARA CONSUMIBLES
+    // =====================
+    Route::get('/consumibles', [ConsumibleController::class, 'index'])->name('consumibles.index');
+    Route::get('/consumibles/crear', [ConsumibleController::class, 'crear'])->name('consumibles.crear');
+    Route::post('/consumibles', [ConsumibleController::class, 'guardar'])->name('consumibles.guardar');
+    Route::get('/consumibles/{id}/editar', [ConsumibleController::class, 'editar'])->name('consumibles.editar');
+    Route::put('/consumibles/{id}', [ConsumibleController::class, 'actualizar'])->name('consumibles.actualizar');
+    Route::delete('/consumibles/{id}', [ConsumibleController::class, 'eliminar'])->name('consumibles.eliminar');
 });
 
-// Admin Routes
-Route::middleware(['auth', 'permission:admin panel'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-    
-    // User Management
-    Route::get('/users', [AdminController::class, 'users'])->name('users');
-    Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
-    Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
-    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
-    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
-    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
-    
-    // Inventory Management (Admin view)
-    Route::get('/inventory', [AdminController::class, 'inventory'])->name('inventory');
-}); # ${id} se puede modificar
+// Rutas públicas (formularios) — solo accesibles para guests
+Route::middleware('guest')->group(function () {
+    Route::get('/login', function () {
+        return view('auth.login');
+    })->name('login');
 
-require __DIR__.'/auth.php';
+    Route::get('/register', function () {
+        return view('auth.register');
+    })->name('register');
+});
 
-// Vue SPA Routes - Catch all routes and let Vue Router handle them
-Route::middleware('auth')->get('/{any}', function () {
-    return view('vue-app');
-})->where('any', '.*');
+Route::get('/', function () {
+    return auth()->check()
+        ? redirect()->route('inventory.index')
+        : redirect()->route('login');
+});
+
+// Eliminada la ruta catch-all que devolvía view('app')
+// ya no hay Route::get('/{any}', ...) al final

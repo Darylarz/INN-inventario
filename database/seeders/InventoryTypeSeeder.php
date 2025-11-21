@@ -1,15 +1,18 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use App\Models\InventoryType;
 
 class InventoryTypeSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
-        InventoryType::firstOrCreate(['slug' => 'activo'], ['name' => 'Activo Fijo']);
-        InventoryType::firstOrCreate(['slug' => 'herramienta'], ['name' => 'Herramienta']);
-        InventoryType::firstOrCreate(['slug' => 'consumible'], ['name' => 'Consumible']);
-        // Podrías añadir más si lo necesitas
+        $types = ['PC', 'Consumable', 'Tool'];
+
+        foreach ($types as $type) {
+            InventoryType::updateOrCreate(['name' => $type]);
+        }
     }
 }

@@ -12,9 +12,10 @@ use Illuminate\Validation\Rule;
 use App\Models\InventoryType;
 use Illuminate\Http\RedirectResponse;
 
+
 class InventoryManagementController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request)
     {
         $search = $request->query('search');
 
@@ -33,22 +34,18 @@ class InventoryManagementController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('dashboard', compact('inventories', 'search'));
+        return Inertia::render('Dashboard', [
+            'inventories' => $inventories,
+            'search' => $search,
+        ]);
     }
     
-    public function create(): View // Se espera que retorne una vista
+    public function create()
     {
-        // 1. Obtener los tipos de inventario para el select del formulario.
-        // Esto evita "hardcodear" opciones en el HTML.
         $inventoryTypes = InventoryType::all();
-        
-        // Si tiene otros datos (ej: Categorías, Unidades de Medida), cárguelos aquí:
-        // $categories = Category::all();
 
-        // 2. Retornar la vista 'inventory.create' (suponiendo que su vista está en resources/views/inventory/create.blade.php)
-        return view('inventory.create', [
+        return Inertia::render('Inventory/Create', [
             'inventoryTypes' => $inventoryTypes,
-            // 'categories' => $categories, // Páselos a la vista
         ]);
     }
 
@@ -110,16 +107,16 @@ class InventoryManagementController extends Controller
     }
 
     
-    public function edit(Inventory $inventory): \Illuminate\View\View {
+    public function edit(Inventory $inventory)
+    {
         if (!auth()->user()->can('articulo modificar')) {
             // Asumiendo que 'articulo modificar' es el permiso para editar
             return redirect()->route('dashboard')->with('error', 'No tienes permiso para modificar inventario.');
         }
 
-        // Cargar los tipos de inventario para el select (si es necesario)
         $inventoryTypes = \App\Models\InventoryType::all();
-        
-        return view('inventory.edit', [
+
+        return Inertia::render('Inventory/Edit', [
             'inventory' => $inventory,
             'inventoryTypes' => $inventoryTypes,
         ]);
@@ -191,14 +188,16 @@ class InventoryManagementController extends Controller
 
     public function destroy(Inventory $inventory): RedirectResponse
     {
+        
         // 1. Verificar Permiso de Eliminación
         if (!auth()->user()->can('articulo eliminar')) {
-            return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar inventario.');
+            return redirect()->route('dashboard')->with('error', 'No tienes permiso para eliminar articulos.');
         }
+
 
         // 2. Eliminar el registro
         $inventory->delete();
-
+        
         // 3. Redirigir al Dashboard
         return redirect()->route('dashboard')->with('status', 'Ítem de inventario eliminado exitosamente.');
     }

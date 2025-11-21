@@ -1,133 +1,147 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex h-screen bg-gray-100 dark:bg-gray-900">
-        
+<div class="container mx-auto p-6 bg-white rounded shadow">
+    <h2 class="text-xl font-semibold mb-4">Crear artículo</h2>
 
-        <div class="flex-grow p-10 overflow-y-auto" 
-             x-data="{ itemType: 'activo' }"> {{-- <--- Inicializa Alpine para manejar el tipo --}}
-            
-            <h2 class="text-3xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Crear Nuevo Ítem de Inventario</h2>
+    <form id="inventory-form" action="{{ route('inventory.store') }}" method="POST">
+        @csrf
 
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl max-w-2xl mx-auto">
-                
-                <form method="POST" action="{{ route('inventory.store') }}" class="space-y-6">
-                    @csrf
-                    
-                    {{-- 1. Selector de Tipo de Ítem --}}
-                    <div>
-                        <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tipo de Inventario</label>
-                        <select 
-                            x-model="itemType" 
-                            name="type" 
-                            id="type" 
-                            required
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                        >
-                            <option value="activo">Activo Fijo (PC, Hardware)</option>
-                            <option value="herramienta">Herramienta</option>
-                            <option value="consumible_toner">Consumible (Tóner)</option>
-                            <option value="consumible_material">Consumible (Otros Materiales)</option>
-                        </select>
-                        @error('type') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                    </div>
-                    
-                    <hr class="dark:border-gray-700">
+        <div class="mb-4">
+            <label class="font-semibold">Tipo de artículo</label>
+            <select id="item_type" name="item_type" class="w-full px-3 py-2 border rounded">
+                <option value="">-- seleccionar --</option>
+                @php
+                    $labels = ['PC'=>'PC','Hardware'=>'Hardware','Consumable'=>'Consumible','Tool'=>'Herramienta'];
+                @endphp
+                @foreach($inventoryTypes as $type)
+                    <option value="{{ $type->name }}" {{ old('item_type') == $type->name ? 'selected' : '' }}>
+                        {{ $labels[$type->name] ?? $type->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('item_type') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+        </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <input type="hidden" id="hidden_type" name="type">
 
-                        {{-- 2. CAMPOS COMUNES --}}
-                        
-                        {{-- Marca (Activo/Toner) --}}
-                        <div x-show="itemType !== 'herramienta' && itemType !== 'consumible_material'">
-                            <label for="brand" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Marca</label>
-                            <input type="text" name="brand" id="brand" value="{{ old('brand') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('brand') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
 
-                        {{-- Modelo (Activo/Toner) --}}
-                        <div x-show="itemType !== 'herramienta' && itemType !== 'consumible_material'">
-                            <label for="model" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Modelo</label>
-                            <input type="text" name="model" id="model" value="{{ old('model') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('model') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
+        {{-- Campos comunes (marca, modelo) --}}
+        <div id="field-brand" class="mb-3" style="display: none;">
+            <label>Marca</label>
+            <input type="text" name="brand" class="w-full px-3 py-2 border rounded" value="{{ old('brand') }}">
+            @error('brand') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+        </div>
 
-                        {{-- Tipo de Ítem (Todos excepto Tóner) --}}
-                        <div x-show="itemType !== 'consumible_toner'">
-                            <label for="item_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300" x-text="itemType === 'herramienta' ? 'Nombre de Herramienta' : (itemType === 'activo' ? 'Tipo de Componente' : 'Tipo de Material')"></label>
-                            <input type="text" name="item_type" id="item_type" value="{{ old('item_type') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('item_type') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-                        
-                        {{-- 3. CAMPOS ESPECÍFICOS DE ACTIVO --}}
-                        
-                        <div x-show="itemType === 'activo'">
-                            <label for="capacity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Capacidad (ej: 500GB, 8GB)</label>
-                            <input type="text" name="capacity" id="capacity" value="{{ old('capacity') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('capacity') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-                        
-                        <div x-show="itemType === 'activo'">
-                            <label for="generation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Generación (ej: DDR4)</label>
-                            <input type="text" name="generation" id="generation" value="{{ old('generation') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('generation') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
+        <div id="field-model" class="mb-3" style="display: none;">
+            <label>Modelo</label>
+            <input type="text" name="model" class="w-full px-3 py-2 border rounded" value="{{ old('model') }}">
+            @error('model') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+        </div>
 
-                        <div x-show="itemType === 'activo'">
-                            <label for="watt_capacity" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Capacidad en Watts (Regulador)</label>
-                            <input type="number" name="watt_capacity" id="watt_capacity" value="{{ old('watt_capacity') }}" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('watt_capacity') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-                        
-                        {{-- 4. CAMPOS ESPECÍFICOS DE CONSUMIBLE (TÓNER) --}}
-                        
-                        <div x-show="itemType === 'consumible_toner'">
-                            <label for="printer_model" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Modelo de Impresora Compatible</label>
-                            <input type="text" name="printer_model" id="printer_model" value="{{ old('printer_model') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('printer_model') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
+        {{-- PC only --}}
+        <div id="pc-fields" style="display:none;">
+            <div class="mb-3">
+                <label>Capacidad</label>
+                <input type="text" name="capacity" class="w-full px-3 py-2 border rounded" value="{{ old('capacity') }}">
+            </div>
 
-                        <div x-show="itemType === 'consumible_toner'">
-                            <label for="toner_color" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Color de Tóner</label>
-                            <input type="text" name="toner_color" id="toner_color" value="{{ old('toner_color') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('toner_color') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-                        
-                        {{-- 5. CAMPOS ESPECÍFICOS DE CONSUMIBLE (MATERIAL) --}}
+            <div class="mb-3">
+                <label>Tipo</label>
+                <input type="text" name="type" class="w-full px-3 py-2 border rounded" value="{{ old('type') }}">
+            </div>
 
-                        <div x-show="itemType === 'consumible_material'">
-                            <label for="material_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tipo de Material</label>
-                            <input type="text" name="material_type" id="material_type" value="{{ old('material_type') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('material_type') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-                        
-                        {{-- 6. CAMPOS DE IDENTIFICACIÓN (Activo/Herramienta) --}}
-                        
-                        <div x-show="itemType === 'activo' || itemType === 'herramienta'">
-                            <label for="serial_number" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Serial</label>
-                            <input type="text" name="serial_number" id="serial_number" value="{{ old('serial_number') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('serial_number') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
-                        
-                        <div x-show="itemType === 'activo'">
-                            <label for="national_asset_tag" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bien Nacional (BN)</label>
-                            <input type="text" name="national_asset_tag" id="national_asset_tag" value="{{ old('national_asset_tag') }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            @error('national_asset_tag') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                        </div>
+            <div class="mb-3">
+                <label>Generación</label>
+                <input type="text" name="generation" class="w-full px-3 py-2 border rounded" value="{{ old('generation') }}">
+            </div>
 
-                    </div>
-                    
-                    {{-- Botones --}}
-                    <div class="pt-4 flex justify-end space-x-3">
-                        <a href="{{ route('dashboard') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-600 dark:text-white dark:border-gray-500 dark:hover:bg-gray-500">
-                            Cancelar
-                        </a>
-                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none">
-                            Guardar Ítem
-                        </button>
-                    </div>
-                </form>
+            <div class="mb-3">
+                <label>Número de serie</label>
+                <input type="text" name="serial_number" class="w-full px-3 py-2 border rounded" value="{{ old('serial_number') }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Bien nacional</label>
+                <input type="text" name="national_asset_tag" class="w-full px-3 py-2 border rounded" value="{{ old('national_asset_tag') }}">
             </div>
         </div>
-    </div>
+
+        {{-- Consumable only --}}
+        <div id="consumable-fields" style="display:none;">
+            <div class="mb-3">
+                <label>Color</label>
+                <input type="text" name="color" class="w-full px-3 py-2 border rounded" value="{{ old('color') }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Modelo impresora</label>
+                <input type="text" name="printer_model" class="w-full px-3 py-2 border rounded" value="{{ old('printer_model') }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Material / Categoría</label>
+                <input type="text" name="material_type" class="w-full px-3 py-2 border rounded" value="{{ old('material_type') }}">
+            </div>
+        </div>
+
+        {{-- Tool only --}}
+        <div id="tool-fields" style="display:none;">
+            <div class="mb-3">
+                <label>Nombre herramienta</label>
+                <input type="text" name="tool_name" class="w-full px-3 py-2 border rounded" value="{{ old('tool_name') }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Tipo herramienta</label>
+                <input type="text" name="tool_type" class="w-full px-3 py-2 border rounded" value="{{ old('tool_type') }}">
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button id="submit-btn" type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Crear</button>
+        </div>
+    </form>
+</div>
+
+{{-- JS ligero para mostrar/ocultar campos --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sel = document.getElementById('item_type');
+    const brand = document.getElementById('field-brand');
+    const model = document.getElementById('field-model');
+    const pcFields = document.getElementById('pc-fields');
+    const consumableFields = document.getElementById('consumable-fields');
+    const toolFields = document.getElementById('tool-fields');
+
+    function updateFields() {
+        const v = (sel.value || '').toLowerCase();
+        // hide all by default
+        brand.style.display = 'none';
+        model.style.display = 'none';
+        pcFields.style.display = 'none';
+        consumableFields.style.display = 'none';
+        toolFields.style.display = 'none';
+
+        if (!v) return;
+
+        // show common
+        brand.style.display = '';
+        model.style.display = '';
+
+        if (v === 'pc' || v === 'hardware') {
+            pcFields.style.display = '';
+        } else if (v === 'consumable' || v === 'consumible') {
+            consumableFields.style.display = '';
+        } else if (v === 'tool' || v === 'herramienta') {
+            toolFields.style.display = '';
+        }
+    }
+
+    sel.addEventListener('change', updateFields);
+
+    // run on load in case old() exists
+    updateFields();
+});
+</script>
 @endsection
