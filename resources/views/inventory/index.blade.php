@@ -15,122 +15,165 @@
         @endcan
       </div>
 
-      <form action="{{ route('inventory.index') }}" method="GET" class="flex flex-wrap gap-2">
-        <input type="text" name="q" value="{{ request('q') }}" placeholder="Buscar texto libre..." class="px-3 py-2 border rounded">
-
-        @php
-          $types = ['PC','Hardware','Consumable','Tool'];
-          $labels = ['PC'=>'PC','Hardware'=>'Hardware','Consumable'=>'Consumible','Tool'=>'Herramienta'];
-        @endphp
-        <select name="item_type" class="px-3 py-2 border rounded">
-          <option value="">Tipo (todos)</option>
-          @foreach($types as $t)
-            <option value="{{ $t }}" @selected(request('item_type')===$t)>{{ $labels[$t] ?? $t }}</option>
-          @endforeach
-        </select>
-
-        <input type="text" name="brand" value="{{ request('brand') }}" placeholder="Marca" class="px-3 py-2 border rounded">
-        <input type="text" name="model" value="{{ request('model') }}" placeholder="Modelo" class="px-3 py-2 border rounded">
-        <input type="text" name="serial_number" value="{{ request('serial_number') }}" placeholder="Nro de serie" class="px-3 py-2 border rounded">
-        <input type="text" name="national_asset_tag" value="{{ request('national_asset_tag') }}" placeholder="Bien nacional" class="px-3 py-2 border rounded">
-
-        <input type="date" name="from" value="{{ request('from') }}" class="px-3 py-2 border rounded">
-        <input type="date" name="to" value="{{ request('to') }}" class="px-3 py-2 border rounded">
-
-        @php $sort = request('sort'); @endphp
-        <select name="sort" class="px-3 py-2 border rounded">
-          <option value="id_desc" @selected($sort==='id_desc')>Recientes</option>
-          <option value="brand_asc" @selected($sort==='brand_asc')>Marca A-Z</option>
-          <option value="model_asc" @selected($sort==='model_asc')>Modelo A-Z</option>
-          <option value="created_at_desc" @selected($sort==='created_at_desc')>Fecha creación ↓</option>
-        </select>
-
-        <button class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900">Aplicar</button>
-        @if(request()->query())
+      <form action="{{ route('inventory.index') }}" method="GET" class="flex-1 flex items-center gap-2">
+        <input type="hidden" name="page" value="1">
+        <input type="text" name="search" value="{{ $search ?? request('search') }}" placeholder="Buscar por marca, modelo, nro de serie, bien nacional, tipo, modelo impresora, capacidad y generación" class="w-full px-3 py-2 border rounded">
+        <button class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900">Buscar</button>
+        @if(!empty($search) || filled(request('search')))
           <a href="{{ route('inventory.index') }}" class="px-3 py-2 text-gray-700 underline">Limpiar</a>
         @endif
       </form>
-
-      @php
-        $chips = collect([
-          'q' => 'Texto',
-          'item_type' => 'Tipo',
-          'brand' => 'Marca',
-          'model' => 'Modelo',
-          'serial_number' => 'Serie',
-          'national_asset_tag' => 'Bien Nal.',
-          'from' => 'Desde',
-          'to' => 'Hasta',
-          'sort' => 'Orden',
-        ])->filter(fn($label,$key)=>filled(request($key)));
-      @endphp
-
-      @if($chips->isNotEmpty())
-        <div class="flex flex-wrap gap-2 items-center">
-          <span class="text-sm text-gray-600">Filtros:</span>
-          @foreach($chips as $key=>$label)
-            <button
-              type="button"
-              onclick="const url=new URL(window.location.href);url.searchParams.delete('{{ $key }}');window.location.href=url.toString();"
-              class="px-2 py-1 text-sm bg-gray-100 border rounded hover:bg-gray-200"
-            >
-              {{ $label }}: {{ request($key) }} 
-            </button>
-          @endforeach
-        </div>
-      @endif
     </div>
 
-    {{-- Tabla única: Todos los artículos --}}
+    @php
+      // Obtener la colección de la página actual para agrupar por tipo sin afectar la paginación
+      $pageItems = $inventories->getCollection();
+      $pcItems = $pageItems->filter(fn($i) => in_array($i->item_type, ['PC','Hardware']));
+      $consumableItems = $pageItems->filter(fn($i) => $i->item_type === 'Consumable');
+      $toolItems = $pageItems->filter(fn($i) => $i->item_type === 'Tool');
+    @endphp
+
+    {{-- Tabla PC / Hardware --}}
+    <h3 class="text-lg font-semibold mt-6 mb-2">PC / Hardware</h3>
     <table class="table-auto border-collapse border border-gray-300 w-full">
-        <thead class="bg-gray-100">
-            <tr>
-                <th class="border px-3 py-2">Tipo</th>
-                <th class="border px-3 py-2">Marca</th>
-                <th class="border px-3 py-2">Modelo</th>
-                <th class="border px-3 py-2">Capacidad</th>
-                <th class="border px-3 py-2">Tipo (componente)</th>
-                <th class="border px-3 py-2">Generación</th>
-                <th class="border px-3 py-2">Número de serie</th>
-                <th class="border px-3 py-2">Bien Nacional</th>
-                @can('usuario crear')
-                    <th class="border px-3 py-2">Acciones</th>
-                @endcan
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($inventories as $item)
-                <tr class="hover:bg-gray-50">
-                    <td class="border px-3 py-2">{{ $item->item_type }}</td>
-                    <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
-                    <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
-                    <td class="border px-3 py-2">{{ $item->capacity ?? '-' }}</td>
-                    <td class="border px-3 py-2">{{ $item->type ?? '-' }}</td>
-                    <td class="border px-3 py-2">{{ $item->generation ?? '-' }}</td>
-                    <td class="border px-3 py-2">{{ $item->serial_number ?? '-' }}</td>
-                    <td class="border px-3 py-2">{{ $item->national_asset_tag ?? '-' }}</td>
-                    @can('usuario crear')
-                        <td class="border px-3 py-2">
-                            <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
-                            <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
-                                @csrf
-                                <input type="hidden" name="disabled_reason" value="">
-                                <button class="text-yellow-600 mr-2">Desincorporar</button>
-                            </form>
-                            <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-red-600">Eliminar</button>
-                            </form>
-                        </td>
-                    @endcan
-                </tr>
-            @endforeach
-        </tbody>
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2">Tipo</th>
+          <th class="border px-3 py-2">Marca</th>
+          <th class="border px-3 py-2">Modelo</th>
+          <th class="border px-3 py-2">Capacidad</th>
+          <th class="border px-3 py-2">Tipo (componente)</th>
+          <th class="border px-3 py-2">Generación</th>
+          <th class="border px-3 py-2">Número de serie</th>
+          <th class="border px-3 py-2">Bien Nacional</th>
+          @can('usuario crear')
+            <th class="border px-3 py-2">Acciones</th>
+          @endcan
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($pcItems as $item)
+          <tr class="hover:bg-gray-50">
+            <td class="border px-3 py-2">{{ $item->item_type }}</td>
+            <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->capacity ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->type ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->generation ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->serial_number ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->national_asset_tag ?? '-' }}</td>
+            @can('usuario crear')
+              <td class="border px-3 py-2">
+                <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
+                  @csrf
+                  <input type="hidden" name="disabled_reason" value="">
+                  <button class="text-yellow-600 mr-2">Desincorporar</button>
+                </form>
+                <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
+                  @csrf
+                  @method('DELETE')
+                  <button class="text-red-600">Eliminar</button>
+                </form>
+              </td>
+            @endcan
+          </tr>
+        @empty
+          <tr><td colspan="9" class="text-center py-3 text-gray-500">Sin resultados</td></tr>
+        @endforelse
+      </tbody>
     </table>
 
-    <div class="mt-4">
-        {{ $inventories->links() }}
+    {{-- Tabla Consumibles --}}
+    <h3 class="text-lg font-semibold mt-8 mb-2">Consumibles</h3>
+    <table class="table-auto border-collapse border border-gray-300 w-full">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2">Marca</th>
+          <th class="border px-3 py-2">Modelo</th>
+          <th class="border px-3 py-2">Color</th>
+          <th class="border px-3 py-2">Modelo impresora</th>
+          <th class="border px-3 py-2">Material / Categoría</th>
+          @can('usuario crear')
+            <th class="border px-3 py-2">Acciones</th>
+          @endcan
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($consumableItems as $item)
+          <tr class="hover:bg-gray-50">
+            <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->color ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->printer_model ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->material_type ?? '-' }}</td>
+            @can('usuario crear')
+              <td class="border px-3 py-2">
+                <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
+                  @csrf
+                  <input type="hidden" name="disabled_reason" value="">
+                  <button class="text-yellow-600 mr-2">Desincorporar</button>
+                </form>
+                <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
+                  @csrf
+                  @method('DELETE')
+                  <button class="text-red-600">Eliminar</button>
+                </form>
+              </td>
+            @endcan
+          </tr>
+        @empty
+          <tr><td colspan="6" class="text-center py-3 text-gray-500">Sin resultados</td></tr>
+        @endforelse
+      </tbody>
+    </table>
+
+    {{-- Tabla Herramientas --}}
+    <h3 class="text-lg font-semibold mt-8 mb-2">Herramientas</h3>
+    <table class="table-auto border-collapse border border-gray-300 w-full">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2">Marca</th>
+          <th class="border px-3 py-2">Modelo</th>
+          <th class="border px-3 py-2">Nombre herramienta</th>
+          <th class="border px-3 py-2">Tipo herramienta</th>
+          @can('usuario crear')
+            <th class="border px-3 py-2">Acciones</th>
+          @endcan
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($toolItems as $item)
+          <tr class="hover:bg-gray-50">
+            <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->tool_name ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->tool_type ?? '-' }}</td>
+            @can('usuario crear')
+              <td class="border px-3 py-2">
+                <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
+                  @csrf
+                  <input type="hidden" name="disabled_reason" value="">
+                  <button class="text-yellow-600 mr-2">Desincorporar</button>
+                </form>
+                <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
+                  @csrf
+                  @method('DELETE')
+                  <button class="text-red-600">Eliminar</button>
+                </form>
+              </td>
+            @endcan
+          </tr>
+        @empty
+          <tr><td colspan="5" class="text-center py-3 text-gray-500">Sin resultados</td></tr>
+        @endforelse
+      </tbody>
+    </table>
+
+    <div class="mt-6">
+      {{ $inventories->links() }}
     </div>
 </div>
 @endsection

@@ -11,63 +11,30 @@ class InventoryController extends Controller
     // Listado / Dashboard
     public function index(Request $request)
     {
-        // Parámetros de filtro
-        $q = $request->input('q');
-        $itemType = $request->input('item_type');
-        $brand = $request->input('brand');
-        $model = $request->input('model');
-        $serial = $request->input('serial_number');
-        $natAsset = $request->input('national_asset_tag');
-        $from = $request->input('from');
-        $to = $request->input('to');
-        $sort = $request->input('sort', 'id_desc');
+        $search = $request->query('search');
 
         $inventories = Inventory::query()
-            // Excluir desincorporados
-            ->where(function ($qv) {
-                $qv->whereNull('is_disabled')->orWhere('is_disabled', false);
+            ->where(function ($q) {
+                $q->whereNull('is_disabled')->orWhere('is_disabled', false);
             })
-            // Búsqueda de texto libre
-            ->when($q, function ($query, $q) {
-                $query->where(function ($w) use ($q) {
-                    $w->where('brand', 'like', "%{$q}%")
-                      ->orWhere('model', 'like', "%{$q}%")
-                      ->orWhere('serial_number', 'like', "%{$q}%")
-                      ->orWhere('national_asset_tag', 'like', "%{$q}%")
-                      ->orWhere('item_type', 'like', "%{$q}%")
-                      ->orWhere('printer_model', 'like', "%{$q}%");
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('brand', 'like', "%{$search}%")
+                      ->orWhere('model', 'like', "%{$search}%")
+                      ->orWhere('serial_number', 'like', "%{$search}%")
+                      ->orWhere('national_asset_tag', 'like', "%{$search}%")
+                      ->orWhere('item_type', 'like', "%{$search}%")
+                      ->orWhere('printer_model', 'like', "%{$search}%")
+                      ->orWhere('capacity', 'like', "%{$search}%")
+                      ->orWhere('generation', 'like', "%{$search}%")
+                      ->orWhere('type', 'like', "%{$search}%");
                 });
             })
-            // Filtros dedicados
-            ->when($itemType, fn($q2) => $q2->where('item_type', $itemType))
-            ->when($brand, fn($q2) => $q2->where('brand', 'like', "%{$brand}%"))
-            ->when($model, fn($q2) => $q2->where('model', 'like', "%{$model}%"))
-            ->when($serial, fn($q2) => $q2->where('serial_number', 'like', "%{$serial}%"))
-            ->when($natAsset, fn($q2) => $q2->where('national_asset_tag', 'like', "%{$natAsset}%"))
-            // Rango de fechas (created_at)
-            ->when($from, fn($q2) => $q2->whereDate('created_at', '>=', $from))
-            ->when($to, fn($q2) => $q2->whereDate('created_at', '<=', $to));
+            ->orderBy('id', 'desc')
+            ->paginate(15)
+            ->withQueryString();
 
-        // Ordenamiento
-        switch ($sort) {
-            case 'brand_asc':
-                $inventories->orderBy('brand', 'asc');
-                break;
-            case 'model_asc':
-                $inventories->orderBy('model', 'asc');
-                break;
-            case 'created_at_desc':
-                $inventories->orderBy('created_at', 'desc');
-                break;
-            case 'id_desc':
-            default:
-                $inventories->orderBy('id', 'desc');
-                break;
-        }
-
-        $inventories = $inventories->paginate(15)->withQueryString();
-
-        return view('inventory.index', compact('inventories'));
+        return view('inventory.index', compact('inventories', 'search'));
     }
 
     // Listado de artículos deshabilitados
