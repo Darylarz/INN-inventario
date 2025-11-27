@@ -193,12 +193,10 @@ class InventoryController extends Controller
 
     return redirect()->route('inventory.index')->with('success', 'Artículo actualizado correctamente.');
 }
-
-
     // Eliminar artículo
     public function destroy(Inventory $inventory)
     {
         $inventory->delete();
-        return redirect()->route('inventory.index')->with('success', 'Artículo eliminado correctamente.');
+        return redirect()->route('inventory.disabled')->with('success', 'Artículo eliminado correctamente.');
     }
 }

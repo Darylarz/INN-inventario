@@ -70,11 +70,7 @@
                   <input type="hidden" name="disabled_reason" value="">
                   <button class="text-yellow-600 mr-2">Desincorporar</button>
                 </form>
-                <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
-                  @csrf
-                  @method('DELETE')
-                  <button class="text-red-600">Eliminar</button>
-                </form>
+                
               </td>
             @endcan
           </tr>
@@ -115,11 +111,7 @@
                   <input type="hidden" name="disabled_reason" value="">
                   <button class="text-yellow-600 mr-2">Desincorporar</button>
                 </form>
-                <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
-                  @csrf
-                  @method('DELETE')
-                  <button class="text-red-600">Eliminar</button>
-                </form>
+                
               </td>
             @endcan
           </tr>
@@ -158,11 +150,7 @@
                   <input type="hidden" name="disabled_reason" value="">
                   <button class="text-yellow-600 mr-2">Desincorporar</button>
                 </form>
-                <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
-                  @csrf
-                  @method('DELETE')
-                  <button class="text-red-600">Eliminar</button>
-                </form>
+                
               </td>
             @endcan
           </tr>

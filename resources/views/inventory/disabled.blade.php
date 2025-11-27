@@ -55,8 +55,14 @@
                                 @csrf
                                 <button class="text-green-600">Reincorporar</button>
                             </form>
+                            <form action="{{ route('inventory.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('¿Eliminar artículo?')">
+                  @csrf
+                  @method('DELETE')
+                  <button class="text-red-600">Eliminar</button>
+                </form>
                         </td>
                     @endcan
+                    
                 </tr>
             @empty
                 <tr>
