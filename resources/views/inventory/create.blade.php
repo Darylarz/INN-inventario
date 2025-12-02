@@ -87,22 +87,22 @@
             </div>
 
             <div class="mb-3">
-                <label>Modelo impresora</label>
+                <label>Modelo de impresora (si aplica)</label>
                 <input type="text" name="printer_model" class="w-full px-3 py-2 border rounded" value="{{ old('printer_model') }}">
             </div>
 
             <div class="mb-3">
-                <label>Material / Categoría</label>
+                <label>Material / Categoría (si aplica)</label>
                 <input type="text" name="material_type" class="w-full px-3 py-2 border rounded" value="{{ old('material_type') }}">
             </div>
 
             <div class="mb-3">
-                <label>Número de serie</label>
+                <label>Número de serie (si aplica)</label>
                 <input type="text" name="serial_number" class="w-full px-3 py-2 border rounded" value="{{ old('serial_number') }}">
             </div>
 
             <div class="mb-3">
-                <label>Bien nacional</label>
+                <label>Bien nacional (si aplica)</label>
                 <input type="text" name="national_asset_tag" class="w-full px-3 py-2 border rounded" value="{{ old('national_asset_tag') }}">
             </div>
         </div>
@@ -116,17 +116,17 @@
             </div>
 
             <div class="mb-3">
-                <label>Tipo herramienta</label>
+                <label>Tipo herramienta (si aplica)</label>
                 <input type="text" name="tool_type" class="w-full px-3 py-2 border rounded" value="{{ old('tool_type') }}">
             </div>
 
             <div class="mb-3">
-                <label>Número de serie</label>
+                <label>Número de serie (si aplica)</label>
                 <input type="text" name="serial_number" class="w-full px-3 py-2 border rounded" value="{{ old('serial_number') }}">
             </div>
 
             <div class="mb-3">
-                <label>Bien nacional</label>
+                <label>Bien nacional (si aplica)</label>
                 <input type="text" name="national_asset_tag" class="w-full px-3 py-2 border rounded" value="{{ old('national_asset_tag') }}">
             </div>
         </div>

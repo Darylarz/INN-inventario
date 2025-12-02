@@ -19,37 +19,37 @@
         </div>
 
         <div>
-            <label>Marca</label>
+            <label>Marca(si aplica)</label>
             <input type="text" name="brand" class="w-full px-3 py-2 border rounded" value="{{ $inventory->brand }}">
         </div>
 
         <div>
-            <label>Modelo</label>
+            <label>Modelo(si aplica)</label>
             <input type="text" name="model" class="w-full px-3 py-2 border rounded" value="{{ $inventory->model }}">
         </div>
 
         <div>
-            <label>Capacidad</label>
+            <label>Capacidad(si aplica)</label>
             <input type="text" name="capacity" class="w-full px-3 py-2 border rounded" value="{{ $inventory->capacity }}">
         </div>
 
         <div>
-            <label>Tipo</label>
+            <label>Tipo(si aplica)</label>
             <input type="text" name="type" class="w-full px-3 py-2 border rounded" value="{{ $inventory->type }}">
         </div>
 
         <div>
-            <label>Generación</label>
+            <label>Generación(si aplica)</label>
             <input type="text" name="generation" class="w-full px-3 py-2 border rounded" value="{{ $inventory->generation }}">
         </div>
 
         <div>
-            <label>Número de serie</label>
+            <label>Número de serie(si aplica)</label>
             <input type="text" name="serial_number" class="w-full px-3 py-2 border rounded" value="{{ $inventory->serial_number }}">
         </div>
 
         <div>
-            <label>Bien nacional</label>
+            <label>Bien nacional(si aplica)</label>
             <input type="text" name="national_asset_tag" class="w-full px-3 py-2 border rounded" value="{{ $inventory->national_asset_tag }}">
         </div>
 

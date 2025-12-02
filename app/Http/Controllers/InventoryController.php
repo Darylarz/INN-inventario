@@ -156,8 +156,8 @@ class InventoryController extends Controller
     // Formulario de edición
     public function edit(Inventory $inventory)
     {
-        $inventoryTypes = InventoryType::all();
-        return view('inventory.edit', compact('inventory', 'inventoryTypes'));
+        $tipoInventario = TipoInventario::all();
+        return view('inventory.edit', compact('inventory', 'tipoInventario'));
     }
 
     // Actualizar artículo
