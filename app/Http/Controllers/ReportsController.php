@@ -40,12 +40,6 @@ class ReportsController extends Controller
         $status = $request->input('status', 'all');
         // Normalizar item_type a canónico
         $rawType = $request->input('item_type');
-        $aliases = [
-            'herramienta' => 'Tool', 'herramientas' => 'Tool', 'tool' => 'Tool', 'tools' => 'Tool',
-            'consumible' => 'Consumable', 'consumibles' => 'Consumable', 'consumable' => 'Consumable', 'consumables' => 'Consumable',
-            'pc' => 'PC', 'hardware' => 'Hardware',
-        ];
-        $itemType = $rawType ? ($aliases[mb_strtolower($rawType)] ?? $rawType) : null;
 
         $from = $request->input('from');
         $to = $request->input('to');

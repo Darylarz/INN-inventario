@@ -29,8 +29,8 @@
       // Obtener la colección de la página actual para agrupar por tipo sin afectar la paginación
       $pageItems = $inventories->getCollection();
       $pcItems = $pageItems->filter(fn($i) => in_array($i->item_type, ['PC','Hardware']));
-      $consumableItems = $pageItems->filter(fn($i) => $i->item_type === 'Consumable');
-      $toolItems = $pageItems->filter(fn($i) => $i->item_type === 'Tool');
+      $consumableItems = $pageItems->filter(fn($i) => $i->item_type === 'Consumible');
+      $toolItems = $pageItems->filter(fn($i) => $i->item_type === 'Herramienta');
     @endphp
 
     {{-- Tabla PC / Hardware --}}
