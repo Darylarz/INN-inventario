@@ -12,9 +12,9 @@
             <select id="item_type" name="item_type" class="w-full px-3 py-2 border rounded">
                 <option value="">-- seleccionar --</option>
                 @php
-                    $labels = ['PC'=>'PC','Hardware'=>'Hardware','Consumable'=>'Consumible','Tool'=>'Herramienta'];
+                    $labels = ['PC'=>'PC','Hardware'=>'Hardware','Consumible'=>'Consumible','Herramienta'=>'Herramienta'];
                 @endphp
-                @foreach($inventoryTypes as $type)
+                @foreach($tipoInventario as $type)
                     <option value="{{ $type->name }}" {{ old('item_type') == $type->name ? 'selected' : '' }}>
                         {{ $labels[$type->name] ?? $type->name }}
                     </option>
@@ -28,13 +28,13 @@
 
         {{-- Campos comunes (marca, modelo) --}}
         <div id="field-brand" class="mb-3" style="display: none;">
-            <label>Marca</label>
+            <label>Marca (si aplica)</label>
             <input type="text" name="brand" class="w-full px-3 py-2 border rounded" value="{{ old('brand') }}">
             @error('brand') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
         </div>
 
         <div id="field-model" class="mb-3" style="display: none;">
-            <label>Modelo</label>
+            <label>Modelo (si aplica)</label>
             <input type="text" name="model" class="w-full px-3 py-2 border rounded" value="{{ old('model') }}">
             @error('model') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
         </div>
@@ -42,33 +42,45 @@
         {{-- PC only --}}
         <div id="pc-fields" style="display:none;">
             <div class="mb-3">
-                <label>Capacidad</label>
+                <label>Nombre</label>
+                <input type="text" name="name" class="w-full px-3 py-2 border rounded" value="{{ old('name') }}">
+                @error('name') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="mb-3">
+                <label>Capacidad (si aplica)</label>
                 <input type="text" name="capacity" class="w-full px-3 py-2 border rounded" value="{{ old('capacity') }}">
             </div>
 
             <div class="mb-3">
-                <label>Tipo</label>
+                <label>Tipo (si aplica)</label>
                 <input type="text" name="type" class="w-full px-3 py-2 border rounded" value="{{ old('type') }}">
             </div>
 
             <div class="mb-3">
-                <label>Generación</label>
+                <label>Generación (si aplica)</label>
                 <input type="text" name="generation" class="w-full px-3 py-2 border rounded" value="{{ old('generation') }}">
             </div>
 
             <div class="mb-3">
-                <label>Número de serie</label>
+                <label>Número de serie (si aplica)</label>
                 <input type="text" name="serial_number" class="w-full px-3 py-2 border rounded" value="{{ old('serial_number') }}">
             </div>
 
             <div class="mb-3">
-                <label>Bien nacional</label>
+                <label>Bien nacional (si aplica)</label>
                 <input type="text" name="national_asset_tag" class="w-full px-3 py-2 border rounded" value="{{ old('national_asset_tag') }}">
             </div>
         </div>
 
-        {{-- Consumable only --}}
-        <div id="consumable-fields" style="display:none;">
+        {{-- Consumible only --}}
+        <div id="consumible-fields" style="display:none;">
+            <div class="mb-3">
+                <label>Nombre</label>
+                <input type="text" name="name" class="w-full px-3 py-2 border rounded" value="{{ old('name') }}">
+                @error('name') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+            </div>
+
             <div class="mb-3">
                 <label>Color</label>
                 <input type="text" name="color" class="w-full px-3 py-2 border rounded" value="{{ old('color') }}">
@@ -83,18 +95,39 @@
                 <label>Material / Categoría</label>
                 <input type="text" name="material_type" class="w-full px-3 py-2 border rounded" value="{{ old('material_type') }}">
             </div>
+
+            <div class="mb-3">
+                <label>Número de serie</label>
+                <input type="text" name="serial_number" class="w-full px-3 py-2 border rounded" value="{{ old('serial_number') }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Bien nacional</label>
+                <input type="text" name="national_asset_tag" class="w-full px-3 py-2 border rounded" value="{{ old('national_asset_tag') }}">
+            </div>
         </div>
 
         {{-- Tool only --}}
-        <div id="tool-fields" style="display:none;">
+        <div id="herramienta-fields" style="display:none;">
+
             <div class="mb-3">
-                <label>Nombre herramienta</label>
+                <label>Nombre</label>
                 <input type="text" name="tool_name" class="w-full px-3 py-2 border rounded" value="{{ old('tool_name') }}">
             </div>
 
             <div class="mb-3">
                 <label>Tipo herramienta</label>
                 <input type="text" name="tool_type" class="w-full px-3 py-2 border rounded" value="{{ old('tool_type') }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Número de serie</label>
+                <input type="text" name="serial_number" class="w-full px-3 py-2 border rounded" value="{{ old('serial_number') }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Bien nacional</label>
+                <input type="text" name="national_asset_tag" class="w-full px-3 py-2 border rounded" value="{{ old('national_asset_tag') }}">
             </div>
         </div>
 
@@ -111,8 +144,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const brand = document.getElementById('field-brand');
     const model = document.getElementById('field-model');
     const pcFields = document.getElementById('pc-fields');
-    const consumableFields = document.getElementById('consumable-fields');
-    const toolFields = document.getElementById('tool-fields');
+    const consumibleFields = document.getElementById('consumible-fields');
+    const herramientaFields = document.getElementById('herramienta-fields');
 
     function updateFields() {
         const v = (sel.value || '').toLowerCase();
@@ -120,8 +153,8 @@ document.addEventListener('DOMContentLoaded', function () {
         brand.style.display = 'none';
         model.style.display = 'none';
         pcFields.style.display = 'none';
-        consumableFields.style.display = 'none';
-        toolFields.style.display = 'none';
+        consumibleFields.style.display = 'none';
+        herramientaFields.style.display = 'none';
 
         if (!v) return;
 
@@ -131,10 +164,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (v === 'pc' || v === 'hardware') {
             pcFields.style.display = '';
-        } else if (v === 'consumable' || v === 'consumible') {
-            consumableFields.style.display = '';
-        } else if (v === 'tool' || v === 'herramienta') {
-            toolFields.style.display = '';
+        } else if (v === 'consumible' || v === 'consumible') {
+            consumibleFields.style.display = '';
+        } else if (v === 'herramienta' || v === 'herramienta') {
+            herramientaFields.style.display = '';
         }
     }
 

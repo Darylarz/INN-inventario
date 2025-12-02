@@ -16,7 +16,7 @@ return new class extends Migration
     $table->string('tipo');
     $table->string('generacion')->nullable();
     $table->integer('capacidad_watt')->nullable();
-    $table->string('serial');
+    $table->string('numero_serie');
     $table->string('bien_nacional');
     $table->timestamps();
 });
@@ -25,6 +25,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('consumables');
+        Schema::dropIfExists('hardware_items');
     }
 };

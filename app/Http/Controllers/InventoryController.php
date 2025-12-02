@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inventory;
-use App\Models\InventoryType;
+use App\Models\TipoInventario;
 
 class InventoryController extends Controller
 {
@@ -105,15 +105,15 @@ class InventoryController extends Controller
     // Mostrar formulario de creación
     public function create()
     {
-        $inventoryTypes = InventoryType::all();
-        return view('inventory.create', compact('inventoryTypes'));
+        $tipoInventario = TipoInventario::all();
+        return view('inventory.create', compact('tipoInventario'));
     }
 
     // Guardar nuevo artículo
     public function store(Request $request)
     {
         $request->validate([
-            'item_type' => 'required|exists:inventory_types,name',
+            'item_type' => 'required|exists:tipos_inventario,name',
             'brand' => 'nullable|string|max:255',
             'model' => 'nullable|string|max:255',
             'capacity' => 'nullable|string|max:255',

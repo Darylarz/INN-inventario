@@ -3,16 +3,16 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\InventoryType;
+use App\Models\TipoInventario;
 
 class InventoryTypeSeeder extends Seeder
 {
     public function run()
     {
-        $types = ['PC', 'Consumable', 'Tool'];
+        $types = ['PC', 'Consumible', 'Herramienta'];
 
         foreach ($types as $type) {
-            InventoryType::updateOrCreate(['name' => $type]);
+            TipoInventario::updateOrCreate(['name' => $type]);
         }
     }
 }

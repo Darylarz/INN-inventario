@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('consumables', function (Blueprint $table) {
+        Schema::create('consumibles', function (Blueprint $table) {
             $table->id();
             $table->string('categoria'); // toner o material impresora
             $table->string('marca')->nullable();
@@ -17,12 +17,16 @@ return new class extends Migration
             $table->string('color')->nullable();
             $table->string('tipo_material')->nullable();
             $table->string('impresora_destino')->nullable();
+            $table->string('bien_nacional')->nullable();
+            $table->string('estado')->nullable();
+            $table->string('observaciones')->nullable();
+            $table->string('numero_serie')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('consumables');
+        Schema::dropIfExists('consumibles');
     }
 };

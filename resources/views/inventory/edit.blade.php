@@ -12,7 +12,7 @@
             <label>Tipo de artículo</label>
             <select name="item_type" class="w-full px-3 py-2 border rounded">
                 <option value="">-- seleccionar --</option>
-                @foreach($inventoryTypes as $type)
+                @foreach($tipoInventario as $type)
                     <option value="{{ $type->name }}" {{ $inventory->item_type == $type->name ? 'selected' : '' }}>{{ $type->name }}</option>
                 @endforeach
             </select>

@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
     
-Schema::create('tools', function (Blueprint $table) {
+Schema::create('herramientas', function (Blueprint $table) {
     $table->id();
     $table->string('nombre');
     $table->string('tipo');  // manual, eléctrica, medición, etc.
     $table->integer('cantidad')->default(1);
     $table->string('bien_nacional')->nullable();
+    $table->string('numero_serie')->nullable();
+    $table->string('estado')->nullable();
+    $table->string('observaciones')->nullable();
     $table->timestamps();
 });
 
