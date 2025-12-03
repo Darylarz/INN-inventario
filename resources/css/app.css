@@ -2,5 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
-/* estilos extras */
-body { /* opcional: asegurar fondo */ }
+/* Sidebar styles */
+.sidebar {
+    transition: all 0.3s;
+}
+
+.sidebar.collapsed {
+    margin-left: -16rem;
+}
+
+/* Main content styles */
+.main-content {
+    transition: margin-left 0.3s;
+    margin-left: 16rem;
+}
+
+.main-content.expanded {
+    margin-left: 0;
+}
+
+/* For mobile menu */
+@media (max-width: 768px) {
+    .sidebar {
+        margin-left: -16rem;
+    }
+    .sidebar.active {
+        margin-left: 0;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+/* Base styles */
+body {
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+.dark body {
+    background-color: #111827;
+    color: #f9fafb;
+}
+
+/* Main content spacing */
+main {
+    padding-top: 4rem;
+    transition: all 0.3s;
+}
+
+/* Layout adjustments */
+.layout-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    position: relative;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+}
