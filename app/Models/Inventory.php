@@ -24,6 +24,7 @@ class Inventory extends Model
         'toner_color',
         'printer_model',
         'material_type',
+        'quantity',
         'is_disabled',
         'disabled_at',
         'disabled_reason',
@@ -32,5 +33,6 @@ class Inventory extends Model
     protected $casts = [
         'is_disabled' => 'boolean',
         'disabled_at' => 'datetime',
+        'quantity' => 'integer',
     ];
 }

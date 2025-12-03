@@ -18,6 +18,7 @@ use App\Http\Controllers\ReportsController;
 
 // raíz -> redirigir al dashboard (Blade)
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InventoryMovementController;
 
 
 
@@ -104,9 +105,16 @@ Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard
 
         Route::get('/create', [InventoryController::class, 'create'])->name('create');
         Route::post('/store', [InventoryController::class, 'store'])->name('store');
+        Route::get('/{inventory}', [InventoryController::class, 'show'])->name('show');
         Route::get('/{inventory}/edit', [InventoryController::class, 'edit'])->name('edit');
         Route::put('/{inventory}', [InventoryController::class, 'update'])->name('update');
         Route::delete('/{inventory}', [InventoryController::class, 'destroy'])->name('destroy');
+
+        // Entradas y salidas
+        Route::get('/{inventory}/entrada', [InventoryMovementController::class, 'createIn'])->name('entrada.create');
+        Route::post('/{inventory}/entrada', [InventoryMovementController::class, 'storeIn'])->name('entrada.store');
+        Route::get('/{inventory}/salida', [InventoryMovementController::class, 'createOut'])->name('salida.create');
+        Route::post('/{inventory}/salida', [InventoryMovementController::class, 'storeOut'])->name('salida.store');
     });
 
     // Reports

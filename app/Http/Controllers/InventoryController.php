@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inventory;
 use App\Models\TipoInventario;
+use App\Models\InventoryMovement;
 
 class InventoryController extends Controller
 {
@@ -60,6 +61,15 @@ class InventoryController extends Controller
             ->withQueryString();
 
         return view('inventory.disabled', compact('inventories', 'search'));
+    }
+
+    // Detalle de artículo
+    public function show(Inventory $inventory)
+    {
+        $movements = InventoryMovement::where('inventory_id', $inventory->id)
+            ->orderByDesc('created_at')
+            ->paginate(10);
+        return view('inventory.show', compact('inventory', 'movements'));
     }
 
     public function disable(Request $request, Inventory $inventory)

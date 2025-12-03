@@ -34,7 +34,14 @@
               </div>
               <ul class="py-1" aria-labelledby="user-menu-button">
                 @can('usuario crear')
-                  <li><a href="{{ route('inventory.index') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Inventario</a></li>
+                  <li>
+                    <a href="{{ route('inventory.index') }}" class="flex items-center justify-between py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                      <span>Inventario</span>
+                      <span class="ml-3 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs font-semibold px-2 py-0.5">
+                        {{ $inventoryCount ?? 0 }}
+                      </span>
+                    </a>
+                  </li>
                 @endcan
                 @can('articulo agregar')
                   <li><a href="{{ route('reports.index') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Reportes</a></li>
