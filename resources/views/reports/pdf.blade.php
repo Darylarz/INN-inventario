@@ -49,6 +49,8 @@
                 <th>Modelo</th>
                 <th>Serie</th>
                 <th>Bien Nal.</th>
+                <th>Unidades</th>
+                <th>Ubicación (última salida)</th>
                 <th>Estado</th>
                 <th>F. Desinc.</th>
             </tr>
@@ -62,6 +64,8 @@
                     <td>{{ $it->model }}</td>
                     <td>{{ $it->serial_number }}</td>
                     <td>{{ $it->national_asset_tag }}</td>
+                    <td class="text-right">{{ (int)($it->quantity ?? 0) }}</td>
+                    <td>{{ ($locByInv[$it->id] ?? null) ?: '-' }}</td>
                     <td>{{ $it->is_disabled ? 'Desincorporado' : 'Activo' }}</td>
                     <td>{{ optional($it->disabled_at)->format('Y-m-d H:i') }}</td>
                 </tr>

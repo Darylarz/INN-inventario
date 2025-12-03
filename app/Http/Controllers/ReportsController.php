@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Inventory;
+use App\Models\InventoryMovement;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportsController extends Controller
@@ -68,6 +69,20 @@ class ReportsController extends Controller
 
         $items = $query->orderBy('id', 'desc')->get();
 
+        // Obtener última ubicación (última salida) por inventario
+        $locByInv = collect();
+        if ($items->isNotEmpty()) {
+            $latestOuts = InventoryMovement::with('location')
+                ->whereIn('inventory_id', $items->pluck('id'))
+                ->where('type', 'out')
+                ->orderByDesc('created_at')
+                ->get()
+                ->unique('inventory_id');
+            $locByInv = $latestOuts->mapWithKeys(function ($mov) {
+                return [$mov->inventory_id => optional($mov->location)->name];
+            });
+        }
+
         $pdf = Pdf::loadView('reports.pdf', [
             'items' => $items,
             'status' => $status,
@@ -75,6 +90,7 @@ class ReportsController extends Controller
             'from' => $from,
             'to' => $to,
             'generatedAt' => now(),
+            'locByInv' => $locByInv,
         ])->setPaper('a4', 'portrait');
 
         return $pdf->stream('reporte-inventario.pdf');
