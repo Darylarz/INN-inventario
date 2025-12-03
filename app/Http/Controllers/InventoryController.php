@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Inventory;
 use App\Models\TipoInventario;
 use App\Models\InventoryMovement;
@@ -35,7 +36,23 @@ class InventoryController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        return view('inventory.index', compact('inventories', 'search'));
+        // Resumen global: total de unidades y por categoría
+        try {
+            $baseQuery = Inventory::query()
+                ->where(function ($q) {
+                    $q->whereNull('is_disabled')->orWhere('is_disabled', false);
+                });
+            $totalUnits = (int) $baseQuery->clone()->sum('quantity');
+            $totalsByType = $baseQuery->clone()
+                ->select('item_type', DB::raw('SUM(quantity) as total'))
+                ->groupBy('item_type')
+                ->pluck('total', 'item_type');
+        } catch (\Throwable $e) {
+            $totalUnits = 0;
+            $totalsByType = collect();
+        }
+
+        return view('inventory.index', compact('inventories', 'search', 'totalUnits', 'totalsByType'));
     }
 
     // Listado de artículos deshabilitados

@@ -4,6 +4,29 @@
 <div class="container mx-auto p-6">
     <h2 class="text-xl font-semibold mb-4">Inventario</h2>
 
+    {{-- Resumen global de unidades --}}
+    @isset($totalUnits)
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+        <div class="text-sm text-gray-600 dark:text-gray-300">Unidades totales</div>
+        <div class="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-1">{{ number_format((int)($totalUnits ?? 0)) }}</div>
+      </div>
+      <div class="md:col-span-2 bg-white dark:bg-gray-800 rounded shadow p-4">
+        <div class="text-sm text-gray-600 dark:text-gray-300 mb-2">Unidades por categoría</div>
+        <div class="flex flex-wrap gap-2">
+          @forelse(($totalsByType ?? collect()) as $type => $sum)
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200 text-sm">
+              <span class="font-medium">{{ $type ?: 'Sin categoría' }}</span>
+              <span class="inline-flex items-center justify-center rounded bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100 text-xs font-semibold px-2 py-0.5">{{ (int)$sum }}</span>
+            </span>
+          @empty
+            <span class="text-sm text-gray-500 dark:text-gray-400">Sin datos de categorías</span>
+          @endforelse
+        </div>
+      </div>
+    </div>
+    @endisset
+
     @if(session('success'))
         <div class="text-green-600 mb-3">{{ session('success') }}</div>
     @endif
