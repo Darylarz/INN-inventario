@@ -40,6 +40,7 @@
             <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipo</th>
             <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cantidad</th>
             <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Usuario</th>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ubicación</th>
             <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nota</th>
           </tr>
         </thead>
@@ -56,6 +57,7 @@
               </td>
               <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-200">{{ $m->quantity }}</td>
               <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-200">{{ optional($m->user)->name ?? '-' }}</td>
+              <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-200">{{ optional($m->location)->name ?? '-' }}</td>
               <td class="px-4 py-2 text-sm text-gray-700 dark:text-gray-200">{{ $m->note ?? '-' }}</td>
             </tr>
           @empty

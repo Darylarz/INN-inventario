@@ -20,6 +20,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryMovementController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LocationController;
 
 
 
@@ -126,6 +127,16 @@ Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard
         Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
         Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
         Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+    });
+
+    // Ubicaciones
+    Route::prefix('locations')->name('locations.')->middleware('can:usuario crear')->group(function () {
+        Route::get('/', [LocationController::class, 'index'])->name('index');
+        Route::get('/create', [LocationController::class, 'create'])->name('create');
+        Route::post('/', [LocationController::class, 'store'])->name('store');
+        Route::get('/{location}/edit', [LocationController::class, 'edit'])->name('edit');
+        Route::put('/{location}', [LocationController::class, 'update'])->name('update');
+        Route::delete('/{location}', [LocationController::class, 'destroy'])->name('destroy');
     });
 
     // Reports

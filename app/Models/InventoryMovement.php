@@ -10,7 +10,7 @@ class InventoryMovement extends Model
     use HasFactory;
 
     protected $fillable = [
-        'inventory_id', 'type', 'quantity', 'user_id', 'note',
+        'inventory_id', 'type', 'quantity', 'user_id', 'note', 'location_id',
     ];
 
     public function inventory()
@@ -21,5 +21,10 @@ class InventoryMovement extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
     }
 }

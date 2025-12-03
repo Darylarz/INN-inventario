@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use App\Models\InventoryMovement;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -36,7 +37,8 @@ class InventoryMovementController extends Controller
 
     public function createOut(Inventory $inventory)
     {
-        return view('inventory.salida', compact('inventory'));
+        $locations = Location::orderBy('name')->get();
+        return view('inventory.salida', compact('inventory', 'locations'));
     }
 
     public function storeOut(Request $request, Inventory $inventory)
@@ -59,6 +61,7 @@ class InventoryMovementController extends Controller
                 'quantity' => $data['quantity'],
                 'user_id' => auth()->id(),
                 'note' => $data['note'] ?? null,
+                'location_id' => $data['location_id'],
             ]);
         });
 

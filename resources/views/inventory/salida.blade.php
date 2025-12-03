@@ -21,6 +21,19 @@
     </div>
 
     <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Ubicación de destino</label>
+      <select name="location_id" required class="mt-1 w-full rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100">
+        <option value="" disabled {{ old('location_id') ? '' : 'selected' }}>Seleccione una ubicación</option>
+        @foreach(($locations ?? []) as $loc)
+          <option value="{{ $loc->id }}" {{ (string)old('location_id') === (string)$loc->id ? 'selected' : '' }}>{{ $loc->name }}{{ $loc->code ? ' — '.$loc->code : '' }}</option>
+        @endforeach
+      </select>
+      @error('location_id')
+        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+      @enderror
+    </div>
+
+    <div>
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nota (opcional)</label>
       <input type="text" name="note" maxlength="255" class="mt-1 w-full rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100" value="{{ old('note') }}">
       @error('note')
