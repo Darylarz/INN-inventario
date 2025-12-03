@@ -19,6 +19,7 @@ use App\Http\Controllers\ReportsController;
 // raíz -> redirigir al dashboard (Blade)
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryMovementController;
+use App\Http\Controllers\CategoryController;
 
 
 
@@ -115,6 +116,16 @@ Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard
         Route::post('/{inventory}/entrada', [InventoryMovementController::class, 'storeIn'])->name('entrada.store');
         Route::get('/{inventory}/salida', [InventoryMovementController::class, 'createOut'])->name('salida.create');
         Route::post('/{inventory}/salida', [InventoryMovementController::class, 'storeOut'])->name('salida.store');
+    });
+
+    // Categorías (Tipos de inventario)
+    Route::prefix('categories')->name('categories.')->middleware('can:usuario crear')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::get('/create', [CategoryController::class, 'create'])->name('create');
+        Route::post('/', [CategoryController::class, 'store'])->name('store');
+        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
     });
 
     // Reports
