@@ -31,6 +31,25 @@
         <div class="text-green-600 mb-3">{{ session('success') }}</div>
     @endif
 
+    @if(($lowStockItems ?? collect())->count())
+      <div class="mb-4 rounded border border-yellow-300 bg-yellow-50 text-yellow-800 p-4">
+        <div class="font-semibold mb-2">Alerta: stock bajo en {{ ($lowStockItems ?? collect())->count() }} artículo(s)</div>
+        <ul class="list-disc pl-5 space-y-1">
+          @foreach($lowStockItems as $i)
+            <li>
+              {{ $i->item_type ?? 'Artículo' }} —
+              {{ trim(($i->brand ?? '').' '.($i->model ?? '')) }}
+              {{ $i->tool_name ? ' · '.$i->tool_name : '' }}
+              {{ $i->printer_model ? ' · '.$i->printer_model : '' }}
+              {{ $i->material_type ? ' · '.$i->material_type : '' }}
+              ({{ (int)($i->quantity ?? 0) }})
+              <a href="{{ route('inventory.show', $i->id) }}" class="underline">ver</a>
+            </li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+
     <div class="space-y-3 mb-4">
       <div class="flex items-center gap-3">
         @can('articulo agregar')

@@ -42,17 +42,27 @@ class InventoryController extends Controller
                 ->where(function ($q) {
                     $q->whereNull('is_disabled')->orWhere('is_disabled', false);
                 });
-            $totalUnits = (int) $baseQuery->clone()->sum('quantity');
-            $totalsByType = $baseQuery->clone()
-                ->select('item_type', DB::raw('SUM(quantity) as total'))
-                ->groupBy('item_type')
+            $totalUnits = (int) (clone $baseQuery)->sum('quantity');
+            $totalsByType = (clone $baseQuery)
+                ->select(DB::raw("COALESCE(item_type, 'Sin categoría') as item_type"), DB::raw('SUM(quantity) as total'))
+                ->groupBy(DB::raw("COALESCE(item_type, 'Sin categoría')"))
                 ->pluck('total', 'item_type');
+            // Alerta de stock bajo
+            $threshold = (int) (env('LOW_STOCK_THRESHOLD', 5));
+            $lowStockItems = (clone $baseQuery)
+                ->whereNotNull('quantity')
+                ->where('quantity', '<=', $threshold)
+                ->orderBy('quantity')
+                ->orderBy('id')
+                ->limit(50)
+                ->get(['id','item_type','brand','model','tool_name','printer_model','material_type','quantity']);
         } catch (\Throwable $e) {
             $totalUnits = 0;
             $totalsByType = collect();
+            $lowStockItems = collect();
         }
 
-        return view('inventory.index', compact('inventories', 'search', 'totalUnits', 'totalsByType'));
+        return view('inventory.index', compact('inventories', 'search', 'totalUnits', 'totalsByType', 'lowStockItems'));
     }
 
     // Listado de artículos deshabilitados

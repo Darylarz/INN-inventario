@@ -40,6 +40,7 @@ class ReportsController extends Controller
         $status = $request->input('status', 'all');
         // Normalizar item_type a canónico
         $rawType = $request->input('item_type');
+        $itemType = $rawType ? trim($rawType) : null;
 
         $from = $request->input('from');
         $to = $request->input('to');
