@@ -148,6 +148,7 @@ class InventoryController extends Controller
             'item_type' => 'required|exists:tipos_inventario,name',
             'brand' => 'nullable|string|max:255',
             'model' => 'nullable|string|max:255',
+            'name' => 'nullable|string|max:255',
             'capacity' => 'nullable|string|max:255',
             'type' => 'nullable|string|max:255',
             'generation' => 'nullable|string|max:255',
@@ -158,9 +159,20 @@ class InventoryController extends Controller
             'color' => 'nullable|string|max:255',
             'printer_model' => 'nullable|string|max:255',
             'material_type' => 'nullable|string|max:255',
+            'recycled' => 'nullable|boolean',
+            'entered_by' => 'nullable|string|max:255',
+            'entry_date' => 'nullable|date',
         ]);
 
         $data = $request->all();
+        \Log::info('inventory.store.request', $data);
+
+        // Normalizar campos comunes
+        if (($data['item_type'] ?? null) === 'Herramienta' && !empty($data['tool_name'])) {
+            $data['name'] = $data['tool_name'];
+        }
+        // Checkbox no marcado no viene en request
+        $data['recycled'] = (bool)($data['recycled'] ?? false);
 
         // 🔥 Forzar "type" según item_type
         if ($data['item_type'] === 'Consumible' || $data['item_type'] === 'consumible') {
@@ -179,7 +191,8 @@ class InventoryController extends Controller
         $data['type'] = $data['type'] ?? 'herramienta';
         }
 
-        Inventory::create($data);
+        $created = Inventory::create($data);
+        \Log::info('inventory.store.created', $created->toArray());
 
         return redirect()->route('inventory.index')
             ->with('success', 'Artículo creado correctamente.');
@@ -194,37 +207,48 @@ class InventoryController extends Controller
 
     // Actualizar artículo
     public function update(Request $request, Inventory $inventory)
-{
-    $validated = $request->validate([
-        'item_type' => 'required|string',
-        'brand' => 'nullable|string',
-        'model' => 'nullable|string',
-        'capacity' => 'nullable|string',
-        'type' => 'nullable|string',
-        'generation' => 'nullable|string',
-        'serial_number' => 'nullable|string',
-        'national_asset_tag' => 'nullable|string',
-        'printer_model' => 'nullable|string',
-        'material_type' => 'nullable|string',
-    ]);
+    {
+        $validated = $request->validate([
+            'item_type' => 'required|string',
+            'brand' => 'nullable|string',
+            'model' => 'nullable|string',
+            'name' => 'nullable|string|max:255',
+            'capacity' => 'nullable|string',
+            'type' => 'nullable|string',
+            'generation' => 'nullable|string',
+            'serial_number' => 'nullable|string',
+            'national_asset_tag' => 'nullable|string',
+            'printer_model' => 'nullable|string',
+            'material_type' => 'nullable|string',
+            'tool_name' => 'nullable|string|max:255',
+            'recycled' => 'nullable|boolean',
+            'entered_by' => 'nullable|string|max:255',
+            'entry_date' => 'nullable|date',
+        ]);
 
-    // 🔥 Ajustar campos según tipo
-    if ($validated['item_type'] === 'computer') {
-        $validated['type'] = $validated['type'] ?? 'N/A';
+        // Normalizar campos comunes
+        if (($validated['item_type'] ?? null) === 'Herramienta' && !empty($validated['tool_name'])) {
+            $validated['name'] = $validated['tool_name'];
+        }
+        $validated['recycled'] = (bool)($validated['recycled'] ?? false);
+
+        // 🔥 Ajustar campos según tipo (mantener compatibilidad)
+        if (($validated['item_type'] ?? '') === 'computer') {
+            $validated['type'] = $validated['type'] ?? 'N/A';
+        }
+        if (($validated['item_type'] ?? '') === 'printer') {
+            $validated['type'] = 'printer';
+        }
+        if (($validated['item_type'] ?? '') === 'consumable') {
+            $validated['type'] = 'consumable';
+        }
+
+        \Log::info('inventory.update.request', $validated);
+        $inventory->update($validated);
+        \Log::info('inventory.update.saved', $inventory->fresh()->toArray());
+
+        return redirect()->route('inventory.index')->with('success', 'Artículo actualizado correctamente.');
     }
-
-    if ($validated['item_type'] === 'printer') {
-        $validated['type'] = 'printer';
-    }
-
-    if ($validated['item_type'] === 'consumable') {
-        $validated['type'] = 'consumable';
-    }
-
-    $inventory->update($validated);
-
-    return redirect()->route('inventory.index')->with('success', 'Artículo actualizado correctamente.');
-}
     // Eliminar artículo
     public function destroy(Inventory $inventory)
     {

@@ -40,6 +40,10 @@ Schema::create('inventories', function (Blueprint $table) {
     $table->string('printer_model')->nullable()->comment('Modelo de impresora compatible'); // Modelo de impresora compatible
     $table->string('material_type')->nullable()->comment('Tipo de material de impresora'); // Tipo material
     
+    $table->string('name')->nullable();
+$table->boolean('recycled')->default(false)->nullable();
+$table->string('entered_by')->nullable();
+$table->date('entry_date')->nullable();
     // Campos Originales eliminados o renombrados:
     // $table->dropColumn(['sku', 'description', 'stock', 'price']); 
     // Los campos 'name', 'stock', 'price' ahora tendrán nombres más específicos.

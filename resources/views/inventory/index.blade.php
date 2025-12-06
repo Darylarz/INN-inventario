@@ -80,15 +80,16 @@
     <table class="table-auto border-collapse border border-gray-300 w-full">
       <thead class="bg-gray-100">
         <tr>
+          <th class="border px-3 py-2">Nombre</th>
+          <th class="border px-3 py-2">Número de serie</th>
+          <th class="border px-3 py-2">Bien Nacional</th>
           <th class="border px-3 py-2">Tipo</th>
           <th class="border px-3 py-2">Marca</th>
           <th class="border px-3 py-2">Modelo</th>
           <th class="border px-3 py-2">Capacidad</th>
           <th class="border px-3 py-2">Tipo (componente)</th>
           <th class="border px-3 py-2">Generación</th>
-          <th class="border px-3 py-2">Número de serie</th>
-          <th class="border px-3 py-2">Bien Nacional</th>
-          <th class="border px-3 py-2">Nombre</th>
+          
           <th class="border px-3 py-2">Reciclado</th>
           <th class="border px-3 py-2">Artículo ingresado por</th>
           <th class="border px-3 py-2">Fecha de ingreso</th>
@@ -100,15 +101,15 @@
       <tbody>
         @forelse($pcItems as $item)
           <tr class="hover:bg-gray-50">
+            <td class="border px-3 py-2">{{ $item->name ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->serial_number ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->national_asset_tag ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->item_type }}</td>
             <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->capacity ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->type ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->generation ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->serial_number ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->national_asset_tag ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->name ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->recycled ? 'Sí' : 'No' }}</td>
             <td class="border px-3 py-2">{{ $item->entered_by ?? '-' }}</td>
             <td class="border px-3 py-2">{{ optional($item->entry_date)->format('Y-m-d') ?? ($item->entry_date ?? '-') }}</td>
@@ -138,12 +139,12 @@
     <table class="table-auto border-collapse border border-gray-300 w-full">
       <thead class="bg-gray-100">
         <tr>
+          <th class="border px-3 py-2">Nombre</th>
           <th class="border px-3 py-2">Marca</th>
           <th class="border px-3 py-2">Modelo</th>
           <th class="border px-3 py-2">Color</th>
           <th class="border px-3 py-2">Modelo impresora</th>
           <th class="border px-3 py-2">Material / Categoría</th>
-          <th class="border px-3 py-2">Nombre</th>
           <th class="border px-3 py-2">Reciclado</th>
           <th class="border px-3 py-2">Artículo ingresado por</th>
           <th class="border px-3 py-2">Fecha de ingreso</th>
@@ -155,12 +156,12 @@
       <tbody>
         @forelse($consumableItems as $item)
           <tr class="hover:bg-gray-50">
+            <td class="border px-3 py-2">{{ $item->name ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->color ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->printer_model ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->material_type ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->name ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->recycled ? 'Sí' : 'No' }}</td>
             <td class="border px-3 py-2">{{ $item->entered_by ?? '-' }}</td>
             <td class="border px-3 py-2">{{ optional($item->entry_date)->format('Y-m-d') ?? ($item->entry_date ?? '-') }}</td>
@@ -190,11 +191,11 @@
     <table class="table-auto border-collapse border border-gray-300 w-full">
       <thead class="bg-gray-100">
         <tr>
+          <th class="border px-3 py-2">Nombre</th>
           <th class="border px-3 py-2">Marca</th>
           <th class="border px-3 py-2">Modelo</th>
           <th class="border px-3 py-2">Nombre herramienta</th>
           <th class="border px-3 py-2">Tipo herramienta</th>
-          <th class="border px-3 py-2">Nombre</th>
           <th class="border px-3 py-2">Reciclado</th>
           <th class="border px-3 py-2">Artículo ingresado por</th>
           <th class="border px-3 py-2">Fecha de ingreso</th>
@@ -206,11 +207,11 @@
       <tbody>
         @forelse($toolItems as $item)
           <tr class="hover:bg-gray-50">
+            <td class="border px-3 py-2">{{ $item->name ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->tool_name ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->tool_type ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->name ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->recycled ? 'Sí' : 'No' }}</td>
             <td class="border px-3 py-2">{{ $item->entered_by ?? '-' }}</td>
             <td class="border px-3 py-2">{{ optional($item->entry_date)->format('Y-m-d') ?? ($item->entry_date ?? '-') }}</td>

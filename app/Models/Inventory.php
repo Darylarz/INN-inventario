@@ -15,6 +15,7 @@ class Inventory extends Model
         'type',
         'brand',
         'model',
+        'name',
         'capacity',
         'item_type',
         'generation',
@@ -24,6 +25,9 @@ class Inventory extends Model
         'toner_color',
         'printer_model',
         'material_type',
+        'recycled',
+        'entered_by',
+        'entry_date',
         'quantity',
         'is_disabled',
         'disabled_at',
@@ -33,6 +37,8 @@ class Inventory extends Model
     protected $casts = [
         'is_disabled' => 'boolean',
         'disabled_at' => 'datetime',
+        'recycled' => 'boolean',
+        'entry_date' => 'date',
         'quantity' => 'integer',
     ];
 }

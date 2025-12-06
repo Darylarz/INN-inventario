@@ -193,27 +193,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const consumibleFields = document.getElementById('consumible-fields');
     const herramientaFields = document.getElementById('herramienta-fields');
 
+    function setVisible(sectionEl, visible) {
+        sectionEl.style.display = visible ? '' : 'none';
+        // Habilitar/deshabilitar campos internos para evitar que los ocultos se envíen
+        const controls = sectionEl.querySelectorAll('input, select, textarea');
+        controls.forEach(el => { el.disabled = !visible; });
+    }
+
     function updateFields() {
         const v = (sel.value || '').toLowerCase();
-        // hide all by default
-        brand.style.display = 'none';
-        model.style.display = 'none';
-        pcFields.style.display = 'none';
-        consumibleFields.style.display = 'none';
-        herramientaFields.style.display = 'none';
+        // Ocultar y deshabilitar todos por defecto
+        setVisible(brand, false);
+        setVisible(model, false);
+        setVisible(pcFields, false);
+        setVisible(consumibleFields, false);
+        setVisible(herramientaFields, false);
 
         if (!v) return;
 
-        // show common
-        brand.style.display = '';
-        model.style.display = '';
+        // Mostrar comunes
+        setVisible(brand, true);
+        setVisible(model, true);
 
         if (v === 'pc' || v === 'hardware') {
-            pcFields.style.display = '';
+            setVisible(pcFields, true);
         } else if (v === 'consumible' || v === 'consumible') {
-            consumibleFields.style.display = '';
+            setVisible(consumibleFields, true);
         } else if (v === 'herramienta' || v === 'herramienta') {
-            herramientaFields.style.display = '';
+            setVisible(herramientaFields, true);
         }
     }
 
