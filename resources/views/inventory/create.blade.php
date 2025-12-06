@@ -24,27 +24,6 @@
         </div>
 
     <input type="hidden" id="hidden_type" name="type">
-    <div class="mb-3">
-        <label>Nombre</label>
-        <input type="text" name="name" class="w-full px-3 py-2 border rounded" value="{{ old('name') }}">
-        @error('name') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="mb-3 flex items-center gap-2">
-        <input id="recycled" type="checkbox" name="recycled" value="1" {{ old('recycled') ? 'checked' : '' }}>
-        <label for="recycled" class="select-none">Reciclado</label>
-    </div>
-
-    <div class="mb-3">
-        <label>Artículo ingresado por</label>
-        <input type="text" name="entered_by" class="w-full px-3 py-2 border rounded" value="{{ old('entered_by') }}">
-    </div>
-
-    <div class="mb-3">
-        <label>Fecha de ingreso</label>
-        <input type="date" name="entry_date" class="w-full px-3 py-2 border rounded" value="{{ old('entry_date') }}">
-    </div>
-
 
 
         {{-- Campos comunes (marca, modelo) --}}
@@ -66,6 +45,22 @@
                 <label>Nombre</label>
                 <input type="text" name="name" class="w-full px-3 py-2 border rounded" value="{{ old('name') }}">
                 @error('name') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+
+            <div class="mb-3 flex items-center gap-2">
+                <input id="recycled" type="checkbox" name="recycled" value="1" {{ old('recycled') ? 'checked' : '' }}>
+                <label for="recycled" class="select-none">Reciclado</label>
+            </div>
+
+            <div class="mb-3">
+                <label>Artículo ingresado por</label>
+                <input type="text" name="entered_by" class="w-full px-3 py-2 border rounded" value="{{ old('entered_by') }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Fecha de ingreso</label>
+                <input type="date" name="entry_date" class="w-full px-3 py-2 border rounded" value="{{ old('entry_date') }}">
+            </div>
+
             </div>
 
             <div class="mb-3">
@@ -100,6 +95,20 @@
                 <label>Nombre</label>
                 <input type="text" name="name" class="w-full px-3 py-2 border rounded" value="{{ old('name') }}">
                 @error('name') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+            <div class="mb-3 flex items-center gap-2">
+                <input id="recycled" type="checkbox" name="recycled" value="1" {{ old('recycled') ? 'checked' : '' }}>
+                <label for="recycled" class="select-none">Reciclado</label>
+            </div>
+
+            <div class="mb-3">
+                <label>Artículo ingresado por</label>
+                <input type="text" name="entered_by" class="w-full px-3 py-2 border rounded" value="{{ old('entered_by') }}">
+            </div>
+
+            <div class="mb-3">
+                <label>Fecha de ingreso</label>
+                <input type="date" name="entry_date" class="w-full px-3 py-2 border rounded" value="{{ old('entry_date') }}">
+            </div>
             </div>
 
             <div class="mb-3">
@@ -135,6 +144,22 @@
                 <label>Nombre</label>
                 <input type="text" name="tool_name" class="w-full px-3 py-2 border rounded" value="{{ old('tool_name') }}">
             </div>
+            <div class="mb-3 flex items-center gap-2">
+                <input id="recycled" type="checkbox" name="recycled" value="1" { old('recycled') ? 'checked' : '' }>
+                <label for="recycled" class="select-none">Reciclado</label>
+            </div>
+
+            <div class="mb-3">
+                <label>Artículo ingresado por</label>
+                <input type="text" name="entered_by" class="w-full px-3 py-2 border rounded" value="{ old('entered_by') }">
+            </div>
+
+            <div class="mb-3">
+                <label>Fecha de ingreso</label>
+                <input type="date" name="entry_date" class="w-full px-3 py-2 border rounded" value="{ old('entry_date') }">
+            </div>
+
+
 
             <div class="mb-3">
                 <label>Tipo herramienta (si aplica)</label>
