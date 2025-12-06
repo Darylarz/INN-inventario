@@ -145,18 +145,18 @@
                 <input type="text" name="tool_name" class="w-full px-3 py-2 border rounded" value="{{ old('tool_name') }}">
             </div>
             <div class="mb-3 flex items-center gap-2">
-                <input id="recycled" type="checkbox" name="recycled" value="1" { old('recycled') ? 'checked' : '' }>
+                <input id="recycled" type="checkbox" name="recycled" value="1" {{ old('recycled') ? 'checked' : '' }}>
                 <label for="recycled" class="select-none">Reciclado</label>
             </div>
 
             <div class="mb-3">
                 <label>Artículo ingresado por</label>
-                <input type="text" name="entered_by" class="w-full px-3 py-2 border rounded" value="{ old('entered_by') }">
+                <input type="text" name="entered_by" class="w-full px-3 py-2 border rounded" value="{{ old('entered_by') }}">
             </div>
 
             <div class="mb-3">
                 <label>Fecha de ingreso</label>
-                <input type="date" name="entry_date" class="w-full px-3 py-2 border rounded" value="{ old('entry_date') }">
+                <input type="date" name="entry_date" class="w-full px-3 py-2 border rounded" value="{{ old('entry_date') }}">
             </div>
 
 
