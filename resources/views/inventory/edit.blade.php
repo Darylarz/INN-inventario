@@ -29,6 +29,23 @@
         </div>
 
         <div>
+            <label>Nombre</label>
+            <input type="text" name="name" class="w-full px-3 py-2 border rounded" value="{{ $inventory->name }}">
+        </div>
+        <div class="flex items-center gap-2 mt-2">
+            <input id="recycled" type="checkbox" name="recycled" value="1" {{ $inventory->recycled ? 'checked' : '' }}>
+            <label for="recycled" class="select-none">Reciclado</label>
+        </div>
+        <div>
+            <label>Artículo ingresado por</label>
+            <input type="text" name="entered_by" class="w-full px-3 py-2 border rounded" value="{{ $inventory->entered_by }}">
+        </div>
+        <div>
+            <label>Fecha de ingreso</label>
+            <input type="date" name="entry_date" class="w-full px-3 py-2 border rounded" value="{{ $inventory->entry_date }}">
+        </div>
+
+        <div>
             <label>Capacidad(si aplica)</label>
             <input type="text" name="capacity" class="w-full px-3 py-2 border rounded" value="{{ $inventory->capacity }}">
         </div>

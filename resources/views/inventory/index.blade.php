@@ -88,6 +88,10 @@
           <th class="border px-3 py-2">Generación</th>
           <th class="border px-3 py-2">Número de serie</th>
           <th class="border px-3 py-2">Bien Nacional</th>
+          <th class="border px-3 py-2">Nombre</th>
+          <th class="border px-3 py-2">Reciclado</th>
+          <th class="border px-3 py-2">Artículo ingresado por</th>
+          <th class="border px-3 py-2">Fecha de ingreso</th>
           @can('usuario crear')
             <th class="border px-3 py-2">Acciones</th>
           @endcan
@@ -104,6 +108,112 @@
             <td class="border px-3 py-2">{{ $item->generation ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->serial_number ?? '-' }}</td>
             <td class="border px-3 py-2">{{ $item->national_asset_tag ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->name ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->recycled ? 'Sí' : 'No' }}</td>
+            <td class="border px-3 py-2">{{ $item->entered_by ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ optional($item->entry_date)->format('Y-m-d') ?? ($item->entry_date ?? '-') }}</td>
+            @can('usuario crear')
+              <td class="border px-3 py-2">
+                <a href="{{ route('inventory.show', $item->id) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Detalle</a>
+                <a href="{{ route('inventory.entrada.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-green-600 hover:bg-green-700 text-white mr-2">Entrada</a>
+                <a href="{{ route('inventory.salida.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white mr-2">Salida</a>
+                <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
+                  @csrf
+                  <input type="hidden" name="disabled_reason" value="">
+                  <button class="text-yellow-600 mr-2">Desincorporar</button>
+                </form>
+                
+              </td>
+            @endcan
+          </tr>
+        @empty
+          <tr><td colspan="13" class="text-center py-3 text-gray-500">Sin resultados</td></tr>
+        @endforelse
+      </tbody>
+    </table>
+
+    {{-- Tabla Consumibles --}}
+    <h3 class="text-lg font-semibold mt-8 mb-2">Consumibles</h3>
+    <table class="table-auto border-collapse border border-gray-300 w-full">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2">Marca</th>
+          <th class="border px-3 py-2">Modelo</th>
+          <th class="border px-3 py-2">Color</th>
+          <th class="border px-3 py-2">Modelo impresora</th>
+          <th class="border px-3 py-2">Material / Categoría</th>
+          <th class="border px-3 py-2">Nombre</th>
+          <th class="border px-3 py-2">Reciclado</th>
+          <th class="border px-3 py-2">Artículo ingresado por</th>
+          <th class="border px-3 py-2">Fecha de ingreso</th>
+          @can('usuario crear')
+            <th class="border px-3 py-2">Acciones</th>
+          @endcan
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($consumableItems as $item)
+          <tr class="hover:bg-gray-50">
+            <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->color ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->printer_model ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->material_type ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->name ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->recycled ? 'Sí' : 'No' }}</td>
+            <td class="border px-3 py-2">{{ $item->entered_by ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ optional($item->entry_date)->format('Y-m-d') ?? ($item->entry_date ?? '-') }}</td>
+            @can('usuario crear')
+              <td class="border px-3 py-2">
+                <a href="{{ route('inventory.show', $item->id) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Detalle</a>
+                <a href="{{ route('inventory.entrada.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-green-600 hover:bg-green-700 text-white mr-2">Entrada</a>
+                <a href="{{ route('inventory.salida.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white mr-2">Salida</a>
+                <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
+                <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
+                  @csrf
+                  <input type="hidden" name="disabled_reason" value="">
+                  <button class="text-yellow-600 mr-2">Desincorporar</button>
+                </form>
+                
+              </td>
+            @endcan
+          </tr>
+        @empty
+          <tr><td colspan="10" class="text-center py-3 text-gray-500">Sin resultados</td></tr>
+        @endforelse
+      </tbody>
+    </table>
+
+    {{-- Tabla Herramientas --}}
+    <h3 class="text-lg font-semibold mt-8 mb-2">Herramientas</h3>
+    <table class="table-auto border-collapse border border-gray-300 w-full">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-3 py-2">Marca</th>
+          <th class="border px-3 py-2">Modelo</th>
+          <th class="border px-3 py-2">Nombre herramienta</th>
+          <th class="border px-3 py-2">Tipo herramienta</th>
+          <th class="border px-3 py-2">Nombre</th>
+          <th class="border px-3 py-2">Reciclado</th>
+          <th class="border px-3 py-2">Artículo ingresado por</th>
+          <th class="border px-3 py-2">Fecha de ingreso</th>
+          @can('usuario crear')
+            <th class="border px-3 py-2">Acciones</th>
+          @endcan
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($toolItems as $item)
+          <tr class="hover:bg-gray-50">
+            <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->tool_name ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->tool_type ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->name ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ $item->recycled ? 'Sí' : 'No' }}</td>
+            <td class="border px-3 py-2">{{ $item->entered_by ?? '-' }}</td>
+            <td class="border px-3 py-2">{{ optional($item->entry_date)->format('Y-m-d') ?? ($item->entry_date ?? '-') }}</td>
             @can('usuario crear')
               <td class="border px-3 py-2">
                 <a href="{{ route('inventory.show', $item->id) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Detalle</a>
@@ -121,92 +231,6 @@
           </tr>
         @empty
           <tr><td colspan="9" class="text-center py-3 text-gray-500">Sin resultados</td></tr>
-        @endforelse
-      </tbody>
-    </table>
-
-    {{-- Tabla Consumibles --}}
-    <h3 class="text-lg font-semibold mt-8 mb-2">Consumibles</h3>
-    <table class="table-auto border-collapse border border-gray-300 w-full">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="border px-3 py-2">Marca</th>
-          <th class="border px-3 py-2">Modelo</th>
-          <th class="border px-3 py-2">Color</th>
-          <th class="border px-3 py-2">Modelo impresora</th>
-          <th class="border px-3 py-2">Material / Categoría</th>
-          @can('usuario crear')
-            <th class="border px-3 py-2">Acciones</th>
-          @endcan
-        </tr>
-      </thead>
-      <tbody>
-        @forelse($consumableItems as $item)
-          <tr class="hover:bg-gray-50">
-            <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->color ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->printer_model ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->material_type ?? '-' }}</td>
-            @can('usuario crear')
-              <td class="border px-3 py-2">
-                <a href="{{ route('inventory.show', $item->id) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Detalle</a>
-                <a href="{{ route('inventory.entrada.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-green-600 hover:bg-green-700 text-white mr-2">Entrada</a>
-                <a href="{{ route('inventory.salida.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white mr-2">Salida</a>
-                <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
-                <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
-                  @csrf
-                  <input type="hidden" name="disabled_reason" value="">
-                  <button class="text-yellow-600 mr-2">Desincorporar</button>
-                </form>
-                
-              </td>
-            @endcan
-          </tr>
-        @empty
-          <tr><td colspan="6" class="text-center py-3 text-gray-500">Sin resultados</td></tr>
-        @endforelse
-      </tbody>
-    </table>
-
-    {{-- Tabla Herramientas --}}
-    <h3 class="text-lg font-semibold mt-8 mb-2">Herramientas</h3>
-    <table class="table-auto border-collapse border border-gray-300 w-full">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="border px-3 py-2">Marca</th>
-          <th class="border px-3 py-2">Modelo</th>
-          <th class="border px-3 py-2">Nombre herramienta</th>
-          <th class="border px-3 py-2">Tipo herramienta</th>
-          @can('usuario crear')
-            <th class="border px-3 py-2">Acciones</th>
-          @endcan
-        </tr>
-      </thead>
-      <tbody>
-        @forelse($toolItems as $item)
-          <tr class="hover:bg-gray-50">
-            <td class="border px-3 py-2">{{ $item->brand ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->model ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->tool_name ?? '-' }}</td>
-            <td class="border px-3 py-2">{{ $item->tool_type ?? '-' }}</td>
-            @can('usuario crear')
-              <td class="border px-3 py-2">
-                <a href="{{ route('inventory.show', $item->id) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Detalle</a>
-                <a href="{{ route('inventory.entrada.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-green-600 hover:bg-green-700 text-white mr-2">Entrada</a>
-                <a href="{{ route('inventory.salida.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white mr-2">Salida</a>
-                <a href="{{ route('inventory.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
-                <form action="{{ route('inventory.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=disabled_reason]').value = r; return confirm('¿Desincorporar artículo?');">
-                  @csrf
-                  <input type="hidden" name="disabled_reason" value="">
-                  <button class="text-yellow-600 mr-2">Desincorporar</button>
-                </form>
-                
-              </td>
-            @endcan
-          </tr>
-        @empty
-          <tr><td colspan="5" class="text-center py-3 text-gray-500">Sin resultados</td></tr>
         @endforelse
       </tbody>
     </table>

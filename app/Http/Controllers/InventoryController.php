@@ -36,31 +36,26 @@ class InventoryController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        // Resumen global: total de unidades y por categoría
-        try {
-            $baseQuery = Inventory::query()
-                ->where(function ($q) {
-                    $q->whereNull('is_disabled')->orWhere('is_disabled', false);
-                });
-            $totalUnits = (int) (clone $baseQuery)->sum('quantity');
-            $totalsByType = (clone $baseQuery)
-                ->select(DB::raw("COALESCE(item_type, 'Sin categoría') as item_type"), DB::raw('SUM(quantity) as total'))
-                ->groupBy(DB::raw("COALESCE(item_type, 'Sin categoría')"))
-                ->pluck('total', 'item_type');
-            // Alerta de stock bajo
-            $threshold = (int) (env('LOW_STOCK_THRESHOLD', 5));
-            $lowStockItems = (clone $baseQuery)
-                ->whereNotNull('quantity')
-                ->where('quantity', '<=', $threshold)
-                ->orderBy('quantity')
-                ->orderBy('id')
-                ->limit(50)
-                ->get(['id','item_type','brand','model','tool_name','printer_model','material_type','quantity']);
-        } catch (\Throwable $e) {
-            $totalUnits = 0;
-            $totalsByType = collect();
-            $lowStockItems = collect();
-        }
+        // Resumen global: total de unidades y por categoría (sin filtrar), para coincidir con el sidebar
+        $totalUnits = (int) Inventory::query()->sum('quantity');
+        $totalsByType = Inventory::query()
+            ->select('item_type', DB::raw('SUM(quantity) as total'))
+            ->groupBy('item_type')
+            ->pluck('total', 'item_type');
+
+        // Alerta de stock bajo (solo activos/no desincorporados)
+        $baseQuery = Inventory::query()
+            ->where(function ($q) {
+                $q->whereNull('is_disabled')->orWhere('is_disabled', false);
+            });
+        $threshold = (int) (env('LOW_STOCK_THRESHOLD', 5));
+        $lowStockItems = (clone $baseQuery)
+            ->whereNotNull('quantity')
+            ->where('quantity', '<=', $threshold)
+            ->orderBy('quantity')
+            ->orderBy('id')
+            ->limit(50)
+            ->get(['id','item_type','brand','model','printer_model','material_type','quantity']);
 
         return view('inventory.index', compact('inventories', 'search', 'totalUnits', 'totalsByType', 'lowStockItems'));
     }
