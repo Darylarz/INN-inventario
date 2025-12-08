@@ -4,35 +4,55 @@
 <h1>Crear Usuario</h1>
 
 @if(session('status'))
-    <div class="bg-green-500 text-white px-4 py-2 rounded mb-4">{{ session('status') }}</div>
-@endif
-@if(session('error'))
-    <div class="bg-red-500 text-white px-4 py-2 rounded mb-4">{{ session('error') }}</div>
+    <div style="background: #10b981; color: white; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+        {{ session('status') }}
+    </div>
 @endif
 
-<form method="POST" action="{{ route('admin.users.store') }}" class="max-w-md">
+@if(session('error'))
+    <div style="background: #ef4444; color: white; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+        {{ session('error') }}
+    </div>
+@endif
+
+<form method="POST" action="{{ route('admin.users.store') }}" style="max-width: 600px;">
     @csrf
 
     {{-- Nombre --}}
-    <div class="mb-4">
-        <label for="name" class="block font-bold mb-1">Nombre</label>
-        <input type="text" id="name" name="name" value="{{ old('name') }}" 
-               class="w-full border p-2 rounded">
-        @error('name') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+    <div style="margin-bottom: 20px;">
+        <label for="name" style="display: block; font-weight: bold; margin-bottom: 5px;">Nombre</label>
+        <input type="text" 
+               id="name" 
+               name="name" 
+               value="{{ old('name') }}" 
+               required
+               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        @error('name') 
+            <p style="color: red; font-size: 14px; margin-top: 5px;">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- Email --}}
-    <div class="mb-4">
-        <label for="email" class="block font-bold mb-1">Email</label>
-        <input type="email" id="email" name="email" value="{{ old('email') }}" 
-               class="w-full border p-2 rounded">
-        @error('email') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+    <div style="margin-bottom: 20px;">
+        <label for="email" style="display: block; font-weight: bold; margin-bottom: 5px;">Email</label>
+        <input type="email" 
+               id="email" 
+               name="email" 
+               value="{{ old('email') }}" 
+               required
+               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        @error('email') 
+            <p style="color: red; font-size: 14px; margin-top: 5px;">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- Rol --}}
-    <div class="mb-4">
-        <label for="role" class="block font-bold mb-1">Rol</label>
-        <select id="role" name="role" class="w-full border p-2 rounded">
+    <div style="margin-bottom: 20px;">
+        <label for="role" style="display: block; font-weight: bold; margin-bottom: 5px;">Rol</label>
+        <select id="role" 
+                name="role" 
+                required
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
             <option value="">Seleccionar Rol</option>
             @foreach($roles as $role)
                 <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
@@ -40,22 +60,44 @@
                 </option>
             @endforeach
         </select>
-        @error('role') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+        @error('role') 
+            <p style="color: red; font-size: 14px; margin-top: 5px;">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- Contraseña --}}
-    <div class="mb-4">
-        <label for="password" class="block font-bold mb-1">Contraseña</label>
-        <input type="password" id="password" name="password" class="w-full border p-2 rounded">
-        @error('password') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+    <div style="margin-bottom: 20px;">
+        <label for="password" style="display: block; font-weight: bold; margin-bottom: 5px;">Contraseña</label>
+        <input type="password" 
+               id="password" 
+               name="password" 
+               required
+               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        @error('password') 
+            <p style="color: red; font-size: 14px; margin-top: 5px;">{{ $message }}</p>
+        @enderror
     </div>
 
     {{-- Confirmar contraseña --}}
-    <div class="mb-4">
-        <label for="password_confirmation" class="block font-bold mb-1">Confirmar Contraseña</label>
-        <input type="password" id="password_confirmation" name="password_confirmation" class="w-full border p-2 rounded">
+    <div style="margin-bottom: 20px;">
+        <label for="password_confirmation" style="display: block; font-weight: bold; margin-bottom: 5px;">Confirmar Contraseña</label>
+        <input type="password" 
+               id="password_confirmation" 
+               name="password_confirmation" 
+               required
+               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
     </div>
 
-    {{-- Botón --}}
-    <div class="flex justify-end gap-2">
-        <a href="{{ route('admin.users') }}" class="px-4 py-2 border round
+    {{-- Botones --}}
+    <div style="text-align: right; margin-top: 30px;">
+        <a href="{{ route('admin.users') }}" 
+           style="display: inline-block; padding: 10px 20px; border: 1px solid #ccc; text-decoration: none; margin-right: 10px; border-radius: 4px;">
+            Cancelar
+        </a>
+        <button type="submit" 
+                style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            Crear Usuario
+        </button>
+    </div>
+</form>
+@endsection

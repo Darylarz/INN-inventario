@@ -1,4 +1,4 @@
-<nav class="fixed top-0 left-0 z-50 w-full bg-white shadow dark:bg-gray-800">
+<nav class="fixed top-0 left-0 z-50 w-full bg-white border-b border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700">
   <div class="px-4 py-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center">
@@ -33,26 +33,6 @@
                 <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{{ auth()->user()->email }}</span>
               </div>
               <ul class="py-1" aria-labelledby="user-menu-button">
-                @can('usuario crear')
-                  <li>
-                    <a href="{{ route('inventory.index') }}" class="flex items-center justify-between py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                      <span>Inventario</span>
-                      <span class="ml-3 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-xs font-semibold px-2 py-0.5">
-                        {{ $inventoryCount ?? 0 }}
-                      </span>
-                    </a>
-                  </li>
-                @endcan
-                @can('articulo agregar')
-                  <li><a href="{{ route('reports.index') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Reportes</a></li>
-                @endcan
-                @can('usuario crear')
-                  <li><a href="{{ route('inventory.disabled') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Desincorporados</a></li>
-                  <li><a href="{{ route('admin.users') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Usuarios</a></li>
-                @endcan
-                @can('articulo crear')
-                  <li><a href="{{ route('inventory.create') }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Crear artículo</a></li>
-                @endcan
                 <li>
                   <form method="POST" action="{{ url('/logout') }}">
                     @csrf

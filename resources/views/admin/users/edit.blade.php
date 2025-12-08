@@ -53,7 +53,7 @@
 
     {{-- Confirmar contraseña --}}
     <div class="mb-4">
-        <label for="password_confirmation" class="block font-bold mb-1">Confirmar Nueva Contraseña</label>
+        <label for="password_confirmation" class="blo#ck font-bold mb-1">Confirmar Nueva Contraseña</label>
         <input type="password" id="password_confirmation" name="password_confirmation" class="w-full border p-2 rounded">
     </div>
 
@@ -64,3 +64,49 @@
     </div>
 </form>
 @endsection
+
+
+
+{{-- {{-- Nombre --}}
+    <div class="mb-4">
+        <label for="name" class="block font-bold mb-1">Nombre</label>
+        <input type="text" id="name" name="name" value="{{ old('name') }}" 
+               class="w-full border p-2 rounded">
+        @error('name') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+    </div>
+
+    {{-- Email --}}
+    <div class="mb-4">
+        <label for="email" class="block font-bold mb-1">Email</label>
+        <input type="email" id="email" name="email" value="{{ old('email') }}" 
+               class="w-full border p-2 rounded">
+        @error('email') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+    </div>
+
+    {{-- Rol --}}
+    <div class="mb-4">
+        <label for="role" class="block font-bold mb-1">Rol</label>
+        <select id="role" name="role" class="w-full border p-2 rounded">
+            <option value="">Seleccionar Rol</option>
+            @foreach($roles as $role)
+                <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
+                    {{ $role->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('role') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+    </div>
+
+    {{-- Contraseña --}}
+    <div class="mb-4">
+        <label for="password" class="block font-bold mb-1">Contraseña</label>
+        <input type="password" id="password" name="password" class="w-full border p-2 rounded">
+        @error('password') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+    </div>
+
+    {{-- Confirmar contraseña --}}
+    <div class="mb-4">
+        <label for="password_confirmation" class="block font-bold mb-1">Confirmar Contraseña</label>
+        <input type="password" id="password_confirmation" name="password_confirmation" class="w-full border p-2 rounded">
+    </div>
+ --}}

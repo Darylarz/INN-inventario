@@ -12,7 +12,7 @@
   <div class="min-h-screen flex flex-col">
     @auth
       @include('components.navbar')
-      <div class="flex flex-1 pt-14">
+      <div class="flex flex-1 pt-20">
         @include('components.sidebar')
         <main class="flex-1 p-4 overflow-auto">
           @yield('content')
@@ -22,6 +22,7 @@
       <main class="flex-1">
         @yield('content')
       </main>
+      
     @endauth
   </div>
 
