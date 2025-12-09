@@ -55,6 +55,9 @@
         @can('articulo agregar')
           <a href="{{ route('inventory.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">+ Nuevo Artículo</a>
         @endcan
+        @can('usuario crear')
+          <a href="{{ route('inventory.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">+ Nuevo Artículo</a>
+        @endcan
       </div>
 
       <form action="{{ route('inventory.index') }}" method="GET" class="flex-1 flex items-center gap-2">
