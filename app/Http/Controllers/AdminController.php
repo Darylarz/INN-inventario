@@ -15,7 +15,9 @@ use Spatie\Permission\Models\Role;
 class AdminController extends Controller {
 // Mostrar lista de usuarios
 public function users(Request $request)
-{
+{   
+    $this->authorizeAdmin();
+
     $search = $request->query('search');
     
     $users = User::query()
@@ -31,7 +33,17 @@ public function users(Request $request)
     $roles = Role::all();
 
     return view('admin.users.index', compact('users', 'roles', 'search'));
+    
 }
+
+    private function authorizeAdmin(): void
+    {
+        if (!auth()->check() || (auth()->user()->role ?? null) !== 'admin') {
+            redirect()->back()->with('error', 'Acceso no autorizado. No tienes permisos para esta página.')->send();
+            exit;
+        }
+    }
+
 
 // Mostrar formulario crear
 public function createUser()

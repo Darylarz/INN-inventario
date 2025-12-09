@@ -91,8 +91,6 @@ Route::post('/logout', function (Request $request) {
 
 Route::middleware('auth')->group(function () {
 
-    // ahora la ruta /dashboard devuelve la vista Blade que monta Livewire
-    
 Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -144,16 +142,15 @@ Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard
     Route::post('/reports/pdf', [ReportsController::class, 'pdf'])->name('reports.pdf');
 
     // Admin
-    
-        Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
-    Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
-    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
-    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
-    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
-
+    Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
+        Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
+        Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
+        Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
+        Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
     });
-
+});
 Route::middleware(['auth'])->group(function () {
 
     // =============================
@@ -187,6 +184,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/consumibles/{id}/editar', [ConsumibleController::class, 'editar'])->name('consumibles.editar');
     Route::put('/consumibles/{id}', [ConsumibleController::class, 'actualizar'])->name('consumibles.actualizar');
     Route::delete('/consumibles/{id}', [ConsumibleController::class, 'eliminar'])->name('consumibles.eliminar');
+
 });
 
 // Rutas públicas (formularios) — solo accesibles para guests
