@@ -61,8 +61,17 @@ public function storeUser(Request $request)
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
-        'password' => ['required', 'confirmed', Password::defaults()],
+        'password' => [
+            'required',
+            'confirmed',
+            'min:8',
+            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/',
+            Password::defaults()
+        ],
         'role' => ['required', 'exists:roles,name'],
+    ], [
+        'password.regex' => 'La contraseña debe incluir al menos una mayúscula, una minúscula, un número y un carácter especial (@ $ ! % * ? &).',
+        'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
     ]);
 
     $user = User::create([
