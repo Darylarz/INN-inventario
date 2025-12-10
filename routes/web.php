@@ -22,9 +22,6 @@ use App\Http\Controllers\InventoryMovementController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LocationController;
 
-
-
-
 // LOGIN (POST existente ajustado para redirigir si no es AJAX)
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([

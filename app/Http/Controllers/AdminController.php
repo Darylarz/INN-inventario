@@ -17,7 +17,7 @@ class AdminController extends Controller {
 public function users(Request $request)
 {   
     
-
+    //$this->authorizeAdmin();
     $search = $request->query('search');
     
     $users = User::query()
@@ -39,16 +39,15 @@ public function users(Request $request)
     private function authorizeAdmin(): void
     {
         if (!auth()->check() || (auth()->user()->role ?? null) !== 'admin') {
-            redirect()->back()->with('error', 'Acceso no autorizado. No tienes permisos para esta página.')->send();
-            exit;
+            abort(403);
+            exit();
         }
     }
-
 
 // Mostrar formulario crear
 public function createUser()
 {
-    $this->authorizeAdmin();
+    //$this->authorizeAdmin();
     Gate::authorize('usuario crear');
     $roles = Role::all();
     return view('admin.users.create', compact('roles'));
