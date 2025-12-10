@@ -142,7 +142,7 @@ Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard
     Route::post('/reports/pdf', [ReportsController::class, 'pdf'])->name('reports.pdf');
 
     // Admin
-    Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+    Route::prefix('admin')->name('admin.')->middleware('can:usuario crear')->group(function () {
         Route::get('/users', [AdminController::class, 'users'])->name('users');
         Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
         Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');

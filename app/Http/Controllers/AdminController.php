@@ -16,7 +16,7 @@ class AdminController extends Controller {
 // Mostrar lista de usuarios
 public function users(Request $request)
 {   
-    $this->authorizeAdmin();
+    
 
     $search = $request->query('search');
     
@@ -48,6 +48,7 @@ public function users(Request $request)
 // Mostrar formulario crear
 public function createUser()
 {
+    $this->authorizeAdmin();
     Gate::authorize('usuario crear');
     $roles = Role::all();
     return view('admin.users.create', compact('roles'));
