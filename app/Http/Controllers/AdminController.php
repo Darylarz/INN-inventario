@@ -17,7 +17,6 @@ class AdminController extends Controller {
 public function users(Request $request)
 {   
     
-    //$this->authorizeAdmin();
     $search = $request->query('search');
     
     $users = User::query()
@@ -36,18 +35,8 @@ public function users(Request $request)
     
 }
 
-    private function authorizeAdmin(): void
-    {
-        if (!auth()->check() || (auth()->user()->role ?? null) !== 'admin') {
-            abort(403);
-            exit();
-        }
-    }
-
-// Mostrar formulario crear
 public function createUser()
 {
-    //$this->authorizeAdmin();
     Gate::authorize('usuario crear');
     $roles = Role::all();
     return view('admin.users.create', compact('roles'));
@@ -65,8 +54,8 @@ public function storeUser(Request $request)
             'required',
             'confirmed',
             'min:8',
-            'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/',
-            Password::defaults()
+            'regex:"/^(?=.*?[A-Z]).{8,}$/"', 
+            //Password::defaults()
         ],
         'role' => ['required', 'exists:roles,name'],
     ], [

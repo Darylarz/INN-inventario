@@ -73,11 +73,12 @@
                name="password" 
                required
                minlength="8"
-               pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]"
+               
                title="Mínimo 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales"
                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
         @error('password') 
             <p style="color: red; font-size: 14px; margin-top: 5px;">{{ $message }}</p>
+            
         @enderror
         <div style="font-size: 12px; color: #666; margin-top: 5px;">
             <strong>Requisitos:</strong><br>
