@@ -22,6 +22,7 @@ use App\Http\Controllers\InventoryMovementController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LocationController;
 
+
 // LOGIN (POST existente ajustado para redirigir si no es AJAX)
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([
@@ -66,7 +67,6 @@ Route::post('/register', function (Request $request) {
     // Temporal: redirigir al dashboard después de "register"
     return redirect()->route('dashboard');
 });
-
 // LOGOUT ajustado para redirigir en peticiones normales
 Route::post('/logout', function (Request $request) {
     Auth::logout();
@@ -88,6 +88,8 @@ Route::post('/logout', function (Request $request) {
 
 Route::middleware('auth')->group(function () {
 
+    // ahora la ruta /dashboard devuelve la vista Blade que monta Livewire
+    
 Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -102,29 +104,31 @@ Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard
 
         Route::get('/create', [InventoryController::class, 'create'])->name('create');
         Route::post('/store', [InventoryController::class, 'store'])->name('store');
-        Route::get('/{inventory}', [InventoryController::class, 'show'])->name('show');
         Route::get('/{inventory}/edit', [InventoryController::class, 'edit'])->name('edit');
         Route::put('/{inventory}', [InventoryController::class, 'update'])->name('update');
         Route::delete('/{inventory}', [InventoryController::class, 'destroy'])->name('destroy');
-
-        // Entradas y salidas
-        Route::get('/{inventory}/entrada', [InventoryMovementController::class, 'createIn'])->name('entrada.create');
-        Route::post('/{inventory}/entrada', [InventoryMovementController::class, 'storeIn'])->name('entrada.store');
-        Route::get('/{inventory}/salida', [InventoryMovementController::class, 'createOut'])->name('salida.create');
-        Route::post('/{inventory}/salida', [InventoryMovementController::class, 'storeOut'])->name('salida.store');
+        Route::get('/{inventory}', [InventoryController::class, 'show'])->name('show');
     });
 
-    // Categorías (Tipos de inventario)
-    Route::prefix('categories')->name('categories.')->middleware('can:usuario crear')->group(function () {
-        Route::get('/', [CategoryController::class, 'index'])->name('index');
-        Route::get('/create', [CategoryController::class, 'create'])->name('create');
-        Route::post('/', [CategoryController::class, 'store'])->name('store');
-        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
-        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
-        Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
-    });
+    // Reports
+    Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
+    Route::post('/reports/pdf', [ReportsController::class, 'pdf'])->name('reports.pdf');
 
-    // Ubicaciones
+
+    Route::get('/{inventory}/entrada', [InventoryMovementController::class, 'createIn'])->name('inventory.entrada.create');
+        Route::post('/{inventory}/entrada', [InventoryMovementController::class, 'storeIn'])->name('inventory.entrada.store');
+        Route::get('/{inventory}/salida', [InventoryMovementController::class, 'createOut'])->name('inventory.salida.create');
+        Route::post('/{inventory}/salida', [InventoryMovementController::class, 'storeOut'])->name('inventory.salida.store');
+    // Admin
+    
+        Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+    Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
+
+// Ubicaciones
     Route::prefix('locations')->name('locations.')->middleware('can:usuario crear')->group(function () {
         Route::get('/', [LocationController::class, 'index'])->name('index');
         Route::get('/create', [LocationController::class, 'create'])->name('create');
@@ -134,20 +138,18 @@ Route::get('/dashboard', [InventoryController::class, 'index'])->name('dashboard
         Route::delete('/{location}', [LocationController::class, 'destroy'])->name('destroy');
     });
 
-    // Reports
-    Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
-    Route::post('/reports/pdf', [ReportsController::class, 'pdf'])->name('reports.pdf');
 
-    // Admin
-    Route::prefix('admin')->name('admin.')->middleware('can:usuario crear')->group(function () {
-        Route::get('/users', [AdminController::class, 'users'])->name('users');
-        Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
-        Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
-        Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
-        Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
-        Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
+     // Categorías (Tipos de inventario)
+    Route::prefix('categories')->name('categories.')->middleware('can:usuario crear')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::get('/create', [CategoryController::class, 'create'])->name('create');
+        Route::post('/', [CategoryController::class, 'store'])->name('store');
+        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
     });
-});
+    });
+
 Route::middleware(['auth'])->group(function () {
 
     // =============================
@@ -181,7 +183,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/consumibles/{id}/editar', [ConsumibleController::class, 'editar'])->name('consumibles.editar');
     Route::put('/consumibles/{id}', [ConsumibleController::class, 'actualizar'])->name('consumibles.actualizar');
     Route::delete('/consumibles/{id}', [ConsumibleController::class, 'eliminar'])->name('consumibles.eliminar');
-
 });
 
 // Rutas públicas (formularios) — solo accesibles para guests
