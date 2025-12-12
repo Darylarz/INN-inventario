@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Validation\Rules\Password;
 use Spatie\Permission\Models\Role;
 
@@ -53,9 +54,12 @@ public function storeUser(Request $request)
         'password' => [
             'required',
             'confirmed',
-            'min:8',
-            'regex:"/^(?=.*?[A-Z]).{8,}$/"', 
-            //Password::defaults()
+
+            Password::min(8)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols(),
         ],
         'role' => ['required', 'exists:roles,name'],
     ], [

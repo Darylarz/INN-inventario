@@ -38,7 +38,7 @@
           @foreach($lowStockItems as $i)
             <li>
               {{ $i->item_type ?? 'Artículo' }} —
-              {{ trim(($i->brand ?? '').' '.($i->model ?? '')) }}              <a href="{{ route('inventory.show', $i->id) }}" class="underline">ver</a>
+              {{ trim(($i->brand ?? '').' '.($i->model ?? '')) }} <a href="{{ route('inventory.show', $i->id) }}" class="underline">ver</a>
               {{ $i->tool_name ? ' · '.$i->tool_name : '' }}
               {{ $i->printer_model ? ' · '.$i->printer_model : '' }}
               {{ $i->material_type ? ' · '.$i->material_type : '' }}
