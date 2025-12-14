@@ -9,7 +9,7 @@ class Consumible extends Model
 {
     use HasFactory;
 
-    protected $table = 'consumables';
+    protected $table = 'consumibles';
 
     protected $fillable = [
         'categoria',  // toner o material para impresora

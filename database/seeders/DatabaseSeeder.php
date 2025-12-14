@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,12 +15,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
+        if(Schema::hasTable('users')) {
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-        
+        } else {
+            $this->command->warn('La tabla users no existe. Saltando la creación del usuario de prueba.');
+        }
         $this->call([
             RolesAndPermissionsSeeder::class,
             DefaultUsersSeeder::class,

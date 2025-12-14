@@ -15,7 +15,7 @@ return new class extends Migration
 Schema::create('materiales_impresora', function (Blueprint $table) {
     $table->id();
     $table->string('tipo_material'); // fusor, rodillo, cintas etc.
-    $table->string('impresora'); // modelo o referencia
+    $table->string('modelo_impresora'); // modelo o referencia
     $table->integer('cantidad')->default(0);
     $table->timestamps();
 });
@@ -27,7 +27,7 @@ Schema::create('materiales_impresora', function (Blueprint $table) {
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('inventario');
     }
 };
 

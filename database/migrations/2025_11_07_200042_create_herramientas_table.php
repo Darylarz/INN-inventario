@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
     
-Schema::create('toners', function (Blueprint $table) {
+Schema::create('herramientas', function (Blueprint $table) {
     $table->id();
-    $table->string('marca_toner');
-    $table->string('modelo_toner');
-    $table->string('modelo_impresora');
-    $table->string('color_toner');
-    $table->integer('cantidad')->default(0);
+    $table->string('nombre_herramienta');
+    $table->string('tipo_herramienta');  // manual, eléctrica, medición, etc.
+    $table->integer('cantidad')->default(1);
+    $table->string('bien_nacional')->nullable();
+    $table->string('numero_serie')->nullable();
+    $table->string('estado_herramienta')->nullable();
+    $table->string('observaciones_herramienta')->nullable();
     $table->timestamps();
 });
 

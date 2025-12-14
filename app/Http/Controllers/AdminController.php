@@ -96,7 +96,11 @@ public function updateUser(Request $request, User $user)
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:users,email,' . $user->id,
         'role' => 'required|exists:roles,name',
-        'password' => ['nullable', 'confirmed', Password::defaults()],
+        'password' => ['nullable', 'confirmed', Password::min(8)
+                ->mixedCase()
+                ->letters()
+                ->numbers()
+                ->symbols()],
     ]);
 
     $user->update([

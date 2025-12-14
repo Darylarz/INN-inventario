@@ -8,6 +8,6 @@ class TipoInventario extends Model
 {
     use HasFactory;
 
-    protected $table = 'tipos_inventario';
-    protected $fillable = ['name'];
+    protected $table = 'tipo_inventario';
+    protected $fillable = ['nombre', 'created_at'];
 }

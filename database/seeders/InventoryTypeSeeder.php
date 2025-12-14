@@ -12,7 +12,7 @@ class InventoryTypeSeeder extends Seeder
         $types = ['PC', 'Consumible', 'Herramienta'];
 
         foreach ($types as $type) {
-            TipoInventario::updateOrCreate(['name' => $type]);
+            TipoInventario::updateOrCreate(['nombre' => $type]);
         }
     }
 }
