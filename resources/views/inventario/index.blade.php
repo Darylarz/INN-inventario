@@ -83,8 +83,8 @@
     <table class="table-auto border-collapse border border-gray-300 w-full">
       <thead class="bg-gray-100">
         <tr>
-          <th class="border px-3 py-2">Nombre</th>
-          <th class="border px-3 py-2">Número de serie</th>
+          <th class="border px-1 py-1"><h5>Nombre</h5></th>
+          <th class="border px-1 py-1">Número de serie</th>
           <th class="border px-3 py-2">Bien Nacional</th>
           
           
@@ -122,7 +122,7 @@
                 <a href="{{ route('inventario.entrada.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-green-600 hover:bg-green-700 text-white mr-2">Entrada</a>
                 <a href="{{ route('inventario.salida.create', $item->id) }}" class="inline-block px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white mr-2">Salida</a>
                 <a href="{{ route('inventario.edit', $item->id) }}" class="text-blue-600 mr-2">Editar</a>
-                <form action="{{ route('inventario.disable', $item->id) }}" method="POST" class="inline" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=razon_desactivado]').value = r; return confirm('¿Desincorporar artículo?');">
+                <form action="{{ route('inventario.disable', $item->id) }}" method="POST" class="inline-block px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white mr-2" onsubmit="var r = prompt('Motivo de desincorporación (opcional):'); if (r === null) { return false; } this.querySelector('input[name=razon_desactivado]').value = r; return confirm('¿Desincorporar artículo?');">
                   @csrf
                   <input type="hidden" name="disabled_reason" value="">
                   <button class="text-yellow-600 mr-2">Desincorporar</button>
@@ -194,14 +194,14 @@
     <table class="table-auto border-collapse border border-gray-300 w-full">
       <thead class="bg-gray-100">
         <tr>
-          <th class="border px-3 py-2">Nombre</th>
-          <th class="border px-3 py-2">Marca</th>
-          <th class="border px-3 py-2">Modelo</th>
+          <th class="border px-1 py-1">Nombre</th>
+          <th class=" px-1 py-1">Marca</th>
+          <th class="border px-1 py-1">Modelo</th>
           
-          <th class="border px-3 py-2">Tipo herramienta</th>
-          <th class="border px-3 py-2">Reciclado</th>
-          <th class="border px-3 py-2">Artículo ingresado por</th>
-          <th class="border px-3 py-2">Fecha de ingreso</th>
+          <th class="border px-1 py-1"><h5>Tipo herramienta</th>
+          <th class="border px-1 py-1"><h5>Reciclado</th>
+          <th class="border px-1 py-1"><h5>Artículo ingresado por</th>
+          <th class="border px-1 py-1"><h5>Fecha de ingreso</th>
           @can('usuario crear')
             <th class="border px-3 py-2">Acciones</th>
           @endcan

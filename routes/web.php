@@ -1,4 +1,3 @@
-
 <?php
 
 use App\Http\Controllers\ProfileController;
@@ -17,7 +16,7 @@ use App\Http\Controllers\consumibleController;
 use App\Http\Controllers\reportesController;
 
 
-// raíz -> redirigir al dashboard (Blade) este 
+// raíz -> redirigir al dashboard (Blade)
 use App\Http\Controllers\inventarioController;
 use App\Http\Controllers\movimientoInventarioController;
 use App\Http\Controllers\categoriaController;
@@ -35,8 +34,7 @@ use App\Http\Controllers\{
     
 };
 
-
-// LOGIN (POST existente ajustado para redirigir si no es AJAX)
+// LOGIN
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([
         'email' => ['required', 'email'],
@@ -63,7 +61,7 @@ Route::post('/register', function (Request $request) {
     $data = $request->validate([
         'name' => ['required', 'string'],
         'email' => ['required', 'email', 'unique:users,email'],
-        'password' => ['required', 'confirmed', 'min:6'],
+        'password' => ['required', 'confirmed', 'min:8'],
     ]);
 
     $user = User::create([
@@ -91,6 +89,8 @@ Route::post('/logout', function (Request $request) {
     }
     return redirect()->route('login');
 });
+
+
 /*
 |--------------------------------------------------------------------------
 | RUTAS PROTEGIDAS
@@ -132,7 +132,7 @@ Route::get('/dashboard', [inventarioController::class, 'index'])->name('dashboar
         Route::post('/{inventario}/salida', [movimientoInventarioController::class, 'guardarSalida'])->name('inventario.salida.store');
     // Admin
     
-        Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+        Route::get('/users', [AdminController::class, 'users'])->middleware('can:usuario crear')->name('admin.users');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
     Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
     Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
@@ -209,57 +209,9 @@ Route::middleware('guest')->group(function () {
 
 Route::get('/', function () {
     return auth()->check()
-        ? redirect()->route('inventory.index')
+        ? redirect()->route('inventario.index')
         : redirect()->route('login');
 });
 
 // Eliminada la ruta catch-all que devolvía view('app')
 // ya no hay Route::get('/{any}', ...) al final
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
-
-// Inicio
-
-Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
-
-// Ubicaciones (solo admin)
-Route::get('/ubicaciones', [UbicacionController::class, 'index'])
-    ->middleware('can:usuario crear')
-    ->name('ubicaciones.index');
-
-// Inventario esto esta bien fino
-Route::controller(InventarioController::class)->prefix('inventario')->group(function () {
-    Route::get('/', 'index')->name('inventario.index');          // consultar artículo
-    Route::get('/create', 'create')->name('inventario.create');  // añadir artículo
-    Route::get('/edit/{id}', 'edit')->middleware('can:usuario crear')->name('inventario.edit'); // modificar artículo
-    Route::get('/disabled', 'disabled')->middleware('can:usuario crear')->name('inventario.disabled'); // desincorporar artículo
-});
-
-// Categorías
-Route::controller(CategoriaController::class)->prefix('categorias')->group(function () {
-    Route::get('/', 'index')->name('categorias.index');
-    Route::get('/pc', 'pc')->name('categorias.pc');
-    Route::get('/consumibles', 'consumibles')->name('categorias.consumibles');
-    Route::get('/herramientas', 'herramientas')->name('categorias.herramientas');
-});
-
-// Reportes (almacenista y admin)
-Route::controller(ReporteController::class)->prefix('reportes')->middleware('can:articulo agregar')->group(function () {
-    Route::get('/', 'index')->name('reportes.index');
-    Route::get('/activos', 'activos')->name('reportes.activos');
-    Route::get('/desincorporados', 'desincorporados')->name('reportes.desincorporados');
-});
-
-// Usuarios (solo admin)
-Route::get('/admin/users', [UserController::class, 'index'])
-    ->middleware('can:usuario crear')
-    ->name('admin.users');
-
-
-
-// Logout
-Route::post('/logout', [CuentaController::class, 'logout'])->name('logout');
