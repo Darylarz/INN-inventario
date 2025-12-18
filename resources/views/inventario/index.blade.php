@@ -65,7 +65,7 @@
         <input type="text" name="busqueda" value="{{ $busqueda ?? request('busqueda') }}" placeholder="Buscar por marca, modelo, nro de serie, bien nacional, tipo, modelo impresora, capacidad y generación" class="w-full px-3 py-2 border rounded">
         <button class="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900">Buscar</button>
         @if(!empty($busqueda) || filled(request('busqueda')))
-          <a href="{{ route('inventaio.index') }}" class="px-3 py-2 text-gray-700 underline">Limpiar</a>
+          <a href="{{ route('inventario.index') }}" class="px-3 py-2 text-gray-700 underline">Limpiar</a>
         @endif
       </form>
     </div>

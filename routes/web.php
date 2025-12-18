@@ -4,7 +4,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InventoryManagementController;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route; // tambien es ruta del sidebar//
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +24,6 @@ use App\Http\Controllers\categoriaController;
 use App\Http\Controllers\ubicacionController;
 
 // rutas del sidebar
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     
     productoController,
