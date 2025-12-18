@@ -22,18 +22,6 @@ use App\Http\Controllers\movimientoInventarioController;
 use App\Http\Controllers\categoriaController;
 use App\Http\Controllers\ubicacionController;
 
-// rutas del sidebar
-use App\Http\Controllers\{
-    
-    productoController,
-    ubicacionController,
-    inventarioController,
-    categoriaController,
-    reporteController,
-    userController,
-    
-};
-
 // LOGIN
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([
