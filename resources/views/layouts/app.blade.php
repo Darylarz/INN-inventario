@@ -114,5 +114,9 @@
       }
     });
   </script>
+
+  @auth
+    @include('partials.session-extend')
+  @endauth
 </body>
 </html>

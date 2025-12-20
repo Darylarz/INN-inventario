@@ -41,12 +41,12 @@ class Kernel extends HttpKernel
 
     /**
      * The application's route middleware.
-     *
+     *h
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        
+        'session.timeout' => \App\Http\Middleware\SessionTimeout::class,
     ];
 }

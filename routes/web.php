@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InventoryManagementController;
 use Illuminate\Support\Facades\Route; // tambien es ruta del sidebar//
@@ -9,10 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
+use App\Http\Middleware\SessionTimeout; // <-- añadir
 
 use App\Http\Controllers\ArticuloHardwareController;
-use App\Http\Controllers\herramientaController;
-use App\Http\Controllers\consumibleController;
+use App\Http\Controllers\HerramientaController;
+use App\Http\Controllers\ConsumibleController;
 use App\Http\Controllers\reportesController;
 
 
@@ -68,15 +68,15 @@ Route::post('/register', function (Request $request) {
 });
 // LOGOUT ajustado para redirigir en peticiones normales
 Route::post('/logout', function (Request $request) {
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-
-    if ($request->wantsJson()) {
-        return response()->json(['message' => 'ok']);
-    }
-    return redirect()->route('login');
-});
+     Auth::logout();
+     $request->session()->invalidate();
+     $request->session()->regenerateToken();
+ 
+     if ($request->wantsJson()) {
+         return response()->json(['message' => 'ok']);
+     }
+     return redirect()->route('login');
+})->name('logout');
 
 
 /*
@@ -85,15 +85,17 @@ Route::post('/logout', function (Request $request) {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->group(function () {
+// aplicar middleware por clase en lugar de la clave
+Route::middleware(['auth', SessionTimeout::class])->group(function () {
+    // Keep-alive para extender sesión desde el cliente
+    Route::post('/session/keep-alive', function (\Illuminate\Http\Request $request) {
+        $request->session()->put('lastActivityTime', time());
+        return response()->json(['ok' => true]);
+    })->name('session.keepalive');
 
     // ahora la ruta /dashboard devuelve la vista Blade que monta Livewire
     
 Route::get('/dashboard', [inventarioController::class, 'index'])->name('dashboard');
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::prefix('inventario')->name('inventario.')->group(function () {
         Route::get('/', [inventarioController::class, 'index'])->name('index');
