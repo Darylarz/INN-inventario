@@ -169,6 +169,28 @@ class inventarioController extends Controller
         $created = Inventario::create($data);
         \Log::info('inventario.store.created', $created->toArray());
     
+        try {
+    logcatModel::create([
+        'user_id'     => Auth::id(),
+        'accion'      => 'creado',
+        'recurso'     => 'inventario',
+        'sujeto_id'   => $created->id,
+        'descripcion' => "Artículo creado: {$created->tipo} {$created->marca} {$created->modelo}",
+        'ip'          => $request->ip(),
+        'user_agent'  => substr($request->userAgent() ?? '', 0, 1000),
+        'propiedades' => [
+            'id' => $created->id,
+            'tipo' => $created->tipo,
+            'marca' => $created->marca,
+            'modelo' => $created->modelo,
+            'numero_serial' => $created->numero_serial,
+            'bien_nacional' => $created->bien_nacional,
+            'cantidad' => $created->cantidad,
+        ],
+    ]);
+} catch (\Throwable $e) {
+    // no romper la ejecución si falla el log
+}
 
         return redirect()->route('inventario.index')
             ->with('success', 'Artículo creado correctamente.');
