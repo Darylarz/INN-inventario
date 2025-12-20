@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>INN Inventario</title>
 
+  <style>
+    /* Altura fija del navbar en px para evitar variaciones entre navegadores */
+    :root { --navbar-height: 64px; } /* ajusta si tu navbar tiene otra altura */
+    /* aplicar espacio consistente */
+    #sidebar { padding-top: var(--navbar-height); }
+    main.app-main { padding-top: var(--navbar-height); }
+  </style>
+
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   @livewireStyles
 </head>
@@ -12,9 +20,9 @@
   <div class="min-h-screen flex flex-col">
     @auth
       @include('components.navbar')
-      <div class="flex flex-1 pt-20">
+      <div class="flex flex-1"> {{-- quitar pt-20 aquí --}}
         @include('components.sidebar')
-        <main class="flex-1 p-4 overflow-auto">
+        <main class="flex-1 p-4 overflow-auto app-main">
           @yield('content')
         </main>
       </div>

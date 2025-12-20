@@ -168,6 +168,7 @@ class inventarioController extends Controller
 
         $created = Inventario::create($data);
         \Log::info('inventario.store.created', $created->toArray());
+    
 
         return redirect()->route('inventario.index')
             ->with('success', 'Artículo creado correctamente.');

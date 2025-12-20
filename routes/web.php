@@ -14,6 +14,8 @@ use App\Http\Controllers\ArticuloHardwareController;
 use App\Http\Controllers\HerramientaController;
 use App\Http\Controllers\ConsumibleController;
 use App\Http\Controllers\reportesController;
+use App\Http\Controllers\logcatController;
+use App\Http\Middleware\logcatMiddleware;
 
 
 // raíz -> redirigir al dashboard (Blade)
@@ -85,8 +87,8 @@ Route::post('/logout', function (Request $request) {
 |--------------------------------------------------------------------------
 */
 
-// aplicar middleware por clase en lugar de la clave
-Route::middleware(['auth', SessionTimeout::class])->group(function () {
+// aplicar middleware por clase (ya usas SessionTimeout); añade logcat::class al grupo auth
+Route::middleware(['auth', SessionTimeout::class, logcatMiddleware::class])->group(function () {
     // Keep-alive para extender sesión desde el cliente
     Route::post('/session/keep-alive', function (\Illuminate\Http\Request $request) {
         $request->session()->put('lastActivityTime', time());
@@ -149,7 +151,14 @@ Route::get('/dashboard', [inventarioController::class, 'index'])->name('dashboar
         Route::put('/{categoria}', [categoriaController::class, 'update'])->name('update');
         Route::delete('/{categoria}', [categoriaController::class, 'destroy'])->name('destroy');
     });
+
+    // Activity logs (logcat) (ver / eliminar)
+    Route::middleware('can:usuario crear')->group(function () {
+    Route::get('logcat', [logcatController::class, 'index'])->name('logcat.index');
+    Route::get('logcat/{logcat}', [logcatController::class, 'show'])->name('logcat.show');
+    Route::delete('logcat/{logcat}', [logcatController::class, 'destroy'])->name('logcat.destroy');
     });
+});
 
 Route::middleware(['auth'])->group(function () {
 
