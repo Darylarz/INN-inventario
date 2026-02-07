@@ -25,9 +25,9 @@
           <td>{{ $log->ip }}</td>
           <td class="text-right">
             <a href="{{ route('logcat.show', $log) }}" class="text-blue-600">Ver</a>
-            <form method="POST" action="{{ route('logcat.destroy', $log) }}" style="display:inline">
+            <form method="POST" action="{{ route('logcat.destroy', $log) }}" class="inline-block">
               @csrf @method('DELETE')
-              <button type="submit" class="text-red-600 ml-2" onclick="return confirm('Eliminar registro?')">Eliminar</button>
+              <button type="submit" class="inline-block px-2 py-1 text-red-600 hover:text-red-800 ml-2" onclick="return confirm('Eliminar registro?')">Eliminar</button>
             </form>
           </td>
         </tr>

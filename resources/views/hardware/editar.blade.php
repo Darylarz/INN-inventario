@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto bg-white shadow rounded p-6 mt-6">
-    <form action="{{ route('hardware.actualizar', $articulo->id) }}" method="POST">
+    <form action="{{ route('hardware.actualizar', $articulo->id) }}" method="POST" class="space-y-4">
         @csrf
         @method('PUT')
         @include('hardware.form', ['articulo' => $articulo])

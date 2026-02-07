@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="max-w-2xl mx-auto bg-white shadow rounded p-6 mt-6">
-    <form action="{{ route('herramientas.guardar') }}" method="POST">
+    <form action="{{ route('herramientas.guardar') }}" method="POST" class="space-y-4">
         @csrf
 
         <div class="mb-4">

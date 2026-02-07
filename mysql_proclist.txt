@@ -1,0 +1,70 @@
+*************************** 1. row ***************************
+      Id: 3516
+    User: desarrollador
+    Host: localhost:44984
+      db: test
+ Command: Sleep
+    Time: 4920
+   State: 
+    Info: NULL
+Progress: 0.000
+*************************** 2. row ***************************
+      Id: 3517
+    User: desarrollador
+    Host: localhost:44996
+      db: test
+ Command: Sleep
+    Time: 4920
+   State: 
+    Info: NULL
+Progress: 0.000
+*************************** 3. row ***************************
+      Id: 60433
+    User: root
+    Host: localhost
+      db: NULL
+ Command: Query
+    Time: 0
+   State: starting
+    Info: SHOW PROCESSLIST
+Progress: 0.000
+*************************** 4. row ***************************
+      Id: 60436
+    User: desarrollador
+    Host: localhost:41898
+      db: inn-inventario
+ Command: Execute
+    Time: 0
+   State: Commit
+    Info: insert into `inventario` (`tipo_item`, `marca`, `modelo`, `numero_serial`, `cantidad`, `updated_at`,
+Progress: 0.000
+*************************** 1. row ***************************
+      Id: 3516
+    User: desarrollador
+    Host: localhost:44984
+      db: test
+ Command: Sleep
+    Time: 4932
+   State: 
+    Info: NULL
+Progress: 0.000
+*************************** 2. row ***************************
+      Id: 3517
+    User: desarrollador
+    Host: localhost:44996
+      db: test
+ Command: Sleep
+    Time: 4931
+   State: 
+    Info: NULL
+Progress: 0.000
+*************************** 3. row ***************************
+      Id: 61045
+    User: root
+    Host: localhost
+      db: NULL
+ Command: Query
+    Time: 0
+   State: starting
+    Info: SHOW PROCESSLIST
+Progress: 0.000

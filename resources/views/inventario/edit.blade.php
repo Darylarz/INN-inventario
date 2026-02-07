@@ -4,7 +4,7 @@
 <div class="container mx-auto p-6 bg-white rounded shadow">
     <h2 class="text-xl font-semibold mb-4">Editar artículo</h2>
 
-    <form action="{{ route('inventario.update', $inventario->id) }}" method="POST">
+    <form action="{{ route('inventario.update', $inventario->id) }}" method="POST" class="space-y-4">
         @csrf
         @method('PUT')
 
