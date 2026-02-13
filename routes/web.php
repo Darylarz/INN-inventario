@@ -24,6 +24,8 @@ use App\Http\Controllers\movimientoInventarioController;
 use App\Http\Controllers\categoriaController;
 use App\Http\Controllers\ubicacionController;
 
+
+
 // LOGIN
 Route::post('/login', function (Request $request) {
     $credentials = $request->validate([

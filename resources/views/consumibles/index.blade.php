@@ -33,7 +33,7 @@
                             <form action="{{ route('consumibles.eliminar', $item->id) }}" method="POST" class="inline-block" onsubmit="return confirm('¿Eliminar consumible?')">
                                 @csrf
                                 @method('DELETE')
-                                <button class="text-red-600 hover:underline">Eliminar</button>
+                                <button class="inline-block px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white">Eliminar</button>
                             </form>
                         </td>
                     </tr>

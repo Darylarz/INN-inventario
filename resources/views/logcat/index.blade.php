@@ -1,42 +1,91 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto p-6">
-  <h1 class="text-xl mb-4">Registros de actividad</h1>
+<div class="max-w-7xl mx-auto px-6 py-8 space-y-6">
 
-  <table class="min-w-full bg-white">
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Usuario</th>
-        <th>Acción</th>
-        <th>Sujeto / Ruta</th>
-        <th>IP</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      @forelse($logs as $log)
-        <tr>
-          <td>{{ $log->created_at }}</td>
-          <td>{{ $log->user->name ?? '-' }}</td>
-          <td>{{ $log->accion }}</td>
-          <td>{{ $log->tipo_sujeto ?? $log->propiedades['route'] ?? '-' }}</td>
-          <td>{{ $log->ip }}</td>
-          <td class="text-right">
-            <a href="{{ route('logcat.show', $log) }}" class="text-blue-600">Ver</a>
-            <form method="POST" action="{{ route('logcat.destroy', $log) }}" class="inline-block">
-              @csrf @method('DELETE')
-              <button type="submit" class="inline-block px-2 py-1 text-red-600 hover:text-red-800 ml-2" onclick="return confirm('Eliminar registro?')">Eliminar</button>
-            </form>
-          </td>
-        </tr>
-      @empty
-        <tr><td colspan="6">Sin registros</td></tr>
-      @endforelse
-    </tbody>
-  </table>
+    {{-- Header --}}
+    <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100">
+            Registros de actividad
+        </h1>
+    </div>
 
-  <div class="mt-4">{{ $logs->links() }}</div>
+    {{-- Tabla --}}
+    <div class="bg-white dark:bg-gray-900 rounded-xl shadow overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead class="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+                    <tr>
+                        <th class="px-4 py-3 text-left">Fecha</th>
+                        <th class="px-4 py-3 text-left">Usuario</th>
+                        <th class="px-4 py-3 text-left">Acción</th>
+                        <th class="px-4 py-3 text-left">Sujeto / Ruta</th>
+                        <th class="px-4 py-3 text-left">IP</th>
+                        <th class="px-4 py-3 text-right">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y dark:divide-gray-800">
+                    @forelse($logs as $log)
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                            <td class="px-4 py-3 text-gray-500">
+                                {{ $log->created_at->format('Y-m-d H:i') }}
+                            </td>
+
+                            <td class="px-4 py-3">
+                                {{ $log->user->name ?? '-' }}
+                            </td>
+
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold
+                                    bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                                    {{ ucfirst($log->accion) }}
+                                </span>
+                            </td>
+
+                            <td class="px-4 py-3 text-gray-600 dark:text-gray-300 truncate max-w-xs">
+                                {{ $log->tipo_sujeto ?? $log->propiedades['route'] ?? '-' }}
+                            </td>
+
+                            <td class="px-4 py-3 text-gray-500">
+                                {{ $log->ip }}
+                            </td>
+
+                            <td class="px-4 py-3 text-right space-x-3">
+                                <a href="{{ route('logcat.show', $log) }}"
+                                   class="text-indigo-600 hover:underline">
+                                    Ver
+                                </a>
+
+                                <form method="POST"
+                                      action="{{ route('logcat.destroy', $log) }}"
+                                      class="inline-block"
+                                      onsubmit="return confirm('¿Eliminar registro?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="text-red-600 hover:text-red-800">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center py-8 text-gray-500">
+                                Sin registros de actividad
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{-- Paginación --}}
+    <div class="pt-4">
+        {{ $logs->links() }}
+    </div>
+
 </div>
 @endsection

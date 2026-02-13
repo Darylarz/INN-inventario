@@ -1,115 +1,152 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Crear Usuario</h1>
+<div class="container mx-auto p-6 max-w-3xl">
+  <h1 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
+    Crear Usuario
+  </h1>
 
-@if(session('status'))
-    <div style="background: #10b981; color: white; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
-        {{ session('status') }}
+  {{-- Mensajes --}}
+  @if(session('status'))
+    <div class="mb-4 p-4 rounded bg-green-500 text-white">
+      {{ session('status') }}
     </div>
-@endif
+  @endif
 
-@if(session('error'))
-    <div style="background: #ef4444; color: white; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
-        {{ session('error') }}
+  @if(session('error'))
+    <div class="mb-4 p-4 rounded bg-red-500 text-white">
+      {{ session('error') }}
     </div>
-@endif
+  @endif
 
-<form method="POST" action="{{ route('admin.users.store') }}" style="max-width: 600px;">
-    @csrf
+  <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+    <form method="POST" action="{{ route('admin.users.store') }}">
+      @csrf
 
-    {{-- Nombre --}}
-    <div style="margin-bottom: 20px;">
-        <label for="name" style="display: block; font-weight: bold; margin-bottom: 5px;">Nombre</label>
-        <input type="text" 
-               id="name" 
-               name="name" 
-               value="{{ old('name') }}" 
-               required
-               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-        @error('name') 
-            <p style="color: red; font-size: 14px; margin-top: 5px;">{{ $message }}</p>
+      {{-- Nombre --}}
+      <div class="mb-5">
+        <label for="name" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
+          Nombre
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="{{ old('name') }}"
+          required
+          class="w-full rounded border-gray-300 dark:border-gray-600
+                 dark:bg-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+        >
+        @error('name')
+          <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
         @enderror
-    </div>
+      </div>
 
-    {{-- Email --}}
-    <div style="margin-bottom: 20px;">
-        <label for="email" style="display: block; font-weight: bold; margin-bottom: 5px;">Email</label>
-        <input type="email" 
-               id="email" 
-               name="email" 
-               value="{{ old('email') }}" 
-               required
-               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-        @error('email') 
-            <p style="color: red; font-size: 14px; margin-top: 5px;">{{ $message }}</p>
+      {{-- Email --}}
+      <div class="mb-5">
+        <label for="email" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="{{ old('email') }}"
+          required
+          class="w-full rounded border-gray-300 dark:border-gray-600
+                 dark:bg-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+        >
+        @error('email')
+          <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
         @enderror
-    </div>
+      </div>
 
-    {{-- Rol --}}
-    <div style="margin-bottom: 20px;">
-        <label for="role" style="display: block; font-weight: bold; margin-bottom: 5px;">Rol</label>
-        <select id="role" 
-                name="role" 
-                required
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-            <option value="">Seleccionar Rol</option>
-            @foreach($roles as $role)
-                <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
-                    {{ $role->name }}
-                </option>
-            @endforeach
+      {{-- Rol --}}
+      <div class="mb-5">
+        <label for="role" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
+          Rol
+        </label>
+        <select
+          id="role"
+          name="role"
+          required
+          class="w-full rounded border-gray-300 dark:border-gray-600
+                 dark:bg-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="">Seleccionar rol</option>
+          @foreach($roles as $role)
+            <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
+              {{ $role->name }}
+            </option>
+          @endforeach
         </select>
-        @error('role') 
-            <p style="color: red; font-size: 14px; margin-top: 5px;">{{ $message }}</p>
+        @error('role')
+          <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
         @enderror
-    </div>
+      </div>
 
-    {{-- Contraseña --}}
-    <div style="margin-bottom: 20px;">
-        <label for="password" style="display: block; font-weight: bold; margin-bottom: 5px;">Contraseña</label>
-        <input type="password" 
-               id="password" 
-               name="password" 
-               required
-               minlength="8"
-               
-               title="Mínimo 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales"
-               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-        @error('password') 
-            <p style="color: red; font-size: 14px; margin-top: 5px;">{{ $message }}</p>
-            
+      {{-- Contraseña --}}
+      <div class="mb-5">
+        <label for="password" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
+          Contraseña
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          minlength="8"
+          class="w-full rounded border-gray-300 dark:border-gray-600
+                 dark:bg-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+        >
+        @error('password')
+          <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
         @enderror
-        <div style="font-size: 12px; color: #666; margin-top: 5px;">
-            <strong>Requisitos:</strong><br>
-            • Mínimo 8 caracteres<br>
-            • Al menos una mayúscula<br>
-            • Al menos una minúscula<br>
-            • Al menos un número<br>
-            • Al menos un carácter especial (@ $ ! % * ? &)
+
+        <div class="mt-2 text-xs text-gray-600 dark:text-gray-400">
+          <strong>Requisitos:</strong>
+          <ul class="list-disc ml-4 mt-1">
+            <li>Mínimo 8 caracteres</li>
+            <li>Una mayúscula</li>
+            <li>Una minúscula</li>
+            <li>Un número</li>
+            <li>Un carácter especial (@ $ ! % * ? &)</li>
+          </ul>
         </div>
-    </div>
+      </div>
 
-    {{-- Confirmar contraseña --}}
-    <div style="margin-bottom: 20px;">
-        <label for="password_confirmation" style="display: block; font-weight: bold; margin-bottom: 5px;">Confirmar Contraseña</label>
-        <input type="password" 
-               id="password_confirmation" 
-               name="password_confirmation" 
-               required
-               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-    </div>
+      {{-- Confirmar contraseña --}}
+      <div class="mb-6">
+        <label for="password_confirmation" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
+          Confirmar contraseña
+        </label>
+        <input
+          type="password"
+          id="password_confirmation"
+          name="password_confirmation"
+          required
+          class="w-full rounded border-gray-300 dark:border-gray-600
+                 dark:bg-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+        >
+      </div>
 
-    {{-- Botones --}}
-    <div style="text-align: right; margin-top: 30px;">
-        <a href="{{ route('admin.users') }}" 
-           style="display: inline-block; padding: 10px 20px; border: 1px solid #ccc; text-decoration: none; margin-right: 10px; border-radius: 4px;">
-            Cancelar
+      {{-- Botones --}}
+      <div class="flex justify-end gap-3">
+        <a
+          href="{{ route('admin.users') }}"
+          class="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700
+                 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600"
+        >
+          Cancelar
         </a>
-        <button type="submit" 
-                style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">
-            Crear Usuario
+        <button
+          type="submit"
+          class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+        >
+          Crear usuario
         </button>
-    </div>
-</form>
+      </div>
+    </form>
+  </div>
+</div>
 @endsection
