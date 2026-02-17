@@ -58,14 +58,13 @@
                                 </a>
 
                                 <form method="POST"
-                                      action="{{ route('logcat.destroy', $log) }}"
+                                      action="{{ route('logcat.deactivate', $log) }}"
                                       class="inline-block"
-                                      onsubmit="return confirm('¿Eliminar registro?')">
+                                      onsubmit="return confirm('¿Desactivar registro?')">
                                     @csrf
-                                    @method('DELETE')
                                     <button type="submit"
-                                        class="text-red-600 hover:text-red-800">
-                                        Eliminar
+                                        class="text-yellow-600 hover:text-yellow-800">
+                                        Desactivar
                                     </button>
                                 </form>
                             </td>

@@ -17,6 +17,7 @@ class logcatModel extends Model
         'ip',
         'user_agent',
         'propiedades',
+        'is_active',
     ];
 
     protected $casts = [

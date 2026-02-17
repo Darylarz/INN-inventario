@@ -164,6 +164,7 @@ Route::get('/dashboard', [inventarioController::class, 'index'])->name('dashboar
     Route::get('logcat', [logcatController::class, 'index'])->name('logcat.index');
     Route::get('logcat/{logcat}', [logcatController::class, 'show'])->name('logcat.show');
     Route::delete('logcat/{logcat}', [logcatController::class, 'destroy'])->name('logcat.destroy');
+    Route::post('/logcat/{logcat}/deactivate', [logcatController::class, 'deactivate'])->name('logcat.deactivate');
     });
 });
 

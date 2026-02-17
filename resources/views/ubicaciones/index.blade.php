@@ -33,7 +33,7 @@
             <a href="{{ route('ubicaciones.edit', $l) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Editar</a>
             <form method="POST" action="{{ route('ubicaciones.deactivate', $l) }}" class="inline-block" onsubmit="return confirm('¿Desactivar ubicación?');">
               @csrf
-              <button class="inline-block px-2 py-1 rounded bg-yellow-600 hover:bg-yellow-700 text-white">Desactivar</button>
+              <button class="inline-block px-4 py-2 w-full rounded bg-yellow-600 hover:bg-yellow-700 text-white dark:text-white" style="color: white !important;">Desactivar</button>
             </form>
           </td>
         </tr>

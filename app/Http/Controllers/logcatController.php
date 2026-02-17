@@ -31,9 +31,9 @@ class logcatController extends Controller
         return view('logcat.show', compact('logcat'));
     }
 
-    public function destroy(logcatModel $logcat)
+    public function deactivate(logcatModel $logcat)
     {
-        $logcat->delete();
-        return redirect()->route('logcat.index')->with('success', 'Registro eliminado.');
+        $logcat->update(['is_active' => false]);
+        return redirect()->route('logcat.index')->with('success', 'Registro desactivado.');
     }
 }
