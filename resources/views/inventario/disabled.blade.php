@@ -113,11 +113,11 @@
 
                   <form action="{{ route('inventario.destroy', $item->id) }}"
                         method="POST"
-                        onsubmit="return confirm('¿Eliminar artículo?')">
+                        onsubmit="return confirm('¿Desactivar artículo nuevamente?')">
                     @csrf
                     @method('DELETE')
                     <button class="text-red-600 hover:underline">
-                      Eliminar
+                      Desactivar
                     </button>
                   </form>
                 </div>

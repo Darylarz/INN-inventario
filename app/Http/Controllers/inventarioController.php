@@ -23,6 +23,7 @@ class inventarioController extends Controller
                 $query->where(function ($q) use ($busqueda) {
                     $q->where('marca', 'like', "%{$busqueda}%")
                       ->orWhere('modelo', 'like', "%{$busqueda}%")
+                      ->orWhere('nombre', 'like', "%{$busqueda}%")
                       ->orWhere('numero_serial', 'like', "%{$busqueda}%")
                       ->orWhere('bien_nacional', 'like', "%{$busqueda}%")
                       ->orWhere('tipo_item', 'like', "%{$busqueda}%")
@@ -167,6 +168,8 @@ class inventarioController extends Controller
         \Log::info('inventario.store.request', $data);
 
         $created = Inventario::create($data);
+        $created->fecha_ingreso = $request->input('fecha_ingreso');
+        $created->save();
         \Log::info('inventario.store.created', $created->toArray());
     
         try {
@@ -230,10 +233,23 @@ class inventarioController extends Controller
 
         return redirect()->route('inventario.index')->with('success', 'Artículo actualizado correctamente.');
     }
-    // Eliminar artículo
-    public function destroy(Inventario $inventario)
+    // Desactivar artículo (reemplazo de eliminar)
+    public function destroy(Request $request, Inventario $inventario)
     {
-        $inventario->delete();
-        return redirect()->route('inventario.disabled')->with('success', 'Artículo eliminado correctamente.');
+        if (!auth()->check() || !auth()->user()->can('usuario crear')) {
+            abort(403);
+        }
+
+        $request->validate([
+            'razon_desactivado' => 'nullable|string|max:500',
+        ]);
+
+        $inventario->update([
+            'esta_desactivado' => true,
+            'fecha_desactivado' => now(),
+            'razon_desactivado' => $request->input('razon_desactivado'),
+        ]);
+
+        return redirect()->route('inventario.index')->with('success', 'Artículo desactivado correctamente.');
     }
 }

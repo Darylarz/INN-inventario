@@ -21,7 +21,7 @@ class ubicacionController extends Controller
     {
         $data = $request->validate([
             'nombre' => ['required', 'string', 'max:20'],
-            'codigo' => ['nullable', 'string', 'max:60', 'unique:ubicacion,codigo'],
+            'codigo' => ['nullable', 'string', 'max:60', 'unique:ubicaciones,codigo'],
             'descripcion' => ['nullable', 'string', 'max:50'],
         ]);
         Ubicacion::create($data);

@@ -46,6 +46,7 @@ class movimientoInventarioController extends Controller
         $data = $request->validate([
             'cantidad' => ['required', 'integer', 'min:1'],
             'nota' => ['nullable', 'string', 'max:50'],
+            'ubicacion_id' => ['required', 'exists:ubicaciones,id'],
         ]);
 
         DB::transaction(function () use ($inventario, $data) {

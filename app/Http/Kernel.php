@@ -49,5 +49,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'session.timeout' => \App\Http\Middleware\SessionTimeout::class,
         'logcat' => \App\Http\Middleware\logcatMiddleware::class,
+
     ];
 }

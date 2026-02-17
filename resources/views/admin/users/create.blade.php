@@ -26,7 +26,7 @@
       {{-- Nombre --}}
       <div class="mb-5">
         <label for="name" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
-          Nombre
+          Nombre *
         </label>
         <input
           type="text"
@@ -45,7 +45,7 @@
       {{-- Email --}}
       <div class="mb-5">
         <label for="email" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
-          Email
+          Email *
         </label>
         <input
           type="email"
@@ -64,7 +64,7 @@
       {{-- Rol --}}
       <div class="mb-5">
         <label for="role" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
-          Rol
+          Rol *
         </label>
         <select
           id="role"
@@ -88,7 +88,7 @@
       {{-- Contraseña --}}
       <div class="mb-5">
         <label for="password" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
-          Contraseña
+          Contraseña *
         </label>
         <input
           type="password"
@@ -118,7 +118,7 @@
       {{-- Confirmar contraseña --}}
       <div class="mb-6">
         <label for="password_confirmation" class="block font-medium text-gray-700 dark:text-gray-200 mb-1">
-          Confirmar contraseña
+          Confirmar contraseña *
         </label>
         <input
           type="password"

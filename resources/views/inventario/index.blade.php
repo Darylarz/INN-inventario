@@ -145,6 +145,14 @@
                                class="text-indigo-600 dark:text-indigo-300 hover:underline">Detalle</a>
                             <a href="{{ route('inventario.edit', $item->id) }}"
                                class="text-blue-600 dark:text-blue-300 hover:underline">Editar</a>
+                            <form action="{{ route('inventario.destroy', $item->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 dark:text-red-300 hover:underline"
+                                        onclick="return confirm('¿Estás seguro de que deseas desactivar este artículo?');">
+                                    Desactivar
+                                </button>
+                            </form>
                         </td>
                         @endcan
                     </tr>

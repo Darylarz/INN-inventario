@@ -27,13 +27,13 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div id="campo-marca" class="hidden">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Marca (si aplica)</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Marca</label>
                 <input type="text" name="marca" class="block w-full rounded-md border-gray-300 py-2 px-3 focus:border-indigo-500 focus:ring-indigo-500" value="{{ old('marca') }}">
                 @error('marca') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
             </div>
 
             <div id="campo-modelo" class="hidden">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Modelo (si aplica)</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
                 <input type="text" name="modelo" class="block w-full rounded-md border-gray-300 py-2 px-3 focus:border-indigo-500 focus:ring-indigo-500" value="{{ old('modelo') }}">
                 @error('modelo') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
             </div>
@@ -43,7 +43,7 @@
         <div id="campos_pc" class="hidden bg-gray-50 rounded p-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
                     <input type="text" name="nombre" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('nombre') }}">
                     @error('nombre') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
                 </div>
@@ -56,22 +56,22 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Artículo ingresado por</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Artículo ingresado por *</label>
                     <input type="text" name="ingresado_por" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('ingresado_por') }}">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso *</label>
                     <input type="date" name="fecha_ingreso" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('fecha_ingreso') }}">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Capacidad</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Capacidad </label>
                     <input type="text" name="capacidad" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('capacidad') }}">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo *</label>
                     <input type="text" name="tipo" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('tipo') }}">
                 </div>
                 <div>
@@ -79,13 +79,13 @@
                     <input type="text" name="generacion" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('generacion') }}">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Número de serie</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Número de serie *</label>
                     <input type="text" name="numero_serial" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('numero_serial') }}">
                 </div>
             </div>
 
             <div class="mt-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Bien nacional</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Bien nacional *</label>
                 <input type="text" name="bien_nacional" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('bien_nacional') }}">
             </div>
         </div>
@@ -94,7 +94,7 @@
         <div id="campos_consumibles" class="hidden bg-gray-50 rounded p-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
                     <input type="text" name="nombre" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('nombre') }}">
                     @error('nombre') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
                 </div>
@@ -106,11 +106,11 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Artículo ingresado por</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Artículo ingresado por *</label>
                     <input type="text" name="ingresado_por" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('ingresado_por') }}">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso *</label>
                     <input type="date" name="fecha_ingreso" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('fecha_ingreso') }}">
                 </div>
                 <div>
@@ -121,22 +121,22 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Modelo de impresora</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Modelo de impresora *</label>
                     <input type="text" name="modelo_impresora" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('modelo_impresora') }}">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Material / Categoría</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Material / Categoría *</label>
                     <input type="text" name="tipo_material" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('tipo_material') }}">
                 </div>
             </div>
 
             <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Número de serie</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Número de serie *</label>
                     <input type="text" name="numero_serial" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('numero_serial') }}">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Bien nacional</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Bien nacional *</label>
                     <input type="text" name="bien_nacional" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('bien_nacional') }}">
                 </div>
             </div>
@@ -146,37 +146,37 @@
         <div id="campos_herramientas" class="hidden bg-gray-50 rounded p-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
                     <input type="text" name="nombre_herramienta" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('nombre_herramienta') }}">
                 </div>
                 <div class="flex items-center gap-3">
                     <input id="reciclado_herr" type="checkbox" name="reciclado" value="1" class="h-4 w-4 text-indigo-600" {{ old('reciclado') ? 'checked' : '' }}>
-                    <label for="reciclado_herr" class="text-sm text-gray-700">Reciclado</label>
+                    <label for="reciclado_herr" class="text-sm text-gray-700">Reciclado *</label>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Artículo ingresado por</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Artículo ingresado por *</label>
                     <input type="text" name="ingresado_por" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('ingresado_por') }}">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso *</label>
                     <input type="date" name="fecha_ingreso" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('fecha_ingreso') }}">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo herramienta</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo herramienta *</label>
                     <input type="text" name="tipo_herramienta" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('tipo_herramienta') }}">
                 </div>
             </div>
 
             <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Número de serie</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Número de serie *</label>
                     <input type="text" name="numero_serial" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('numero_serial') }}">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Bien nacional</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Bien nacional *</label>
                     <input type="text" name="bien_nacional" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('bien_nacional') }}">
                 </div>
             </div>
