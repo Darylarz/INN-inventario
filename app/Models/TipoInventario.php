@@ -9,5 +9,9 @@ class TipoInventario extends Model
     use HasFactory;
 
     protected $table = 'tipo_inventario';
-    protected $fillable = ['nombre', 'created_at'];
+    protected $fillable = ['nombre', 'is_active', 'created_at'];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 }

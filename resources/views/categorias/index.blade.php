@@ -27,10 +27,9 @@
           <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $c->nombre }}</td>
           <td class="px-4 py-2 text-sm">
             <a href="{{ route('categorias.edit', $c) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Editar</a>
-            <form method="POST" action="{{ route('categorias.destroy', $c) }}" class="inline" onsubmit="return confirm('¿Eliminar categoría?');">
+            <form method="POST" action="{{ route('categorias.deactivate', $c) }}" class="inline" onsubmit="return confirm('¿Desactivar categoría?');">
               @csrf
-              @method('DELETE')
-              <button class="inline-block px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white">Eliminar</button>
+              <button class="inline-block px-2 py-1 rounded bg-yellow-600 hover:bg-yellow-700 text-white">Desactivar</button>
             </form>
           </td>
         </tr>

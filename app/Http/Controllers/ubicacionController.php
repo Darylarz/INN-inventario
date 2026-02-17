@@ -8,7 +8,9 @@ class ubicacionController extends Controller
 {
     public function index()
     {
-        $ubicaciones = Ubicacion::orderBy('nombre')->paginate(15);
+        $ubicaciones = Ubicacion::where('is_active', true) // Filtrar solo ubicaciones activas
+            ->orderBy('nombre')
+            ->paginate(15);
         return view('ubicaciones.index', compact('ubicaciones'));
     }
 
@@ -48,5 +50,11 @@ class ubicacionController extends Controller
     {
         $ubicacion->delete();
         return redirect()->route('ubicaciones.index')->with('success', 'Ubicación eliminada.');
+    }
+
+    public function deactivate(Ubicacion $ubicacion)
+    {
+        $ubicacion->update(['is_active' => false]); // Desactivar ubicación
+        return redirect()->route('ubicaciones.index')->with('success', 'Ubicación desactivada.');
     }
 }

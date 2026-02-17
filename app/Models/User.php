@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_active', // Nuevo campo para gestionar el estado de activación
     ];
 
     /**
@@ -43,9 +44,7 @@ class User extends Authenticatable
 {
     return [
         'email_verified_at' => 'datetime',
+        'is_active' => 'boolean', // Cast para el nuevo campo
     ];
 }
-
-
-    
 }

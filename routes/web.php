@@ -133,6 +133,9 @@ Route::get('/dashboard', [inventarioController::class, 'index'])->name('dashboar
     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
 
+    // Ruta para desactivar usuarios
+    Route::post('/admin/users/{user}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.users.deactivate');
+
 // Ubicaciones
     Route::prefix('ubicaciones')->name('ubicaciones.')->middleware('can:usuario crear')->group(function () {
         Route::get('/', [ubicacionController::class, 'index'])->name('index');
@@ -141,6 +144,7 @@ Route::get('/dashboard', [inventarioController::class, 'index'])->name('dashboar
         Route::get('/{ubicacion}/edit', [ubicacionController::class, 'edit'])->name('edit');
         Route::put('/{ubicacion}', [ubicacionController::class, 'update'])->name('update');
         Route::delete('/{ubicacion}', [ubicacionController::class, 'destroy'])->name('destroy');
+        Route::post('/{ubicacion}/deactivate', [ubicacionController::class, 'deactivate'])->name('deactivate');
     });
 
 
@@ -152,6 +156,7 @@ Route::get('/dashboard', [inventarioController::class, 'index'])->name('dashboar
         Route::get('/{categoria}/edit', [categoriaController::class, 'edit'])->name('edit');
         Route::put('/{categoria}', [categoriaController::class, 'update'])->name('update');
         Route::delete('/{categoria}', [categoriaController::class, 'destroy'])->name('destroy');
+        Route::post('/{categoria}/deactivate', [categoriaController::class, 'deactivate'])->name('deactivate');
     });
 
     // Activity logs (logcat) (ver / eliminar)

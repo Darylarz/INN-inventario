@@ -8,7 +8,10 @@ class categoriaController extends Controller
 {
     public function index()
     {
-        $categorias = TipoInventario::orderBy('nombre')->paginate(15);
+        $categorias = TipoInventario::query()
+            ->where('is_active', true) // Filtrar solo categorías activas
+            ->orderBy('nombre')
+            ->paginate(15);
         return view('categorias.index', compact('categorias'));
     }
 
@@ -46,5 +49,11 @@ class categoriaController extends Controller
     {
         $categoria->delete();
         return redirect()->route('categorias.index')->with('success', 'Categoría eliminada.');
+    }
+
+    public function deactivate(TipoInventario $categoria)
+    {
+        $categoria->update(['is_active' => false]); // Desactivar categoría
+        return redirect()->route('categorias.index')->with('success', 'Categoría desactivada.');
     }
 }

@@ -87,12 +87,11 @@
                 </a>
 
                 <form method="POST"
-                      action="{{ route('admin.users.destroy', $user->id) }}"
-                      onsubmit="return confirm('¿Eliminar usuario?');">
+                      action="{{ route('admin.users.deactivate', $user->id) }}"
+                      onsubmit="return confirm('¿Desactivar usuario?');">
                   @csrf
-                  @method('DELETE')
-                  <button type="submit" class="text-red-600 hover:underline">
-                    Eliminar
+                  <button type="submit" class="text-yellow-600 hover:underline">
+                    Desactivar
                   </button>
                 </form>
               </div>

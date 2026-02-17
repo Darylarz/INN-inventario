@@ -31,6 +31,7 @@ class DefaultUsersSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'password' => Hash::make('12345678'),
+                'is_active' => true, // Asegurar que el usuario esté activo por defecto
             ]
         );
         
@@ -47,6 +48,7 @@ class DefaultUsersSeeder extends Seeder
             [
                 'name' => 'Operador',
                 'password' => Hash::make('12345678'),
+                'is_active' => true, // Asegurar que el usuario esté activo por defecto
             ]
         );
 

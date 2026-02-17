@@ -9,7 +9,11 @@ class TipoArticulo extends Model
     use HasFactory;
 
     protected $table = 'tipo_articulos';
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'is_active']; // Agregado is_active
+
+    protected $casts = [
+        'is_active' => 'boolean', // Cast para el nuevo campo
+    ];
 
     public function articulos()
     {

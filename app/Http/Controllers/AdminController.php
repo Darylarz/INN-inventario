@@ -21,6 +21,7 @@ public function users(Request $request)
     $search = $request->query('search');
     
     $users = User::query()
+        ->where('is_active', true) // Filtrar solo usuarios activos
         ->when($search, function ($query, $search) {
             $query->where('name', 'like', '%' . $search . '%')
                   ->orWhere('email', 'like', '%' . $search . '%');
@@ -131,4 +132,20 @@ public function destroyUser(User $user)
 
     return redirect()->route('admin.users')->with('status', 'Usuario eliminado exitosamente.');
 }
+
+// Desactivar usuario directamente en la base de datos
+public function deactivateUser(User $user)
+{
+    Gate::authorize('usuario eliminar');
+
+    if ($user->id === auth()->id()) {
+        return redirect()->route('admin.users')
+            ->with('error', 'No puedes desactivar tu propia cuenta.');
+    }
+
+    $user->update(['is_active' => false]);
+
+    return redirect()->route('admin.users')->with('status', 'Usuario desactivado exitosamente.');
+}
+
 }

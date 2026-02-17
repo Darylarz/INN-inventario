@@ -31,10 +31,9 @@
           <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $l->descripcion ?? '-' }}</td>
           <td class="px-4 py-2 text-sm">
             <a href="{{ route('ubicaciones.edit', $l) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Editar</a>
-            <form method="POST" action="{{ route('ubicaciones.destroy', $l) }}" class="inline-block" onsubmit="return confirm('¿Eliminar ubicación?');">
+            <form method="POST" action="{{ route('ubicaciones.deactivate', $l) }}" class="inline-block" onsubmit="return confirm('¿Desactivar ubicación?');">
               @csrf
-              @method('DELETE')
-              <button class="inline-block px-2 py-1 rounded bg-red-600 hover:bg-red-700 text-white">Eliminar</button>
+              <button class="inline-block px-2 py-1 rounded bg-yellow-600 hover:bg-yellow-700 text-white">Desactivar</button>
             </form>
           </td>
         </tr>

@@ -10,5 +10,9 @@ class Ubicacion extends Model
 
     protected $table = 'ubicaciones';
 
-    protected $fillable = ['nombre', 'codigo', 'descripcion'];
+    protected $fillable = ['nombre', 'codigo', 'descripcion', 'is_active']; // Agregado is_active
+
+    protected $casts = [
+        'is_active' => 'boolean', // Cast para el nuevo campo
+    ];
 }
