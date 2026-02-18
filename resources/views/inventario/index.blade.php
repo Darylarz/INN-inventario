@@ -145,16 +145,13 @@
                                 {{ $item->reciclado ? 'Sí' : 'No' }}
                             </span>
                         </td>
-                        <td class="px-4 py-3 text-gray-700 dark:text-gray-200">
-                            {{ optional($item->fecha_ingreso)->format('Y-m-d') ?? '-' }}
-                        </td>
                         @can('usuario crear')
                         <td class="px-4 py-3 text-right space-x-2">
-                            <a href="{{ route('inventario.show', $item->id) }}"
+                            <a href="{{ route('inventario.show', $item->uuid) }}"
                                class="text-indigo-600 dark:text-indigo-300 hover:underline">Detalle</a>
-                            <a href="{{ route('inventario.edit', $item->id) }}"
+                            <a href="{{ route('inventario.edit', $item->uuid) }}"
                                class="text-blue-600 dark:text-blue-300 hover:underline">Editar</a>
-                            <form action="{{ route('inventario.destroy', $item->id) }}" method="POST" class="inline">
+                            <form action="{{ route('inventario.destroy', $item->uuid) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 dark:text-red-300 hover:underline"

@@ -166,7 +166,6 @@ class inventarioController extends Controller
             'tipo_material' => 'nullable|string|max:15',
             'reciclado' => 'nullable|boolean',
             'ingresado_por' => 'nullable|string|max:20',
-            'fecha_ingreso' => 'nullable|date',
         ]);
 
         $data = $request->all();
