@@ -54,25 +54,62 @@
     </div>
     @endisset
 
-    {{-- Alerta stock bajo --}}
-    @if(($lowStockItems ?? collect())->count())
-    <div class="rounded-xl border border-yellow-300 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-600 p-5 text-yellow-900 dark:text-yellow-100">
-        <div class="font-semibold mb-2">
+{{-- Stock bajo (contráctil) --}}
+@if(($lowStockItems ?? collect())->count())
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden mt-6">
+    {{-- Header con botón para contraer --}}
+    <div class="px-6 py-4 border-b dark:border-gray-700 flex justify-between items-center cursor-pointer"
+         onclick="toggleLowStock()">
+        <h3 class="text-lg font-semibold text-yellow-700 dark:text-yellow-200">
             Stock bajo en {{ $lowStockItems->count() }} artículo(s)
-        </div>
-        <ul class="list-disc pl-5 space-y-1 text-sm">
-            @foreach($lowStockItems as $i)
-                <li>
-                    {{ $i->tipo_item ?? 'Artículo' }} —
-                    {{ trim(($i->marca ?? '').' '.($i->modelo ?? '')) }}
-                    ({{ (int)($i->cantidad ?? 0) }})
-                    <a href="{{ route('inventario.show', $i->id) }}"
-                       class="text-indigo-600 dark:text-indigo-300 underline ml-1">ver</a>
-                </li>
-            @endforeach
-        </ul>
+        </h3>
+        <span id="lowStockToggleIcon" class="text-yellow-700 dark:text-yellow-200 text-xl">▾</span>
     </div>
-    @endif
+
+    {{-- Contenido ocultable --}}
+    <div id="lowStockTable" class="overflow-x-auto transition-all duration-300">
+        <table class="min-w-full text-sm divide-y divide-gray-200 dark:divide-gray-700">
+            <thead class="bg-yellow-50 dark:bg-yellow-900/20 text-gray-700 dark:text-yellow-100">
+                <tr>
+                    <th class="px-4 py-3 text-left">Tipo de artículo</th>
+                    <th class="px-4 py-3 text-left">Marca</th>
+                    <th class="px-4 py-3 text-left">Modelo</th>
+                    <th class="px-4 py-3 text-left">Número Serial / Bien Nacional</th>
+                    <th class="px-4 py-3 text-left">Cantidad</th>
+                    <th class="px-4 py-3 text-left">Acción</th>
+                </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                @forelse($lowStockItems as $item)
+                <tr class="hover:bg-yellow-100 dark:hover:bg-yellow-900/30">
+                    <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->tipo_item ?? '-' }}</td>
+                    <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->marca ?? '-' }}</td>
+                    <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->modelo ?? '-' }}</td>
+                    <td class="px-4 py-3 text-gray-900 dark:text-gray-100">
+                        {{ trim(($item->numero_serial ?? '') . ' ' . ($item->bien_nacional ?? '')) }}
+                    </td>
+                    <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ (int)($item->cantidad ?? 0) }}</td>
+                    <td class="px-4 py-3 text-left">
+                        <a href="{{ route('inventario.show', $item->id) }}"
+                           class="text-indigo-600 dark:text-indigo-300 hover:underline">
+                            Ver
+                        </a>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="6" class="text-center py-6 text-gray-500 dark:text-gray-400">Sin artículos con stock bajo</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@endif
+
 
     {{-- Buscador --}}
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
@@ -124,8 +161,11 @@
                         <th class="px-4 py-3 text-left">Nombre</th>
                         <th class="px-4 py-3 text-left">Marca</th>
                         <th class="px-4 py-3 text-left">Modelo</th>
+                        <th class="px-4 py-3 text-left">Bien nacional</th>
+                        <th class="px-4 py-3 text-left">Fecha Ingreso</th>
+                        <th class="px-4 py-3 text-left">Ingresado Por</th>
                         <th class="px-4 py-3 text-left">Reciclado</th>
-                        <th class="px-4 py-3 text-left">Ingreso</th>
+                        
                         @can('usuario crear')
                         <th class="px-4 py-3 text-right">Acciones</th>
                         @endcan
@@ -138,6 +178,9 @@
                         <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->nombre ?? '-' }}</td>
                         <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->marca ?? '-' }}</td>
                         <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->modelo ?? '-' }}</td>
+                        <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->bien_nacional ?? '-' }}</td>
+                        <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->created_at ?? '-' }}</td>
+                        <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->ingresado_por ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <span class="px-2 py-1 rounded-full text-xs font-semibold
                                 {{ $item->reciclado ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' 
@@ -180,3 +223,23 @@
 
 </div>
 @endsection
+
+
+<script>
+function toggleLowStock() {
+    const tableDiv = document.getElementById('lowStockTable');
+    const icon = document.getElementById('lowStockToggleIcon');
+
+    if (tableDiv.style.display === 'none' || tableDiv.style.display === '') {
+        tableDiv.style.display = 'block';
+        icon.textContent = '▾'; // Flecha hacia abajo
+    } else {
+        tableDiv.style.display = 'none';
+        icon.textContent = '▸'; // Flecha hacia la derecha
+    }
+}
+
+// Inicialmente colapsado (opcional)
+// document.getElementById('lowStockTable').style.display = 'none';
+// document.getElementById('lowStockToggleIcon').textContent = '▸';
+</script>

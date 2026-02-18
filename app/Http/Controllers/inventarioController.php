@@ -35,7 +35,7 @@ class inventarioController extends Controller
                 });
             })
             ->orderBy('id', 'desc')
-            ->paginate(15)
+            ->paginate(5)
             ->withQueryString();
 
         // Resumen global: total de unidades y por categoría (sin filtrar), para coincidir con el sidebar
@@ -57,7 +57,7 @@ class inventarioController extends Controller
             ->orderBy('cantidad')
             ->orderBy('id')
             ->limit(50)
-            ->get(['id','tipo_item','marca','modelo','modelo_impresora','tipo_material','cantidad']);
+            ->get(['id','tipo_item','marca','modelo','modelo_impresora','tipo_material','cantidad', 'numero_serial', 'bien_nacional']);
 
         return view('inventario.index', compact('inventario', 'busqueda', 'unidadesTotales', 'totalesPorTipo', 'lowStockItems'));
     }

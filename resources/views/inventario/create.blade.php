@@ -62,8 +62,8 @@
     
 
     <select
-        name="user_id"
-        id="user_id"
+        name="ingresado_por"
+        id="ingresado_por"
         required
         class="w-full rounded border-gray-300 dark:border-gray-600
                dark:bg-gray-700 dark:text-white
@@ -72,7 +72,7 @@
         <option value="">Seleccionar usuario</option>
 
         @foreach($users as $user)
-            <option value="{{ $user->id }}"
+            <option value="{{ $user->name }}"
                 {{ old('user_id') == $user->id ? 'selected' : '' }}>
                 {{ $user->name }}
             </option>
@@ -86,10 +86,6 @@
 </div>
 
 
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso *</label>
-                    <input type="date" name="fecha_ingreso" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('fecha_ingreso') }}">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Capacidad </label>
@@ -140,8 +136,8 @@
     
 
     <select
-        name="user_id"
-        id="user_id"
+        name="ingresado_por"
+        id="ingresado_por"
         required
         class="w-full rounded border-gray-300 dark:border-gray-600
                dark:bg-gray-700 dark:text-white
@@ -150,7 +146,7 @@
         <option value="">Seleccionar usuario</option>
 
         @foreach($users as $user)
-            <option value="{{ $user->id }}"
+            <option value="{{ $user->name }}"
                 {{ old('user_id') == $user->id ? 'selected' : '' }}>
                 {{ $user->name }}
             </option>
@@ -165,10 +161,7 @@
 
 
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso *</label>
-                    <input type="date" name="fecha_ingreso" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('fecha_ingreso') }}">
-                </div>
+                
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
                     <input type="text" name="color" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('color') }}">
@@ -218,8 +211,8 @@
 <div class="mb-5">
 
     <select
-        name="user_id"
-        id="user_id"
+        name="ingresado_por"
+        id="ingresado_por"
         required
         class="w-full rounded border-gray-300 dark:border-gray-600
                dark:bg-gray-700 dark:text-white
@@ -228,7 +221,7 @@
         <option value="">Seleccionar usuario</option>
 
         @foreach($users as $user)
-            <option value="{{ $user->id }}"
+            <option value="{{ $user->name }}"
                 {{ old('user_id') == $user->id ? 'selected' : '' }}>
                 {{ $user->name }}
             </option>
@@ -243,10 +236,7 @@
 
 
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso *</label>
-                    <input type="date" name="fecha_ingreso" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('fecha_ingreso') }}">
-                </div>
+                
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tipo herramienta *</label>
                     <input type="text" name="tipo_herramienta" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('tipo_herramienta') }}">

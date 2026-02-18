@@ -26,7 +26,52 @@
       <div class="text-sm text-gray-600 dark:text-gray-300">Serial</div>
       <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->numero_serial ?? '-' }}</div>
     </div>
+
+<div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+      <div class="text-sm text-gray-600 dark:text-gray-300">Bien Nacional</div>
+      <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->bien_nacional ?? '-' }}</div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+      <div class="text-sm text-gray-600 dark:text-gray-300">Marca</div>
+      <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->marca ?? '-' }}</div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+      <div class="text-sm text-gray-600 dark:text-gray-300">Capacidad</div>
+      <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->capacidad ?? '-' }}</div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+      <div class="text-sm text-gray-600 dark:text-gray-300">Generación</div>
+      <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->generacion ?? '-' }}</div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+      <div class="text-sm text-gray-600 dark:text-gray-300">Reciclado</div>
+      <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->reciclado ? 'Sí' : 'No' }}</div>
+    </div>
+      <div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+      <div class="text-sm text-gray-600 dark:text-gray-300">Ingresado por</div>
+      <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->ingresado_por ?? '-' }}</div>
+          </div>
+<div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+  <div class="text-sm text-gray-600 dark:text-gray-300">Fecha de Ingreso</div>
+      <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->created_at ?? '-' }}</div>
   </div>
+<div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+  <div class="text-sm text-gray-600 dark:text-gray-300">Modelo</div>
+      <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->modelo ?? '-' }}</div>
+  </div>
+
+<div class="bg-white dark:bg-gray-800 rounded shadow p-4">
+  <div class="text-sm text-gray-600 dark:text-gray-300">Nombre</div>
+      <div class="text-base text-gray-900 dark:text-gray-100 mt-1">{{ $inventario->nombre ?? '-' }}</div>
+  </div>
+
+
+  </div>
+  
+
+
 
   <div class="bg-white dark:bg-gray-800 rounded shadow">
     <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">

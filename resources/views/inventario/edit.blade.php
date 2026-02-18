@@ -7,7 +7,7 @@
             ✏️ Editar artículo
         </h2>
 
-        <form action="{{ route('inventario.update', $inventario->id) }}" method="POST" class="space-y-6">
+        <form action="{{ route('inventario.update', $inventario->uuid) }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
 
