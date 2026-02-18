@@ -158,8 +158,26 @@ class inventarioController extends Controller
             'tipo' => 'nullable|string|max:20',
             'generacion' => 'nullable|string|max:20',
             'capacidad_watt' => 'nullable|integer|max:10000',
-            'numero_serial' => 'nullable|string|max:32',
-            'bien_nacional' => 'nullable|string|max:30',
+
+  function ($attribute, $value, $fail) use ($request) {
+        if (!empty($value) && Inventario::where('tipo_item', $request->tipo_item)
+                                       ->where('numero_serial', $value)
+                                       ->exists()) {
+            $fail('Ya existe un artículo del mismo tipo con este número de serie.');
+        }
+    },
+
+
+            'numero_serial' => 'nullable|string|max:32|unique:inventario,numero_serial',
+             function ($attribute, $value, $fail) use ($request) {
+        if (!empty($value) && Inventario::where('tipo_item', $request->tipo_item)
+                                       ->where('numero_serial', $value)
+                                       ->exists()) {
+            $fail('Ya existe un artículo del mismo tipo con este número de serie.');
+        }
+    },
+
+            'bien_nacional' => 'nullable|string|max:30|unique:inventario,bien_nacional',
             'nombre_herramienta' => 'nullable|string|max:20',
             'color' => 'nullable|string|max:15',
             'modelo_impresora' => 'nullable|string|max:20',
@@ -221,8 +239,26 @@ class inventarioController extends Controller
             'capacidad' => 'nullable|string',
             'tipo' => 'nullable|string',
             'generacion' => 'nullable|string',
-            'numero_serial' => 'nullable|string',
-            'bien_nacional' => 'nullable|string',
+            'numero_serial' => 'nullable|string|unique:inventario,numero_serial,' . $inventario->id,
+             function ($attribute, $value, $fail) use ($request, $inventario) {
+        if (!empty($value) && Inventario::where('tipo_item', $request->tipo_item)
+                                       ->where('numero_serial', $value)
+                                       ->where('id', '<>', $inventario->id)
+                                       ->exists()) {
+            $fail('Ya existe un artículo del mismo tipo con este número de serie.');
+        }
+    },
+
+            'bien_nacional' => 'nullable|string|unique:inventario,bien_nacional,' . $inventario->id,
+             function ($attribute, $value, $fail) use ($request, $inventario) {
+        if (!empty($value) && Inventario::where('tipo_item', $request->tipo_item)
+                                       ->where('numero_serial', $value)
+                                       ->where('id', '<>', $inventario->id)
+                                       ->exists()) {
+            $fail('Ya existe un artículo del mismo tipo con este número de serie.');
+        }
+    },
+            'color' => 'nullable|string',
             'impresora_modelo' => 'nullable|string',
             'tipo_material' => 'nullable|string',
             'nombre_herramienta' => 'nullable|string|max:255',
