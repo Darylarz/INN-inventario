@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Inventario;
 use App\Models\TipoInventario;
 use App\Models\movimientoInventario;
+use App\Models\User;
 
 class inventarioController extends Controller
 {
@@ -138,7 +139,11 @@ class inventarioController extends Controller
     public function create()
     {
         $tipoInventario = TipoInventario::all();
-        return view('inventario.create', compact('tipoInventario'));
+
+     $users = User::forInventario();
+
+        return view('inventario.create', compact('tipoInventario', 'users'));
+        
     }
 
     // Guardar nuevo artículo

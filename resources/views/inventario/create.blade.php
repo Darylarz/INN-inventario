@@ -57,7 +57,35 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Artículo ingresado por *</label>
-                    <input type="text" name="ingresado_por" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('ingresado_por') }}">
+                    
+<div class="mb-5">
+    
+
+    <select
+        name="user_id"
+        id="user_id"
+        required
+        class="w-full rounded border-gray-300 dark:border-gray-600
+               dark:bg-gray-700 dark:text-white
+               focus:ring-blue-500 focus:border-blue-500"
+    >
+        <option value="">Seleccionar usuario</option>
+
+        @foreach($users as $user)
+            <option value="{{ $user->id }}"
+                {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                {{ $user->name }}
+            </option>
+        @endforeach
+
+    </select>
+
+    @error('user_id')
+        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
+
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso *</label>
@@ -107,7 +135,35 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Artículo ingresado por *</label>
-                    <input type="text" name="ingresado_por" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('ingresado_por') }}">
+                    
+<div class="mb-5">
+    
+
+    <select
+        name="user_id"
+        id="user_id"
+        required
+        class="w-full rounded border-gray-300 dark:border-gray-600
+               dark:bg-gray-700 dark:text-white
+               focus:ring-blue-500 focus:border-blue-500"
+    >
+        <option value="">Seleccionar usuario</option>
+
+        @foreach($users as $user)
+            <option value="{{ $user->id }}"
+                {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                {{ $user->name }}
+            </option>
+        @endforeach
+
+    </select>
+
+    @error('user_id')
+        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
+
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso *</label>
@@ -158,7 +214,34 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Artículo ingresado por *</label>
-                    <input type="text" name="ingresado_por" class="block w-full rounded-md border-gray-300 py-2 px-3" value="{{ old('ingresado_por') }}">
+                    
+<div class="mb-5">
+
+    <select
+        name="user_id"
+        id="user_id"
+        required
+        class="w-full rounded border-gray-300 dark:border-gray-600
+               dark:bg-gray-700 dark:text-white
+               focus:ring-blue-500 focus:border-blue-500"
+    >
+        <option value="">Seleccionar usuario</option>
+
+        @foreach($users as $user)
+            <option value="{{ $user->id }}"
+                {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                {{ $user->name }}
+            </option>
+        @endforeach
+
+    </select>
+
+    @error('user_id')
+        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+    @enderror
+</div>
+
+
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de ingreso *</label>

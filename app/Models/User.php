@@ -47,4 +47,25 @@ class User extends Authenticatable
         'is_active' => 'boolean', // Cast para el nuevo campo
     ];
 }
+
+public static function forInventario()
+{
+    if (auth()->user()->hasRole('administrador')) {
+        return self::role(['administrador', 'almacenista'])
+            ->where('is_active', 1)
+            ->select('id', 'name')
+            ->orderBy('name')
+            ->get();
+    }
+
+    return self::role('almacenista')
+        ->where('is_active', 1)
+        ->select('id', 'name')
+        ->orderBy('name')
+        ->get();
+
+}
+
+
+//Fin del código del modelo User
 }

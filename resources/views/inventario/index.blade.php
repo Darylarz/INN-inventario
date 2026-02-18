@@ -16,6 +16,15 @@
         @endcan
     </div>
 
+    {{-- Botón de agregar artículo --}}
+        @can('articulo agregar')
+        <a href="{{ route('inventario.create') }}"
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+            + Nuevo artículo
+        </a>
+        @endcan
+    </div>
+
     {{-- Resumen --}}
     @isset($totalUnits)
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
