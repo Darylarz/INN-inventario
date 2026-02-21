@@ -4,7 +4,7 @@
 <div class="container mx-auto p-6">
   <div class="flex items-center justify-between mb-4">
     <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Ubicaciones</h1>
-    <a href="{{ route('ubicaciones.create') }}" class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">Nueva ubicación</a>
+    <a href="{{ route('ubicaciones.create') }}" class="px-4 py-2 rounded bg-green-600 hover:bg-green-700 text-white">Nueva ubicación</a>
   </div>
 
   @if(session('success'))

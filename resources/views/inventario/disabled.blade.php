@@ -42,7 +42,7 @@
       >
       <button
         type="submit"
-        class="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700">
+        class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">
         Buscar
       </button>
 
@@ -106,7 +106,7 @@
                         method="POST"
                         onsubmit="return confirm('¿Reincorporar artículo?')">
                     @csrf
-                    <button class="text-green-600 hover:underline">
+                    <button class="inline-block px-2 py-1 rounded bg-green-100 hover:bg-gray-200 text-green-800 mr-2">
                       Reincorporar
                     </button>
                   </form>
@@ -116,7 +116,7 @@
                         onsubmit="return confirm('¿Desactivar artículo nuevamente?')">
                     @csrf
                     @method('DELETE')
-                    <button class="text-red-600 hover:underline">
+                    <button class="inline-block px-2 py-1 rounded bg-red-100 hover:bg-red-200 text-red-800 mr-2">
                       Desactivar
                     </button>
                   </form>

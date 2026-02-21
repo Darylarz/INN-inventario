@@ -90,7 +90,7 @@
             <td class="px-4 py-3 text-right">
               <div class="inline-flex items-center gap-3">
                 <a href="{{ route('admin.users.edit', $user->id) }}"
-                   class="text-blue-600 hover:underline">
+                   class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">
                   Editar
                 </a>
 
@@ -98,9 +98,7 @@
                       action="{{ route('admin.users.deactivate', $user->id) }}"
                       onsubmit="return confirm('¿Desactivar usuario?');">
                   @csrf
-                  <button type="submit" class="text-yellow-600 hover:underline">
-                    Desactivar
-                  </button>
+                  <button class="inline-block px-4 py-2 w-full rounded bg-yellow-600 hover:bg-yellow-700 text-white dark:text-white" style="color: white !important;">Desactivar</button>
                 </form>
               </div>
             </td>

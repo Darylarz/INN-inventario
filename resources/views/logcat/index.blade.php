@@ -53,20 +53,11 @@
 
                             <td class="px-4 py-3 text-right space-x-3">
                                 <a href="{{ route('logcat.show', $log) }}"
-                                   class="text-indigo-600 hover:underline">
+                                   class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">
                                     Ver
                                 </a>
 
-                                <form method="POST"
-                                      action="{{ route('logcat.deactivate', $log) }}"
-                                      class="inline-block"
-                                      onsubmit="return confirm('¿Desactivar registro?')">
-                                    @csrf
-                                    <button type="submit"
-                                        class="text-yellow-600 hover:text-yellow-800">
-                                        Desactivar
-                                    </button>
-                                </form>
+                                
                             </td>
                         </tr>
                     @empty

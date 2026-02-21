@@ -25,7 +25,7 @@
       <div class="flex items-center">
         <div class="flex items-center ml-3">
           <div class="relative">
-            <button type="button" class="flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+            <button type="button" class="flex items-center text-sm bg-green-800 rounded-full focus:ring-4 focus:ring-green-300 dark:focus:ring-green-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
               <span class="sr-only">Abrir menú de usuario</span>
               <span class="mr-2 text-white">{{ auth()->user()->name }}</span>
               <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
