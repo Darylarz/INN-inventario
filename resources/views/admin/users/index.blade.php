@@ -8,7 +8,7 @@
     </h1>
 
     <a href="{{ route('admin.users.create') }}"
-       class="inline-flex items-center px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">
+       class="inline-flex items-center px-4 py-2 rounded bg-green-600 text-white hover:bg-blue-700">
       + Crear usuario
     </a>
   </div>
@@ -60,6 +60,9 @@
           <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
             Rol
           </th>
+          <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
+            Esta Activo ?
+          </th>
           <th class="px-4 py-3 text-right text-sm font-semibold text-gray-700 dark:text-gray-200">
             Acciones
           </th>
@@ -79,6 +82,11 @@
                 {{ $user->roles->first()?->name ?? '—' }}
               </span>
             </td>
+
+            <td class="px-4 py-3 text-gray-600 dark:text-gray-300">
+              {{ $user->is_active ? 'Si' : 'No' }}
+            </td>
+
             <td class="px-4 py-3 text-right">
               <div class="inline-flex items-center gap-3">
                 <a href="{{ route('admin.users.edit', $user->id) }}"

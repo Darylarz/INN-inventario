@@ -18,6 +18,7 @@
                 <th class="p-2">Email</th>
                 <th class="p-2">Rol</th>
                 <th class="p-2">Acciones</th>
+                <th class="p-2">Esta Activo ?</th>
             </tr>
         </thead>
 

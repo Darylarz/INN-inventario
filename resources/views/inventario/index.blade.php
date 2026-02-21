@@ -10,11 +10,11 @@
         {{-- Botón de agregar artículo --}}
         @can('articulo modificar')
         <a href="{{ route('inventario.create') }}"
-           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">
             + Nuevo artículo
         </a>
         @endcan
-    </div>@extends('layouts.app')
+    </div>
 
 @section('content')
 <div class="max-w-7xl mx-auto px-6 py-8 space-y-8">
@@ -26,7 +26,7 @@
         {{-- Botón de agregar artículo --}}
         @can('articulo modificar')
         <a href="{{ route('inventario.create') }}"
-           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">
             + Nuevo artículo
         </a>
         @endcan
@@ -35,7 +35,7 @@
     {{-- Botón de agregar artículo --}}
         @can('articulo agregar')
         <a href="{{ route('inventario.create') }}"
-           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">
             + Nuevo artículo
         </a>
         @endcan
@@ -56,9 +56,9 @@
             <div class="flex flex-wrap gap-2">
                 @forelse($totalsByType as $type => $sum)
                     <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full
-                        bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-200 text-sm">
+                        bg-green-50 text-green-700 dark:bg-green-900/50 dark:text-green-200 text-sm">
                         {{ $type ?: 'Sin categoría' }}
-                        <span class="px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-800 text-xs font-semibold">
+                        <span class="px-2 py-0.5 rounded bg-green-100 dark:bg-green-800 text-xs font-semibold">
                             {{ (int) $sum }}
                         </span>
                     </span>
@@ -108,7 +108,7 @@
                     <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ (int)($item->cantidad ?? 0) }}</td>
                     <td class="px-4 py-3 text-left">
                         <a href="{{ route('inventario.show', $item->id) }}"
-                           class="text-indigo-600 dark:text-indigo-300 hover:underline">
+                           class="text-green-600 dark:text-green-300 hover:underline">
                             Ver
                         </a>
                     </td>
@@ -137,9 +137,9 @@
                    value="{{ $busqueda ?? request('busqueda') }}"
                    placeholder="Buscar artículos…"
                    class="flex-1 rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-100
-                          focus:ring-indigo-500 focus:border-indigo-500">
+                          focus:ring-green-500 focus:border-green-500">
 
-            <button class="px-5 py-2 rounded-lg bg-green-100 text-white font-semibold hover:bg-green-800">
+            <button class="px-5 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-800">
                 Buscar
             </button>
 
@@ -207,7 +207,7 @@
                         @can('usuario crear')
                         <td class="px-4 py-3 text-right space-x-2">
                             <a href="{{ route('inventario.show', $item->uuid) }}"
-                               class="text-indigo-600 dark:text-indigo-300 hover:underline">Detalle</a>
+                               class="text-green-600 dark:text-green-300 hover:underline">Detalle</a>
                             <a href="{{ route('inventario.edit', $item->uuid) }}"
                                class="text-blue-600 dark:text-blue-300 hover:underline">Editar</a>
                             <form action="{{ route('inventario.destroy', $item->uuid) }}" method="POST" class="inline">
@@ -263,7 +263,7 @@ function toggleLowStock() {
     {{-- Botón de agregar artículo --}}
         @can('articulo agregar')
         <a href="{{ route('inventario.create') }}"
-           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
+           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">
             + Nuevo artículo
         </a>
         @endcan
@@ -284,9 +284,9 @@ function toggleLowStock() {
             <div class="flex flex-wrap gap-2">
                 @forelse($totalsByType as $type => $sum)
                     <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full
-                        bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-200 text-sm">
+                        bg-green-50 text-green-700 dark:bg-green-900/50 dark:text-green-200 text-sm">
                         {{ $type ?: 'Sin categoría' }}
-                        <span class="px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-800 text-xs font-semibold">
+                        <span class="px-2 py-0.5 rounded bg-green-100 dark:bg-green-800 text-xs font-semibold">
                             {{ (int) $sum }}
                         </span>
                     </span>
@@ -336,7 +336,7 @@ function toggleLowStock() {
                     <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ (int)($item->cantidad ?? 0) }}</td>
                     <td class="px-4 py-3 text-left">
                         <a href="{{ route('inventario.show', $item->id) }}"
-                           class="text-indigo-600 dark:text-indigo-300 hover:underline">
+                           class="text-green-600 dark:text-green-300 hover:underline">
                             Ver
                         </a>
                     </td>
@@ -365,7 +365,7 @@ function toggleLowStock() {
                    value="{{ $busqueda ?? request('busqueda') }}"
                    placeholder="Buscar artículos…"
                    class="flex-1 rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-100
-                          focus:ring-indigo-500 focus:border-indigo-500">
+                          focus:ring-green-500 focus:border-green-500">
 
             <button class="px-5 py-2 rounded-lg bg-green-100 text-white font-semibold hover:bg-green-800">
                 Buscar
@@ -435,7 +435,7 @@ function toggleLowStock() {
                         @can('usuario crear')
                         <td class="px-4 py-3 text-right space-x-2">
                             <a href="{{ route('inventario.show', $item->uuid) }}"
-                               class="text-indigo-600 dark:text-indigo-300 hover:underline">Detalle</a>
+                               class="text-green-600 dark:text-green-300 hover:underline">Detalle</a>
                             <a href="{{ route('inventario.edit', $item->uuid) }}"
                                class="text-blue-600 dark:text-blue-300 hover:underline">Editar</a>
                             <form action="{{ route('inventario.destroy', $item->uuid) }}" method="POST" class="inline">

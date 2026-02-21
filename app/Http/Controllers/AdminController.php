@@ -21,7 +21,7 @@ public function users(Request $request)
     $search = $request->query('search');
     
     $users = User::query()
-        ->where('is_active', true) // Filtrar solo usuarios activos
+         // Filtrar solo usuarios activos
         ->when($search, function ($query, $search) {
             $query->where('name', 'like', '%' . $search . '%')
                   ->orWhere('email', 'like', '%' . $search . '%');
@@ -97,6 +97,7 @@ public function updateUser(Request $request, User $user)
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255|unique:users,email,' . $user->id,
         'role' => 'required|exists:roles,name',
+        'is_active' => ['nullable', 'int', 'max:1'],
         'password' => ['nullable', 'confirmed', Password::min(8)
                 ->mixedCase()
                 ->letters()
@@ -107,6 +108,7 @@ public function updateUser(Request $request, User $user)
     $user->update([
         'name' => $validated['name'],
         'email' => $validated['email'],
+        'is_active' => $validated['is_active'],
     ]);
 
     if ($validated['password']) {
