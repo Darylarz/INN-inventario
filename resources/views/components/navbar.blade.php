@@ -13,7 +13,7 @@
 
 <a href="{{ route('dashboard') }}" class="flex items-center ml-3">
     <img src="{{ asset('images/inn-logo.png') }}" alt="Logo" 
-         class="h-12 w-12 object-contain mr-3"> 
+         class="h-12 w-12 object-contain mr-3 rounded-full"> 
 
 
         <a href="{{ route('dashboard') }}" class="flex items-center ml-3">

@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use App\Http\Middleware\SessionTimeout; // <-- añadir
 
-use App\Http\Controllers\ArticuloHardwareController;
+use App\Http\Controllers\ArticuloHardwareController; 
 use App\Http\Controllers\HerramientaController;
 use App\Http\Controllers\ConsumibleController;
 use App\Http\Controllers\reportesController;
