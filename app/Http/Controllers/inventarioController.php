@@ -183,8 +183,9 @@ class inventarioController extends Controller
             'modelo_impresora' => 'nullable|string|max:20',
             'tipo_material' => 'nullable|string|max:15',
             'reciclado' => 'nullable|boolean',
-            'ingresado_por' => 'nullable|string|max:20',
+            
         ]);
+                $validated['ingresado_por'] = auth()->user()->name;
 
         $data = $request->all();
         \Log::info('inventario.store.request', $data);
@@ -263,9 +264,10 @@ class inventarioController extends Controller
             'tipo_material' => 'nullable|string',
             'nombre_herramienta' => 'nullable|string|max:255',
             'reciclado' => 'nullable|boolean',
-            'ingresado_por' => 'nullable|string|max:255',
             'fecha_ingreso' => 'nullable|date',
         ]);
+
+            $validated['ingresado_por'] = auth()->user()->name;
 
         \Log::info('inventario.update.request', $validated);
         $inventario->update($validated);

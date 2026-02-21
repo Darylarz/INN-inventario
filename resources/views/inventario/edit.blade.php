@@ -152,10 +152,10 @@
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Artículo ingresado por
                     </label>
-                    <input type="text" name="ingresado_por"
-                        value="{{ $inventario->ingresado_por }}"
-                        class="w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100
-                               focus:ring-indigo-500 focus:border-indigo-500">
+                    <label>
+                        {{$inventario->ingresado_por}}
+                    </label>
+                    
                 </div>
 
                 {{-- Fecha --}}

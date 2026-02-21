@@ -15,6 +15,24 @@
       @enderror
     </div>
 
+    <div>
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Esta Activo ? (opcional)</label>
+      <select type="text" name="is_active" value="{{ old('is_active', $categoria->is_active) }}" maxlength="255" class="mt-1 w-full rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100">
+      <option value="1"
+            {{ old('is_active', $categoria->is_active) == 1 ? 'selected' : '' }}>
+            Sí
+        </option>
+
+        <option value="0"
+            {{ old('is_active', $categoria->is_active) == 0 ? 'selected' : '' }}>
+            No
+        </option>
+      </select>
+      @error('Esta Activo ?')
+        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+      @enderror
+    </div>
+
     <div class="flex items-center justify-end gap-2">
       <a href="{{ route('categorias.index') }}" class="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600">Cancelar</a>
       <button type="submit" class="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white">Guardar</button>

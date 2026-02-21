@@ -14,10 +14,6 @@
 <a href="{{ route('dashboard') }}" class="flex items-center ml-3">
     <img src="{{ asset('images/inn-logo.png') }}" alt="Logo" 
          class="h-12 w-12 object-contain mr-3"> 
-    <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-        Inventario de Tecnología - INN
-    </span>
-</a>
 
 
         <a href="{{ route('dashboard') }}" class="flex items-center ml-3">

@@ -8,7 +8,7 @@ class ubicacionController extends Controller
 {
     public function index()
     {
-        $ubicaciones = Ubicacion::where('is_active', true) // Filtrar solo ubicaciones activas
+        $ubicaciones = Ubicacion::query() // Filtrar solo ubicaciones activas
             ->orderBy('nombre')
             ->paginate(15);
         return view('ubicaciones.index', compact('ubicaciones'));
@@ -25,6 +25,7 @@ class ubicacionController extends Controller
             'nombre' => ['required', 'string', 'max:20'],
             'codigo' => ['nullable', 'string', 'max:60', 'unique:ubicaciones,codigo'],
             'descripcion' => ['nullable', 'string', 'max:50'],
+            
         ]);
         Ubicacion::create($data);
         return redirect()->route('ubicaciones.index')->with('success', 'Ubicación creada.');
@@ -39,8 +40,9 @@ class ubicacionController extends Controller
     {
         $data = $request->validate([
             'nombre' => ['required', 'string', 'max:20'],
-            'codigo' => ['nullable', 'string', 'max:60', 'unique:ubicacion,codigo,' . $ubicacion->id],
+            'codigo' => ['nullable', 'string', 'max:60', 'unique:ubicaciones,codigo,' . $ubicacion->id],
             'descripcion' => ['nullable', 'string', 'max:50'],
+            'is_active' => ['nullable', 'int', 'max:1'],
         ]);
         $ubicacion->update($data);
         return redirect()->route('ubicaciones.index')->with('success', 'Ubicación actualizada.');

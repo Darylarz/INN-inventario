@@ -9,7 +9,7 @@ class categoriaController extends Controller
     public function index()
     {
         $categorias = TipoInventario::query()
-            ->where('is_active', true) // Filtrar solo categorías activas
+             // Filtrar solo categorías activas
             ->orderBy('nombre')
             ->paginate(15);
         return view('categorias.index', compact('categorias'));
@@ -38,7 +38,8 @@ class categoriaController extends Controller
     public function update(Request $request, TipoInventario $categoria)
     {
         $data = $request->validate([
-            'nombre' => ['required', 'string', 'max:100', 'unique:tipos_inventario,nombre,' . $categoria->id],
+            'nombre' => ['required', 'string', 'max:100', 'unique:tipo_inventario,nombre,' . $categoria->id],
+            'is_active' => ['nullable', 'int', 'max:1'],
         ]);
 
         $categoria->update($data);

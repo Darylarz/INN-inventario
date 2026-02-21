@@ -19,6 +19,7 @@
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Nombre</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Código</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Descripción</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Esta Activo ?</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Acciones</th>
         </tr>
       </thead>
@@ -29,6 +30,7 @@
           <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $l->nombre }}</td>
           <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $l->codigo ?? '-' }}</td>
           <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $l->descripcion ?? '-' }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $l->is_active ?  'Si' : 'No' }}</td>
           <td class="px-4 py-2 text-sm">
             <a href="{{ route('ubicaciones.edit', $l) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Editar</a>
             <form method="POST" action="{{ route('ubicaciones.deactivate', $l) }}" class="inline-block" onsubmit="return confirm('¿Desactivar ubicación?');">

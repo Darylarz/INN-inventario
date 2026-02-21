@@ -17,6 +17,7 @@
         <tr>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">ID</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Nombre</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Esta Activo ?</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Acciones</th>
         </tr>
       </thead>
@@ -25,6 +26,7 @@
         <tr>
           <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $c->id }}</td>
           <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $c->nombre }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $c->is_active ?  'Si' : 'No' }}</td>
           <td class="px-4 py-2 text-sm">
             <a href="{{ route('categorias.edit', $c) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Editar</a>
             <form method="POST" action="{{ route('categorias.deactivate', $c) }}" class="inline" onsubmit="return confirm('¿Desactivar categoría?');">
