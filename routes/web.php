@@ -39,6 +39,14 @@ Route::post('/login', function (Request $request) {
         ]);
     }
 
+    if (! auth()->user()->is_active) {
+        Auth::logout();
+
+        throw ValidationException::withMessages([
+            'email' => 'Tu cuenta está desactivada.',
+        ]);
+    }
+
     $request->session()->regenerate();
 
     if ($request->wantsJson()) {
@@ -215,9 +223,11 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::get('/', function () {
-    return auth()->check()
+    
+        return auth()->check()
         ? redirect()->route('inventario.index')
-        : redirect()->route('login');
+        : redirect()->route('login'); 
+        
 });
 
 // Eliminada la ruta catch-all que devolvía view('app')
