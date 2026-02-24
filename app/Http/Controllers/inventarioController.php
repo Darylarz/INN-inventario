@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Inventario;
 use App\Models\TipoInventario;
 use App\Models\movimientoInventario;
+use App\Controllers\movimientoInventarioController;
 use App\Models\User;
 
 class inventarioController extends Controller
@@ -138,7 +139,9 @@ class inventarioController extends Controller
     // Mostrar formulario de creación
     public function create()
     {
-        $tipoInventario = TipoInventario::all();
+         $tipoInventario = TipoInventario::where('is_active', 1)
+                        ->orderBy('nombre')
+                        ->get();
 
      $users = User::forInventario();
 

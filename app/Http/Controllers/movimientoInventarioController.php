@@ -37,7 +37,9 @@ class movimientoInventarioController extends Controller
 
     public function crearSalida(Inventario $inventario) //create
     {
-        $ubicaciones = Ubicacion::orderBy('nombre')->get();
+        $ubicaciones = Ubicacion::where('is_active', 1)
+                ->orderBy('nombre')
+                ->get();
         return view('inventario.salida', compact('inventario', 'ubicaciones'));
     }
 

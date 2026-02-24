@@ -16,9 +16,19 @@
          class="h-12 w-12 object-contain mr-3 rounded-full"> 
 
 
-        <a href="{{ route('dashboard') }}" class="flex items-center ml-3">
-          <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Inventario de Tecnología - INN</span>
-        </a>
+        <a href="{{ route('dashboard') }}" class="ml-3 flex flex-col">
+    
+    <!-- Título principal -->
+    <span class="text-xl font-bold dark:text-white leading-tight">
+        Instituto Nacional de Nutrición
+    </span>
+
+    <!-- Subtítulo -->
+    <span class="text-sm text-gray-500 dark:text-gray-400">
+        Inventario del Área de Tecnología
+    </span>
+
+</a>
       </div>
       
       <!-- Right side menu items -->

@@ -218,9 +218,13 @@
                                     Desactivar
                                 </button>
                             </form>
+                            <a href="{{ route('inventario.entrada.create', $inventario) }}"
+                             class="text-green-800 dark:text-green-400 hover:underline">Entrada</a>
+                            <a href="{{ route('inventario.salida.create', $inventario) }}" 
+                            class="text-red-600 dark:text-red-300 hover:underline">Salida</a>
                         </td>
                         @endcan
-                    </tr>
+
                     @empty
                     <tr>
                         <td colspan="6" class="text-center py-6 text-gray-500 dark:text-gray-400">Sin resultados</td>
