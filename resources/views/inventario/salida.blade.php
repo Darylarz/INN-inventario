@@ -42,8 +42,10 @@
     </div>
 
     <div class="flex items-center justify-end gap-2">
-      <a href="{{ route('inventario.show', $inventario) }}" class="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600">Cancelar</a>
-      <button type="submit" class="px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white">Registrar salida</button>
+      <a href="{{ route('inventario.show', $inventario) }}" 
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-800 text-white font-semibold hover:bg-gray-900">Cancelar</a>
+      <button type="submit" 
+      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">Registrar salida</button>
     </div>
   </form>
 </div>

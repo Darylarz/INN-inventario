@@ -8,8 +8,10 @@
       <p class="text-sm text-gray-600 dark:text-gray-300">ID: {{ $inventario->id }} — {{ $inventario->marca }} {{ $inventario->modelo }}</p>
     </div>
     <div class="flex gap-2">
-      <a href="{{ route('inventario.entrada.create', $inventario) }}" class="inline-flex items-center px-3 py-2 rounded bg-green-600 hover:bg-green-700 text-white text-sm">Entrada</a>
-      <a href="{{ route('inventario.salida.create', $inventario) }}" class="inline-flex items-center px-3 py-2 rounded bg-red-600 hover:bg-red-700 text-white text-sm">Salida</a>
+      <a href="{{ route('inventario.entrada.create', $inventario) }}" 
+      class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-sm">Entrada</a>
+      <a href="{{ route('inventario.salida.create', $inventario) }}" 
+      class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm">Salida</a>
     </div>
   </div>
 

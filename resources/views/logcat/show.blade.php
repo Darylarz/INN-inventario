@@ -74,8 +74,7 @@
 
     <div class="mt-6">
       <a href="{{ route('logcat.index') }}"
-         class="inline-flex items-center px-4 py-2 bg-gray-200 dark:bg-gray-700
-                text-gray-800 dark:text-gray-100 rounded hover:bg-gray-300 dark:hover:bg-gray-600">
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">
         ← Volver
       </a>
     </div>

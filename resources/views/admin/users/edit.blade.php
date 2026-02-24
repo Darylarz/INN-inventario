@@ -229,14 +229,13 @@
       <div class="flex justify-end gap-3">
         <a
           href="{{ route('admin.users') }}"
-          class="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700
-                 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-600 text-white font-semibold hover:bg-gray-700"
         >
           Cancelar
         </a>
         <button
           type="submit"
-          class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700"
         >
           Actualizar usuario
         </button>

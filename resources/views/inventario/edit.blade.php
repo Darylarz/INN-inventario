@@ -180,13 +180,13 @@
             {{-- Botones --}}
             <div class="flex justify-end gap-4 pt-6">
                 <a href="{{ route('inventario.index') }}"
-                   class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-600 text-white font-semibold hover:bg-gray-700">
                     Cancelar
                 </a>
 
                 <button type="submit"
-                    class="px-6 py-2 rounded-lg bg-indigo-600 text-white font-semibold
-                           hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    class="inline-flex items-center gap-2 px-6 py-2 rounded-lg bg-green-600 text-white font-semibold
+                           hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                     Actualizar
                 </button>
             </div>
