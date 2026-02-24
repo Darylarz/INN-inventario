@@ -172,15 +172,15 @@
 
         <div class="overflow-x-auto">
             <table class="min-w-full text-sm divide-y divide-gray-200 dark:divide-gray-700">
-                <thead class="bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+                <thead class="bg-lime-200 dark:bg-lime-700 text-gray-700 dark:text-lime-200">
                     <tr>
                         <th class="px-4 py-3 text-left">Nombre</th>
                         <th class="px-4 py-3 text-left">Marca</th>
                         <th class="px-4 py-3 text-left">Modelo</th>
                         <th class="px-4 py-3 text-left">Bien nacional</th>
-                        <th class="px-4 py-3 text-left">Fecha Ingreso</th>
+                        <th class="px-4 py-3 text-left">Fecha de Ingreso</th>
                         <th class="px-4 py-3 text-left">Ingresado Por</th>
-                        <th class="px-4 py-3 text-left">Reciclado</th>
+                        <th class="px-4 py-3 text-left">Articulo Reciclado</th>
                         
                         @can('usuario crear')
                         <th class="px-4 py-3 text-right">Acciones</th>
@@ -188,9 +188,9 @@
                     </tr>
                 </thead>
 
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody class="divide-y divide-lime-200 dark:divide-lime-300">
                     @forelse($items as $item)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <tr class="hover:bg-lime-200 dark:hover:bg-lime-200">
                         <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->nombre ?? '-' }}</td>
                         <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->marca ?? '-' }}</td>
                         <td class="px-4 py-3 text-gray-900 dark:text-gray-100">{{ $item->modelo ?? '-' }}</td>
@@ -219,7 +219,7 @@
                                 </button>
                             </form>
                             <a href="{{ route('inventario.entrada.create', $inventario) }}"
-                             class="text-green-800 dark:text-green-400 hover:underline">Entrada</a>
+                             class="text-green-800 dark:text-green-300 hover:underline">Entrada</a>
                             <a href="{{ route('inventario.salida.create', $inventario) }}" 
                             class="text-red-600 dark:text-red-300 hover:underline">Salida</a>
                         </td>

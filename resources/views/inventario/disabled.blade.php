@@ -7,12 +7,6 @@
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100">
       Artículos desincorporados
     </h2>
-
-    <a href="{{ route('inventario.index') }}"
-       class="inline-flex items-center px-4 py-2 rounded bg-gray-200 dark:bg-gray-700
-              text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600">
-      ← Volver al inventario
-    </a>
   </div>
 
   {{-- Mensajes --}}
@@ -42,7 +36,7 @@
       >
       <button
         type="submit"
-        class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">
         Buscar
       </button>
 
@@ -106,7 +100,7 @@
                         method="POST"
                         onsubmit="return confirm('¿Reincorporar artículo?')">
                     @csrf
-                    <button class="inline-block px-2 py-1 rounded bg-green-100 hover:bg-gray-200 text-green-800 mr-2">
+                    <button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">
                       Reincorporar
                     </button>
                   </form>
@@ -116,7 +110,7 @@
                         onsubmit="return confirm('¿Desactivar artículo nuevamente?')">
                     @csrf
                     @method('DELETE')
-                    <button class="inline-block px-2 py-1 rounded bg-red-100 hover:bg-red-200 text-red-800 mr-2">
+                    <button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600">
                       Desactivar
                     </button>
                   </form>

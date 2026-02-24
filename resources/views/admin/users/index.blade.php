@@ -8,7 +8,7 @@
     </h1>
 
     <a href="{{ route('admin.users.create') }}"
-       class="inline-flex items-center px-4 py-2 rounded bg-green-600 text-white hover:bg-blue-700">
+       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">
       + Crear usuario
     </a>
   </div>
@@ -39,7 +39,7 @@
       >
       <button
         type="submit"
-        class="px-4 py-2 rounded bg-gray-700 text-white hover:bg-gray-800"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700"
       >
         Buscar
       </button>
@@ -61,7 +61,7 @@
             Rol
           </th>
           <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-200">
-            Esta Activo ?
+            Activo
           </th>
           <th class="px-4 py-3 text-right text-sm font-semibold text-gray-700 dark:text-gray-200">
             Acciones
@@ -90,7 +90,7 @@
             <td class="px-4 py-3 text-right">
               <div class="inline-flex items-center gap-3">
                 <a href="{{ route('admin.users.edit', $user->id) }}"
-                   class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">
                   Editar
                 </a>
 
@@ -98,7 +98,8 @@
                       action="{{ route('admin.users.deactivate', $user->id) }}"
                       onsubmit="return confirm('¿Desactivar usuario?');">
                   @csrf
-                  <button class="inline-block px-4 py-2 w-full rounded bg-yellow-600 hover:bg-yellow-700 text-white dark:text-white" style="color: white !important;">Desactivar</button>
+                  <button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600"
+                   style="color: white !important;">Desactivar</button>
                 </form>
               </div>
             </td>

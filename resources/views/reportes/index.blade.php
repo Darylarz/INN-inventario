@@ -6,10 +6,7 @@
     {{-- Header --}}
     <div class="flex items-center justify-between mb-4">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Reportes de Inventario</h2>
-        <a href="{{ route('inventario.index') }}" 
-           class="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 dark:text-gray-100 border rounded hover:bg-gray-200 dark:hover:bg-gray-600">
-            Volver
-        </a>
+        
     </div>
 
     {{-- Formulario --}}

@@ -4,7 +4,8 @@
 <div class="container mx-auto p-6">
   <div class="flex items-center justify-between mb-4">
     <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Ubicaciones</h1>
-    <a href="{{ route('ubicaciones.create') }}" class="px-4 py-2 rounded bg-green-600 hover:bg-green-700 text-white">Nueva ubicación</a>
+    <a href="{{ route('ubicaciones.create') }}" 
+    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">Nueva ubicación</a>
   </div>
 
   @if(session('success'))
@@ -13,13 +14,13 @@
 
   <div class="bg-white dark:bg-gray-800 rounded shadow overflow-hidden">
     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-      <thead class="bg-gray-50 dark:bg-gray-700">
+      <thead class="bg-lime-200 dark:bg-lime-700">
         <tr>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">ID</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Nombre</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Código</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Descripción</th>
-          <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Esta Activo ?</th>
+          <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Activo</th>
           <th class="px-4 py-2 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Acciones</th>
         </tr>
       </thead>
@@ -32,10 +33,12 @@
           <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $l->descripcion ?? '-' }}</td>
           <td class="px-4 py-2 text-sm text-gray-800 dark:text-gray-100">{{ $l->is_active ?  'Si' : 'No' }}</td>
           <td class="px-4 py-2 text-sm">
-            <a href="{{ route('ubicaciones.edit', $l) }}" class="inline-block px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-800 mr-2">Editar</a>
+            <a href="{{ route('ubicaciones.edit', $l) }}"
+             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-semibold hover:bg-green-700">Editar</a>
             <form method="POST" action="{{ route('ubicaciones.deactivate', $l) }}" class="inline-block" onsubmit="return confirm('¿Desactivar ubicación?');">
               @csrf
-              <button class="inline-block px-4 py-2 w-full rounded bg-yellow-600 hover:bg-yellow-700 text-white dark:text-white" style="color: white !important;">Desactivar</button>
+              <button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600"
+               style="color: white !important;">Desactivar</button>
             </form>
           </td>
         </tr>
